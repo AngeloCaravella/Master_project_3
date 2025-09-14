@@ -1,0 +1,4 @@
+Questo file contiene una spiegazione di ogni script Python trovato in questa directory.
+
+File: __init__.py
+Questo file è vuoto, ma serve a indicare a Python che la cartella `example_config_files` è un pacchetto. Questa è una pratica standard, sebbene la cartella contenga principalmente file di configurazione YAML e JSON anziché moduli Python.

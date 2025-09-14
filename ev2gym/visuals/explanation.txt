@@ -1,0 +1,15 @@
+Questo file contiene una spiegazione di ogni script Python trovato in questa directory.
+
+File: __init__.py
+Questo file è vuoto, ma serve a indicare a Python che la cartella `visuals` è un pacchetto.
+
+File: evaluator_plot.py
+Questo script è dedicato alla creazione di visualizzazioni comparative dai risultati dello script `evaluator.py`. Carica il dizionario pickle degli stati dell'ambiente salvato dopo l'esecuzione di più algoritmi e genera diversi grafici per confrontare le loro prestazioni. Questi grafici includono confronti dell'utilizzo totale di potenza a livello di trasformatore, l'evoluzione dello Stato di Carica (SoC) per gli EV e il consumo di potenza effettivo rispetto al setpoint della rete. Ciò consente un'analisi visiva dettagliata e affiancata di come le diverse strategie di controllo si comportano nelle stesse condizioni.
+
+File: plots.py
+Questo script contiene funzioni per la generazione di grafici dettagliati di una *singola* esecuzione di simulazione.
+- `visualize_step`: Stampa un riepilogo testuale del passo di simulazione corrente sulla console, mostrando informazioni chiave come l'utilizzo di potenza, gli arrivi/partenze degli EV e i profitti.
+- `ev_city_plot`: Crea un set completo di grafici che riassumono un intero episodio di simulazione. Ciò include grafici per il livello di energia di ogni EV, i prezzi dell'elettricità, la potenza/corrente del trasformatore e della stazione di ricarica e la potenza aggregata totale rispetto al setpoint della rete. Questi grafici vengono salvati come file di immagine nella directory dei risultati.
+
+File: render.py
+Questo script definisce la classe `Renderer`, che è responsabile della creazione di una visualizzazione animata in tempo reale della simulazione utilizzando `matplotlib` e `networkx`. Costruisce una rappresentazione grafica della rete di ricarica (CPO, trasformatori, caricatori, EV) e utilizza icone personalizzate per i nodi. Durante la simulazione, aggiorna la visualizzazione ad ogni passo per mostrare il flusso di potenza corrente, lo stato di carica degli EV e altre metriche chiave, fornendo una visione dal vivo e intuitiva del comportamento del sistema.

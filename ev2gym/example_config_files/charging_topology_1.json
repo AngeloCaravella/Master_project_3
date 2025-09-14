@@ -1,0 +1,22 @@
+[
+    {
+        "id": 0,
+        "max_power": 100,
+        "charging_stations": [
+            {
+                "id": 0,
+                "max_power": 22,
+                "min_power": -22,
+                "power_factor": 1.0,
+                "min_charge_current": 0,
+                "max_charge_current": 32,
+                "min_discharge_current": 0,
+                "max_discharge_current": -32,
+                "voltage": 400,
+                "n_ports": 1,
+                "charger_type": "AC",
+                "phases": 3
+            }
+        ]
+    }
+]

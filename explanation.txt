@@ -1,0 +1,111 @@
+Spiegazione degli Algoritmi e delle Funzioni di Reward in EV2Gym
+
+Questo documento descrive il funzionamento delle diverse strategie di controllo implementate nel progetto EV2Gym, con un focus sulle formulazioni matematiche in formato LaTeX.
+
+==================================================================
+1. Euristiche (Heuristics)
+==================================================================
+
+Le euristiche sono algoritmi semplici e basati su regole fisse, che non richiedono apprendimento. Servono come baseline per confrontare le performance degli approcci più complessi.
+
+\subsection*{1.1. Charge As Fast As Possible (AFAP)}
+
+Logica: Ogni veicolo elettrico (EV) collegato richiede di caricare alla massima potenza possibile, senza considerare i costi o i limiti della rete. L'azione per ogni EV è sempre il massimo consentito.
+
+\subsection*{1.2. Charge As Late As Possible (ALAP)}
+
+Logica: Questo algoritmo posticipa la ricarica il più tardi possibile. Per ogni EV, calcola il tempo minimo necessario per raggiungere lo stato di carica desiderato e inizia a caricare alla massima potenza solo all'ultimo momento utile prima della partenza.
+
+\subsection*{1.3. Round Robin (RR)}
+
+Logica: Questo approccio tenta di distribuire equamente la potenza disponibile tra i veicoli. Ad ogni passo, una frazione dei veicoli viene scelta per la ricarica, in un ciclo continuo (a rotazione), per cercare di non superare i limiti della rete.
+
+==================================================================
+2. Model Predictive Control (MPC)
+==================================================================
+
+L'MPC è una strategia di controllo avanzata che, ad ogni istante di tempo $k$, risolve un problema di ottimizzazione su un orizzonte futuro limitato $H$. Una volta trovata la sequenza di azioni ottimali per l'intero orizzonte, applica solo la prima azione (per il tempo $k$) e ripete il processo all'istante successivo $k+1$.
+
+Il problema di ottimizzazione risolto ad ogni passo è il seguente:
+
+\subsubsection*{Obiettivo}
+
+Massimizzare il profitto (o minimizzare il costo) derivante dalla compravendita di energia sulla finestra temporale $H$. La funzione obiettivo è:
+
+\begin{equation}
+\max_{P_{i,t}} \sum_{t=k}^{k+H-1} \sum_{i=1}^{N_{cs}} (-C_t \cdot P_{i,t} \cdot \Delta t)
+\end{equation}
+
+Dove:
+- $P_{i,t}$: Potenza (decisione di controllo) per la stazione di ricarica $i$ al tempo $t$. $P > 0$ per la carica, $P < 0$ per la scarica.
+- $C_t$: Costo dell'energia (€/kWh) al tempo $t$.
+- $H$: Orizzonte di controllo (numero di passi futuri considerati).
+- $N_{cs}$: Numero totale di stazioni di ricarica.
+- $\Delta t$: Durata di un singolo passo temporale (in ore).
+
+\subsubsection*{Vincoli Principali}
+
+L'ottimizzazione è soggetta a diversi vincoli che rappresentano i limiti fisici del sistema:
+
+1.  **Limite del Trasformatore:** La potenza totale erogata da tutte le stazioni non deve superare la capacità massima del trasformatore ($P_{\text{max}}^{\text{TR}}$).
+    \begin{equation}
+    \sum_{i=1}^{N_{cs}} P_{i,t} \le P_{\text{max}}^{\text{TR}} \quad \forall t \in [k, k+H-1]
+    \end{equation}
+
+2.  **Limiti di Potenza dell'EV:** Ogni veicolo $j$ ha limiti massimi di carica ($P_{\text{max,ch},j}$) e scarica ($P_{\text{max,dis},j}$).
+    \begin{equation}
+    -P_{\text{max,dis},j} \le P_{j,t} \le P_{\text{max,ch},j} \quad \forall t \in [k, k+H-1]
+    \end{equation}
+
+3.  **Stato di Carica (SoC) della Batteria:** L'energia nella batteria di ogni veicolo $j$ ($E_{j,t}$) deve rimanere entro i suoi limiti minimi e massimi ($E_{\text{min},j}$, $E_{\text{max},j}$) per tutto l'orizzonte.
+    \begin{equation}
+    E_{\text{min},j} \le E_{j,k} + \sum_{\tau=k}^{t} P_{j,\tau} \cdot \eta \cdot \Delta t \le E_{\text{max},j} \quad \forall t \in [k, k+H-1]
+    \end{equation}
+    Dove $\eta$ è l'efficienza di carica/scarica.
+
+==================================================================
+3. Reinforcement Learning (RL)
+==================================================================
+
+L'agente RL apprende una politica di controllo ottimale $\pi(a_t | s_t)$ interagendo con l'ambiente. L'obiettivo è massimizzare la somma delle ricompense future.
+
+\subsubsection*{3.1. Stato ($s_t$)}
+
+Lo stato è un vettore di numeri che descrive l'ambiente all'agente. Per lo scenario `V2G_profit_max_loads`, lo stato include:
+- **Informazioni Temporali:** Passo corrente della simulazione.
+- **Stato della Rete:** Utilizzo totale di potenza al passo precedente, previsioni su prezzi, carichi e generazione solare per i prossimi 20 passi.
+- **Stato degli EV:** Per ogni veicolo collegato, vengono forniti il suo Stato di Carica (SoC) e il tempo rimanente prima della partenza.
+
+\subsubsection*{3.2. Azione ($a_t$)}
+
+L'azione è un vettore contenente un valore per ogni stazione di ricarica, tipicamente normalizzato nell'intervallo [-1, 1].
+- **-1:** Scarica alla massima potenza.
+- **0:** Nessuna azione.
+- **+1:** Carica alla massima potenza.
+
+\subsubsection*{3.3. Funzione di Reward ($R_t$)}
+
+La funzione di reward guida l'apprendimento dell'agente. Per lo scenario di massimizzazione del profitto (`profit_maximization_with_soft_constraints`), la reward ad ogni passo $t$ è formulata come segue:
+
+\begin{equation}
+_t = \text{Profitto}_t - w_{\text{overload}} \cdot \text{Sovraccarico}_t - \sum_{j \in \text{EV partiti}} w_{\text{satisfaction}} \cdot \text{Penalità}(SoC_j)
+\end{equation}
+
+Dove:
+- **Profitto$_t$**: È il guadagno (o costo) economico generato al tempo $t$. Corrisponde a `total_costs` nel codice.
+  \begin{equation}
+  \text{Profitto}_t = \sum_{i=1}^{N_{cs}} (-C_t \cdot P_{i,t} \cdot \Delta t)
+  \end{equation}
+
+- **Sovraccarico$_t$**: È una penalità che si attiva se la potenza totale supera il limite del trasformatore.
+  \begin{equation}
+  \text{Sovraccarico}_t = \max(0, P_{\text{totale},t} - P_{\text{max}}^{\text{TR}})
+  \end{equation}
+
+- **Penalità($SoC_j$)**: È una penalità molto severa che punisce l'agente se un veicolo parte con uno stato di carica basso. La funzione esponenziale serve a rendere la penalità estremamente alta quando la soddisfazione è bassa.
+  \begin{equation}
+  \text{Penalità}(SoC_j) = e^{-10 \cdot \text{score}_j}
+  \end{equation}
+  Dove $\text{score}_j$ è il livello di soddisfazione dell'utente (da 0 a 1).
+
+- $w_{\text{overload}}$ e $w_{\text{satisfaction}}$ sono pesi che bilanciano l'importanza dei diversi termini della reward.

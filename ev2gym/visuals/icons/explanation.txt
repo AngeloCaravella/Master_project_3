@@ -1,0 +1,4 @@
+Questo file contiene una spiegazione di ogni script Python trovato in questa directory.
+
+File: __init__.py
+Questo file è vuoto, ma serve a indicare a Python che la cartella `icons` è un pacchetto. Questa directory contiene i file delle icone usate per la visualizzazione della simulazione e questo file `__init__.py` permette di accedervi come risorse del pacchetto.

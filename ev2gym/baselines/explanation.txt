@@ -1,0 +1,7 @@
+Questo file contiene una spiegazione di ogni script Python trovato in questa directory.
+
+File: __init__.py
+Questo file è vuoto, ma serve a indicare a Python che la cartella `baselines` è un pacchetto, permettendo così l'importazione dei suoi moduli in altre parti del progetto.
+
+File: heuristics.py
+Questo script definisce una serie di algoritmi di controllo della ricarica basati su euristiche semplici (cioè, strategie non ottimizzate ma basate su regole). Questi algoritmi sono usati come "baseline" per confrontare le performance di strategie più complesse (come Reinforcement Learning o MPC). Include agenti come `ChargeAsFastAsPossible` (carica il prima possibile), `ChargeAsLateAsPossible` (rimanda la carica più a lungo possibile) e `RoundRobin` (distribuisce la carica equamente).

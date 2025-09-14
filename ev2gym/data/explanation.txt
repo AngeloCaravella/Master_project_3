@@ -1,0 +1,13 @@
+Questo file contiene una spiegazione di ogni script Python trovato in questa directory.
+
+File: __init__.py
+Questo file è vuoto, ma serve a indicare a Python che la cartella `data` è un pacchetto.
+
+File: eda_day-ahead_prices.py
+Questo script è utilizzato per l'Analisi Esplorativa dei Dati (EDA) sui dati dei prezzi dell'elettricità e della generazione fotovoltaica. Legge file CSV (come `pv_netherlands.csv`), elabora i dati ricampionandoli a una scala temporale desiderata (ad es. 10 minuti), applica tecniche di smussamento (come la media mobile o la media mobile ponderata esponenzialmente) e genera grafici per visualizzare i dati, ad esempio, per una settimana. Sembra essere uno script di utilità per preparare e comprendere i dati sui prezzi e sul fotovoltaico utilizzati nelle simulazioni.
+
+File: elaad_data_eda.py
+Questo script esegue l'Analisi Esplorativa dei Dati (EDA) sul dataset ElaadNL, che contiene dati aperti sulle transazioni di ricarica dei veicoli elettrici. Legge vari file CSV e JSON per analizzare le distribuzioni del comportamento di ricarica dei veicoli elettrici, come gli orari di arrivo, i tempi di connessione e la domanda di energia. Elabora anche i dati grezzi delle transazioni per creare e salvare un array NumPy (`time_of_connection_vs_hour.npy`) che rappresenta la distribuzione di probabilità della durata della connessione in base all'ora di arrivo. Questo script è fondamentale per generare profili di ricarica realistici degli EV nella simulazione.
+
+File: loads_eda.py
+Questo script serve per l'Analisi Esplorativa dei Dati (EDA) dei dati di carico elettrico residenziale da `residential_loads.csv`. Carica i dati, li ricampiona alla scala temporale della simulazione e può selezionare un periodo specifico per un'esecuzione della simulazione. Il suo scopo principale è generare profili di carico aggregati, realistici e non flessibili per i trasformatori nella simulazione, campionando e sommando casualmente i profili di carico delle singole famiglie. Include funzionalità di plottaggio per visualizzare i carichi del trasformatore generati.

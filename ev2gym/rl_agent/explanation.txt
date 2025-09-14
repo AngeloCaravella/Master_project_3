@@ -1,0 +1,32 @@
+Questo file contiene una spiegazione di ogni script Python trovato in questa directory.
+
+File: __init__.py
+Questo file è vuoto, ma serve a indicare a Python che la cartella `rl_agent` è un pacchetto.
+
+File: action_wrappers.py
+Questo script fornisce diversi wrapper di azione `gymnasium` per modificare le azioni inviate da un agente RL prima che vengano eseguite nell'ambiente. Questi sono utili per discretizzare spazi di azione continui o per implementare correzioni basate su regole. I wrapper includono:
+- `BinaryAction`: Converte un'azione continua in una binaria (o carica alla massima velocità o a una velocità minima richiesta).
+- `ThreeStep_Action`: Converte un'azione continua in uno dei tre stati (ad es. carica, scarica, non fare nulla).
+- `Rescale_RepairLayer`: Un wrapper più complesso che ridimensiona e regola le azioni dell'agente per garantire che rispettino il setpoint di potenza della rete, aumentando o diminuendo proporzionalmente la potenza agli EV per raggiungere l'obiettivo.
+
+File: cost.py
+Questo script definisce le funzioni di costo che possono essere utilizzate per l'apprendimento per rinforzo vincolato o sicuro. Queste funzioni restituiscono un valore di costo basato sullo stato dell'ambiente, che un agente mirerebbe a minimizzare, mantenendolo al di sotto di una certa soglia. Gli esempi forniti sono:
+- `transformer_overload_usrpenalty_cost`: Restituisce un costo elevato se un trasformatore è sovraccarico o se la soddisfazione dell'utente è bassa.
+- `ProfitMax_TrPenalty_UserIncentives_safety`: Una funzione di costo relativa allo scenario di massimizzazione del profitto.
+
+File: noise_wrappers.py
+Questo script contiene wrapper `gymnasium` progettati per introdurre rumore e incertezza nell'interazione agente-ambiente, simulando le imperfezioni del mondo reale.
+- `FailedActionCommunication`: Questo wrapper simula un errore di comunicazione con una certa probabilità (`p_fail`). Se la comunicazione fallisce, viene utilizzata l'azione del timestep precedente invece di quella nuova.
+- `DelayedObservation`: Questo wrapper simula ritardi nella ricezione delle informazioni sullo stato. Con una probabilità (`p_delay`), l'agente riceve l'osservazione dal timestep precedente invece di quella corrente.
+
+File: reward.py
+Questo script contiene varie funzioni di ricompensa che possono essere utilizzate per addestrare agenti RL per obiettivi diversi. La funzione di ricompensa è fondamentale in quanto guida il processo di apprendimento dell'agente. Gli esempi includono:
+- `SquaredTrackingErrorReward`: Una ricompensa che è l'errore quadratico negativo tra il setpoint di potenza della rete e l'utilizzo di potenza effettivo, incoraggiando l'agente a seguire da vicino il segnale della rete.
+- `profit_maximization`: Una ricompensa basata sul profitto totale generato dalla carica e scarica degli EV, incentivando un comportamento economicamente ottimale.
+- `ProfitMax_TrPenalty_UserIncentives`: Una ricompensa combinata che include profitto, penalità per il sovraccarico dei trasformatori e incentivi per garantire un'elevata soddisfazione dell'utente.
+
+File: state.py
+Questo script definisce diverse funzioni per costruire l'osservazione (stato) che viene passata all'agente RL ad ogni timestep. La rappresentazione dello stato è fondamentale per la capacità dell'agente di prendere buone decisioni. Diverse funzioni creano diversi vettori di stato su misura per compiti specifici:
+- `PublicPST`: Crea uno stato per uno scenario di tracciamento del setpoint di potenza pubblico, includendo informazioni sull'ora corrente, il setpoint di potenza e lo stato di ogni EV.
+- `V2G_profit_max`: Crea uno stato per un'attività di massimizzazione del profitto V2G, includendo informazioni sui prezzi futuri, i carichi dei trasformatori e informazioni dettagliate sul SoC e l'orario di partenza di ogni EV.
+- `V2G_profit_max_loads`: Un'estensione dello stato V2G che include anche informazioni sui carichi non flessibili e sulla generazione fotovoltaica.

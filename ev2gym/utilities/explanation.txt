@@ -1,0 +1,22 @@
+Questo file contiene una spiegazione di ogni script Python trovato in questa directory.
+
+File: __init__.py
+Questo file è vuoto, ma serve a indicare a Python che la cartella `utilities` è un pacchetto.
+
+File: arg_parser.py
+Questo script definisce una funzione `arg_parser()` che utilizza la libreria `argparse` di Python per creare e gestire gli argomenti della riga di comando per l'esecuzione di esperimenti. Centralizza la configurazione di vari parametri, come il nome dell'ambiente, i percorsi dei modelli, gli iperparametri di addestramento (ad es. dimensione del batch, tasso di apprendimento) e i percorsi dei file di configurazione. Ciò consente agli utenti di configurare e avviare facilmente diverse esecuzioni di addestramento o valutazione dalla riga di comando senza modificare il codice.
+
+File: loaders.py
+Questo script contiene una raccolta di funzioni di caricamento e generazione di dati essenziali per l'inizializzazione dell'ambiente `EV2Gym`. Queste funzioni sono responsabili di:
+- `load_ev_spawn_scenarios`: Legge i file CSV contenenti dati statistici sull'utilizzo degli EV (come orari di arrivo e domanda di energia) per preparare la generazione di EV.
+- `load_power_setpoints`: Genera un segnale di setpoint di potenza della rete da seguire per la simulazione.
+- `load_transformers`, `load_ev_charger_profiles`, `load_ev_profiles`: Istanziano gli oggetti `Transformer`, `EV_Charger` e `EV` in base alla configurazione della simulazione, da un file di replay o generandoli da zero.
+- `load_electricity_prices`: Carica i prezzi storici dell'elettricità del giorno prima da un file CSV per il periodo di simulazione.
+
+File: utils.py
+Questo script fornisce un insieme di funzioni di utilità e di supporto utilizzate in tutto il progetto. Le sue funzioni principali includono:
+- `get_statistics`: Calcola un dizionario completo di metriche delle prestazioni alla fine di una simulazione, come i profitti totali, la soddisfazione dell'utente, l'errore di tracciamento della rete e i sovraccarichi del trasformatore.
+- `print_statistics`: Una funzione di supporto per stampare le statistiche calcolate in un formato leggibile.
+- `EV_spawner`: La logica di base per la generazione di una popolazione di sessioni di ricarica di EV per un'esecuzione di simulazione, basata su distribuzioni statistiche di orari di arrivo, durate di connessione e esigenze energetiche.
+- `generate_power_setpoints`: Crea una traiettoria plausibile del setpoint di potenza per la rete in base ai requisiti energetici della popolazione di EV generata.
+- `calculate_charge_power_potential`: Una funzione di supporto che calcola la massima potenza di ricarica possibile di tutti gli EV collegati in un dato timestep.

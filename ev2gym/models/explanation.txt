@@ -1,0 +1,22 @@
+Questo file contiene una spiegazione di ogni script Python trovato in questa directory.
+
+File: __init__.py
+Questo file è vuoto, ma serve a indicare a Python che la cartella `models` è un pacchetto.
+
+File: ev.py
+Questo script definisce la classe `EV`, che rappresenta un singolo veicolo elettrico nella simulazione. Gestisce tutte le proprietà e le variabili di stato di un EV, tra cui la capacità della batteria, lo stato di carica (SoC), gli orari di arrivo/partenza e le efficienze di carica/scarica. La classe include un metodo `step` che aggiorna il livello della batteria dell'EV in base alla corrente fornita dal caricatore, incorporando un modello lineare a due stadi per un comportamento di ricarica realistico. Calcola anche la soddisfazione dell'utente e le metriche di degrado della batteria.
+
+File: ev_charger.py
+Questo script definisce la classe `EV_Charger`. Questa classe modella una stazione di ricarica con una o più porte. Gestisce gli EV collegati alle sue porte, distribuisce la potenza/corrente tra di loro in base alle azioni ricevute e calcola i costi e i profitti risultanti. Tiene traccia di statistiche come l'energia totale caricata/scaricata e la soddisfazione media degli utenti per gli EV che ha servito.
+
+File: ev2gym_env.py
+Questo è il file principale del progetto, che definisce la classe principale `EV2Gym`, che è un ambiente `gymnasium`. Questa classe orchestra l'intera simulazione. Inizializza tutti i componenti in base a un file di configurazione (trasformatori, stazioni di ricarica, profili EV, prezzi), gestisce il ciclo di simulazione, genera e rimuove gli EV e calcola lo stato generale, la ricompensa e il costo ad ogni passo. Gestisce l'interazione tra tutti i diversi modelli e fornisce i metodi standard `step` e `reset` richiesti dall'API `gymnasium`.
+
+File: grid.py
+Questo script contiene una classe `Grid` destinata a simulare la rete elettrica utilizzando la libreria `pandapower`. Attualmente è indicato come in fase di sviluppo e non completamente utilizzato. Il suo scopo è modellare la rete elettrica fisica, eseguire calcoli di flusso di potenza e identificare potenziali problemi come linee o trasformatori sovraccarichi, il che consentirebbe simulazioni più dettagliate e consapevoli della rete in futuro.
+
+File: replay.py
+Questo script definisce la classe `EvCityReplay`, che è responsabile del salvataggio dello stato completo e della cronologia di un'esecuzione di simulazione in un file pickle. Questo file di replay cattura tutte le informazioni necessarie, come gli orari di arrivo/partenza degli EV, i setpoint di potenza, i prezzi e le statistiche finali, consentendo di riprodurre perfettamente una simulazione per l'analisi, la valutazione rispetto a diversi algoritmi o per l'uso da parte di controller ottimali simili a oracoli.
+
+File: transformer.py
+Questo script definisce la classe `Transformer`. Modella un trasformatore di distribuzione che fornisce alimentazione a un insieme di stazioni di ricarica. Tiene traccia del carico totale sul trasformatore in ogni timestep, compreso il carico delle stazioni di ricarica, i carichi residenziali non flessibili e la generazione di energia solare. Una funzione chiave di questa classe è verificare la presenza di sovraccarichi (cioè, se la potenza totale supera la capacità massima del trasformatore) e gestire gli eventi di risposta alla domanda regolando i suoi limiti di potenza.

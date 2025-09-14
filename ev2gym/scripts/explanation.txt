@@ -1,0 +1,10 @@
+Questo file contiene una spiegazione di ogni script Python trovato in questa directory.
+
+File: __init__ .py
+Questo file è vuoto, ma serve a indicare a Python che la cartella `scripts` è un pacchetto. Da notare lo spazio nel nome del file, che non è convenzionale.
+
+File: create_eval_replays.py
+Questo script è utilizzato per generare un set di scenari di valutazione standardizzati (file di replay). Esegue prima una simulazione con un agente semplice (ad es. carica il più velocemente possibile) per creare un file di replay di base con un set specifico di arrivi di EV. Quindi, utilizza un controller ottimale (`PowerTrackingErrorrMin`) per risolvere questo scenario in modo perfetto. La simulazione risultante, con azioni ottimali, viene salvata come un nuovo file di replay. Questo processo crea un benchmark coerente e impegnativo per valutare le prestazioni di diversi agenti basati sull'apprendimento o euristici.
+
+File: generate_trajectories.py
+Questo script è progettato per generare set di dati di simulazione (traiettorie) per l'apprendimento per rinforzo offline o l'apprendimento per imitazione. Esegue l'ambiente `EV2Gym` per un numero specificato di episodi (`n_trajectories`) utilizzando semplici agenti euristici come `ChargeAsFastAsPossible` e `RoundRobin`. Per ogni episodio, registra la sequenza di osservazioni, azioni, ricompense e segnali di fine. I dati raccolti vengono quindi salvati in un file pickle, che può essere utilizzato per addestrare un agente RL senza richiedere che interagisca direttamente con l'ambiente.

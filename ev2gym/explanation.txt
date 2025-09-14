@@ -1,0 +1,4 @@
+Questo file contiene una spiegazione di ogni script Python trovato in questa directory.
+
+File: __init__.py
+Questo file rende la directory `ev2gym` un pacchetto Python. Registra anche l'ambiente principale `EV2Gym` con la libreria `gymnasium`, rendendolo disponibile per essere istanziato usando `gym.make('EV2Gym-v1')`. Assegna un file di configurazione predefinito per l'ambiente.

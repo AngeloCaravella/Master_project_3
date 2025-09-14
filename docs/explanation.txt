@@ -1,0 +1,4 @@
+Questo file contiene una spiegazione di ogni script Python trovato in questa directory.
+
+File: conf.py
+Questo è il file di configurazione per il generatore di documentazione Sphinx. Imposta le informazioni del progetto (come nome del progetto, autore) e configura le estensioni di Sphinx per generare automaticamente la documentazione dal codice sorgente. In particolare, utilizza `autoapi` per analizzare i pacchetti Python (`rl_agent`, `utilities`, `visuals`, `baselines`, `models`, `example_config_files`) e generare la documentazione API. Imposta anche il tema HTML per la documentazione a `sphinx_rtd_theme`.

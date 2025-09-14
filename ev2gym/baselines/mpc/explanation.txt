@@ -1,0 +1,25 @@
+Questo file contiene una spiegazione di ogni script Python trovato in questa directory.
+
+File: __init__.py
+Questo file è vuoto, ma serve a indicare a Python che la cartella `mpc` è un pacchetto.
+
+File: mpc.py
+Questa è una classe base astratta (`ABC`) che definisce la struttura principale e le funzionalità comuni per tutti gli algoritmi di Model Predictive Control (MPC) in questo progetto. Gestisce l'inizializzazione di parametri condivisi come l'orizzonte di controllo, i dettagli dell'ambiente di simulazione (ad es. numero di porte, scala temporale) e le informazioni di pianificazione degli EV (orari di arrivo/partenza, SoC). Definisce anche metodi astratti (`get_action`) e funzioni di supporto comuni (ad es. per l'aggiornamento dello stato, il calcolo dei vincoli e l'impostazione dei limiti di potenza) che devono essere implementati da sottoclassi MPC concrete.
+
+File: eMPC.py
+Questo script contiene implementazioni concrete di Model Predictive Control economico (eMPC) per scenari V2G (Vehicle-to-Grid) e G2V (Grid-to-Vehicle).
+- `eMPC_V2G`: Questa classe formula e risolve un problema di ottimizzazione ad ogni passo per trovare le migliori azioni di carica/scarica su un orizzonte finito per massimizzare il profitto, considerando le capacità V2G. Utilizza `gurobipy` per risolvere il problema di programmazione intera mista, tenendo conto della dinamica della batteria degli EV, dei vincoli delle stazioni di ricarica e dei limiti del trasformatore.
+- `eMPC_G2V`: Simile alla versione V2G, ma considera solo la ricarica unidirezionale (G2V). Ottimizza le azioni di ricarica per minimizzare i costi in base ai prezzi dell'elettricità e ai vincoli di sistema.
+
+File: eMPC_v2.py
+Questo script sembra contenere una seconda versione (`v2`) dei controller eMPC (`eMPC_V2G_v2` e `eMPC_G2V_v2`). La differenza principale sembra essere l'introduzione di una logica più sofisticata per gestire problemi di ottimizzazione non ammissibili. Quando il modello non è ammissibile, tenta di rilassare iterativamente i vincoli sullo Stato di Carica (SoC) finale fino a trovare una soluzione, rendendo il controller più robusto.
+
+File: ocmf_mpc.py
+Questo script implementa i controller MPC OCMF (Optimal Control of Multiple Fleets).
+- `OCMF_V2G`: Questo controller estende la logica eMPC introducendo una componente di "flessibilità" nella funzione obiettivo. Oltre a minimizzare i costi, cerca anche di massimizzare la flessibilità di potenza disponibile verso l'alto e verso il basso che può offrire alla rete, rendendolo adatto alla fornitura di servizi ancillari.
+- `OCMF_G2V`: La versione G2V del controller OCMF, che ottimizza la ricarica per minimizzare i costi massimizzando al contempo il potenziale di regolazione verso il basso (cioè, riducendo il consumo quando necessario).
+
+File: V2GProfitMax.py
+Questo script definisce controller "oracolo" che risolvono il problema di massimizzazione del profitto V2G con una previsione perfetta sull'intera durata della simulazione.
+- `V2GProfitMaxOracle`: Risolve il problema di ottimizzazione per l'intera simulazione in un'unica volta, senza considerare i vincoli di carico del trasformatore. Ciò fornisce un limite superiore teorico sul profitto in uno scenario di rete non vincolato.
+- `V2GProfitMaxLoadsOracle`: Simile al precedente, ma include i vincoli di carico del trasformatore e di generazione fotovoltaica nella sua ottimizzazione. Ciò fornisce un limite superiore più realistico (ma ancora non causale) sulle prestazioni.
