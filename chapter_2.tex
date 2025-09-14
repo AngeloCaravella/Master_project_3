@@ -1,0 +1,108 @@
+\chapter{State of the Art in Optimal V2G Management}
+\label{chap:state_of_the_art}
+\section{The V2G Imperative: A Cornerstone of Europe's Green Transition}
+Our society stands at a critical juncture, facing the twin revolutions of decarbonizing transport and transforming our energy systems. This is not merely an ambition but a legally binding mandate, enshrined in frameworks like the \textbf{European Green Deal} and its ambitious \textbf{"Fit for 55"} package \footcite{european_commission_2021_fit_for_55}. These policies impose a rapid phase-out of internal combustion engines and mandate a massive scale-up of renewable energy sources, as detailed in the revised Renewable Energy Directive (RED III) \footcite{RED_III_directive_2023}. The proliferation of Electric Vehicles (EVs) sits squarely at the nexus of this challenge.
+\\
+\noindent
+Initially viewed with apprehension—a looming threat of massive, synchronized loads poised to destabilize fragile distribution networks—that perception is now obsolete. Today, we must see EVs not as a problem, but as a foundational pillar of the solution. This paradigm shift is embodied in the concept of \textbf{Vehicle-to-Grid (V2G)}. V2G is the critical enabling technology that transforms millions of EVs from passive energy consumers into an active, distributed, and intelligent grid asset. The key lies hidden in plain sight: private vehicles remain parked and connected for an astonishing 96\% of their existence \footcite{evertsson2024investigating}, representing a potential of terawatt-hours of mobile storage waiting to be harnessed.
+\\
+\noindent
+The true power of V2G is not in the individual, but in the collective. A single EV's contribution is a whisper, but a coordinated fleet, managed by an aggregator, becomes a roar—a \textbf{Virtual Power Plant (VPP)}. This collective entity, with the lightning-fast response of battery inverters, can deliver a spectrum of critical services. This capability is the linchpin for stabilizing a grid increasingly reliant on the fluctuating whims of wind and sun, making the high renewable penetration targets of the EU feasible. The services enabled are foundational to the smart, resilient grid of tomorrow:
+\begin{itemize}
+    \item \textbf{Frequency Regulation:} The grid's heartbeat. V2G fleets can inject or absorb power in seconds, instantly counteracting supply-demand imbalances to maintain the stable 50/60 Hz frequency, preventing cascading failures and blackouts \footcite{alfaverh2022optimal, sadeghi2021deep}.
+    
+    \item \textbf{Demand Response and Peak Shaving:} By intelligently shifting charging to off-peak hours and discharging during peak demand, V2G flattens the load curve. This reduces our reliance on expensive and polluting "peaker" plants and can defer trillions in grid infrastructure upgrades \footcite{orfanoudakis2022deep}.
+    
+    \item \textbf{Renewable Energy Integration:} Perhaps the most profound impact. V2G fleets act as a giant, distributed sponge, absorbing surplus solar and wind energy that would otherwise be curtailed and wasted, and releasing it when the sun sets or the wind dies down. This directly supports the integration goals of RED III and mitigates intermittency \footcite{khan2024review, zou2021deep}.
+\end{itemize}
+This vision is no longer a distant prospect but is actively being codified into European law and technical standards. The landmark \textbf{Alternative Fuels Infrastructure Regulation (AFIR, EU 2023/1804)} now mandates that new public charging infrastructure must support smart and bidirectional charging capabilities. This legal requirement is given its technical teeth by specific standards; a delegated regulation specifies that from 2027, charging points must comply with \textbf{ISO 15118-20}, a standard that explicitly defines the communication protocols for bidirectional power transfer. This regulatory push is complemented by large-scale pilot projects like \textbf{'SCALE'} and \textbf{'V2G Balearic Islands'}, which are testing the technology's technical and economic viability on an industrial scale.
+\\
+\noindent
+However, while the regulatory foundation is being laid, significant barriers to widespread adoption remain, creating a complex landscape that technology and policy must navigate together. Key challenges include:
+\begin{itemize}
+    \item \textbf{Market and Economic Hurdles:} A clear, pan-European framework for remunerating EV owners for grid services is still absent. Critical issues like the \textbf{"double taxation"} of electricity—taxed both on charging and discharging—create significant economic disincentives and must be resolved.
+    \item \textbf{Regulatory and Grid Access Rules:} The role of EV fleets as a flexibility resource is not yet uniformly recognized in electricity markets. Standardized procedures for grid connection, aggregator certification, and secure data exchange are still under development, hindering market access.
+    \item \textbf{Technical and Consumer Barriers:} On the consumer side, concerns about accelerated \textbf{battery degradation} and its impact on vehicle warranties remain a primary obstacle. Furthermore, the reality is that not all EVs or chargers are currently equipped with the necessary hardware and software to support V2G.
+\end{itemize}
+Therefore, the central challenge—and the focus of this thesis—is not merely to enable V2G, but to do so \textit{intelligently}. It requires a control strategy sophisticated enough to operate within this nascent regulatory framework, navigate its economic uncertainties, and overcome technical constraints to unlock the immense potential of EVs as a cornerstone of a sustainable energy future.
+
+%%%%%%%%%%%%%%%%%
+\section{The Optimizer's Trilemma: Navigating a Stochastic World}
+While the potential is immense, orchestrating this symphony of distributed assets is a formidable challenge. The primary driver for an aggregator is economic viability, but pursuing profit in isolation is a recipe for failure. Optimal V2G management is a delicate balancing act, a genuine multi-objective optimization problem often framed as the "V2G trilemma": the simultaneous pursuit of \textbf{economic profitability}, the preservation of \textbf{battery longevity}, and the guarantee of \textbf{user convenience}.
+\\
+\noindent
+This is not a simple trade-off. It is a dynamic problem steeped in \textbf{stochasticity} and \textbf{uncertainty} from multiple sources:
+\begin{itemize}
+    \item \textbf{Market Volatility:} Electricity prices can fluctuate wildly based on unpredictable supply and demand.
+    \item \textbf{Renewable Intermittency:} The output of solar and wind generation is inherently variable.
+    \item \textbf{Human Behavior:} EV owners' arrival times, departure times, and energy needs are not deterministic; a driver might need to leave unexpectedly, a non-negotiable constraint that any intelligent system must respect.
+\end{itemize}
+This chaotic environment renders static, rule-based control systems obsolete. We need an approach that can learn, adapt, and make intelligent decisions in real-time under profound uncertainty. This is precisely the domain of Reinforcement Learning.
+
+\section{A New Paradigm for Control: Reinforcement Learning}
+To tackle the V2G challenge, we turn to Reinforcement Learning (RL), a field of machine learning concerned with how an intelligent agent learns to make optimal decisions through trial and error. Unlike traditional methods that require a perfect model of the world, RL learns directly from interaction, making it exceptionally robust.
+
+\subsection{The Language of Learning: Markov Decision Processes (MDPs)}
+The mathematical foundation of RL is the \textbf{Markov Decision Process (MDP)}, formally defined by the tuple $(S, A, p, R, \gamma)$. In the V2G context:
+\begin{itemize}
+    \item $S$ is the state (a snapshot of the world: battery levels, electricity price, time).
+    \item $A$ is the action (the decision: the charging/discharging rate for each EV).
+    \item $p(s',r|s,a)$ is the environment's response (the probability of transitioning to a new state $s'$ and receiving reward $r$).
+    \item $R$ is the reward (the feedback signal: profit generated, penalty for user dissatisfaction).
+    \item $\gamma$ is the discount factor, balancing immediate vs. future rewards.
+\end{itemize}
+This framework rests on the \textbf{Markov Property}, which allows the agent to make decisions based solely on the current state.
+
+\subsection{Judging the Future: Value Functions and Actor-Critic Architectures}
+The agent's goal is to learn a \textbf{policy}, $\pi(a|s)$, a strategy for choosing actions. To do this, it learns \textbf{value functions}, which estimate the long-term value of being in a certain state ($v_{\pi}(s)$) or taking a specific action in a state ($q_{\pi}(s, a)$).
+\\
+\noindent
+The \textbf{Actor-Critic} architecture provides an elegant way to learn the policy. It maintains two distinct components:
+\begin{itemize}
+    \item \textbf{The Critic}: It learns the value function. Its job is to evaluate the actor's decisions.
+    \item \textbf{The Actor}: It is the policy. Its job is to select actions, using the critic's feedback to improve its strategy over time.
+\end{itemize}
+This architecture is particularly powerful for V2G because it can directly learn a policy over a continuous action space, allowing for precise control of power. The agent's entire behavior, however, is shaped by the reward signal it receives. The complex art of designing this signal to align the agent's goals with our multi-faceted objectives is a critical discipline in itself, known as reward engineering.
+
+% ===================================================================
+% REWARD SHAPING SECTION
+% The detailed discussion on reward shaping techniques (PBRS, Dynamic,
+% Curriculum Learning) is now encapsulated in the external file.
+% ===================================================================
+\input{reward}
+
+\section{The Rise of Deep Reinforcement Learning for V2G Control}
+The fusion of RL with the representational power of deep neural networks gives us \textbf{Deep Reinforcement Learning (DRL)}, the state-of-the-art paradigm for V2G control. The journey of DRL algorithms applied to V2G is one of increasing sophistication and robustness.
+
+\begin{itemize}
+    \item \textbf{The Leap to Continuous Control: DDPG:} The first major breakthrough for continuous control problems like V2G was the \textbf{Deep Deterministic Policy Gradient (DDPG)} algorithm \footcite{lillicrap2015continuous}. As an actor-critic method, it could output precise, continuous power values. However, DDPG became notorious for its training instability and its crippling vulnerability to \textbf{overestimation bias}, where the critic systematically overestimates Q-values, leading the actor to converge on suboptimal policies \footcite{orfanoudakis2022deep, alfaverh2022optimal}.
+
+    \item \textbf{Stabilizing the Foundation: TD3:} \textbf{Twin Delayed DDPG (TD3)} was developed specifically to address DDPG's flaws \footcite{fujimoto2018addressing}. It introduces three crucial innovations: clipped double Q-learning to combat overestimation, delayed policy updates to stabilize training, and target policy smoothing to improve robustness. These additions made it a much more reliable baseline for V2G tasks \footcite{liu2023optimal, wang2022multi}.
+
+    \item \textbf{The State of the Art: Soft Actor-Critic (SAC):} SAC represents the current frontier, offering superior sample efficiency and stability \footcite{haarnoja2018soft}. Its core innovation is the \textbf{maximum entropy framework}. The agent's objective is not just to maximize the cumulative reward, but to do so while acting as randomly as possible. This entropy bonus encourages broad exploration, preventing the agent from prematurely converging to a narrow, suboptimal strategy. The resulting policies are not only high-performing but also more robust and adaptable to unforeseen changes in the environment, a critical feature for real-world deployment \footcite{logeshwaran2022comparative}.
+\end{itemize}
+
+\section{A Comparative Perspective on Control Methodologies}
+While DRL represents the cutting edge, it is crucial to contextualize it within the broader landscape.
+
+\begin{table}[h!]
+\centering
+\caption{Comparative Analysis: DRL vs. Model Predictive Control (MPC) for V2G}
+\label{tab:drl_vs_mpc}
+\begin{tabular}{|p{0.2\linewidth}|p{0.35\linewidth}|p{0.35\linewidth}|}
+\hline
+\textbf{Aspect} & \textbf{Deep Reinforcement Learning (DRL)} & \textbf{Model Predictive Control (MPC)} \\ \hline
+\textbf{Paradigm} & Model-Free, learning-based. Learns optimal policy via trial-and-error. & Model-Based, optimization-based. Solves an optimization problem at each step. \\ \hline
+\textbf{Strengths} & \begin{itemize} \item Highly robust to uncertainty and stochasticity. \item No need for an explicit system model. \item Can learn complex, non-linear control policies. \item Fast inference time once trained. \end{itemize} & \begin{itemize} \item Explicitly handles hard constraints (safety guarantees). \item Proactive and anticipatory if forecasts are accurate. \item Well-established and understood. \end{itemize} \\ \hline
+\textbf{Weaknesses} & \begin{itemize} \item Can be sample-inefficient during training. \item Lacks hard safety guarantees (an active research area). \item "Black box" nature can make policies hard to interpret. \end{itemize} & \begin{itemize} \item Performance is fundamentally tied to model and forecast accuracy. \item Computationally expensive at each time step (curse of dimensionality). \item Brittle to forecast errors and unmodeled dynamics. \end{itemize} \\ \hline
+\textbf{V2G Suitability} & Excellent for dynamic, uncertain environments with complex trade-offs. & Good for problems with simple dynamics and reliable forecasts, but struggles with real-world V2G complexity. \\ \hline
+\end{tabular}
+\end{table}
+\noindent
+\textbf{Model Predictive Control (MPC)} is the most powerful model-based alternative \footcite{alsabbagh2022reinforcement}. Its primary strength is its ability to handle constraints. However, its performance is fundamentally shackled to the accuracy of its internal model and forecasts \footcite{faggio2023design}. In the V2G domain, creating an accurate model is nearly impossible due to non-linear battery dynamics, market volatility, and human unpredictability. Furthermore, solving the large-scale Mixed-Integer Linear Program (MILP) required at each time step becomes computationally intractable for large fleets \footcite{schwenk2022computationally}.
+\\
+\noindent
+Other methods, such as \textbf{meta-heuristic algorithms} (e.g., genetic algorithms), are typically used for offline scheduling and lack the real-time responsiveness required for dynamic V2G control \footcite{ghosh2024optimal, kumar2024integration}.
+\\
+\noindent
+In conclusion, the singular advantage of DRL is its inherent ability to learn and internalize the complex, non-linear trade-offs of the multi-objective V2G problem directly from data. This makes it uniquely suited to navigating the uncertainties of the real world. While other methods have their place, DRL stands out as the most promising technology for deploying the truly intelligent, autonomous, and robust V2G management systems required to achieve the ambitious energy and climate goals of the European Union.

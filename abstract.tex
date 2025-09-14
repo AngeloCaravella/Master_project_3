@@ -1,0 +1,104 @@
+% ===================================================================
+% ABSTRACT - ENGLISH
+% ===================================================================
+\section*{Abstract}
+The growing adoption of \textbf{Electric Vehicles (EVs)} in embracing with the ever-increasing incursion of sporadic \textbf{Renewable Energy Sources (RES)} presents substantial challenges to the \textbf{stability} and \textbf{efficiency} of the power grid. \textbf{Vehicle-to-Grid (V2G)} technology emerges as a key solution, transforming EVs from passive loads to \textbf{flexible energy resources} subject of providing assorted \textbf{grid services}. This thesis addresses the composite \textbf{multi-objective optimization problem} of smart EV charging and discharging management, which inherently involves a trade-off between \textbf{economic benefits}, \textbf{user mobility needs}, \textbf{battery health preservation}, and \textbf{grid stability} under stochastic conditions.
+\\
+Faced with the complex challenge of optimizing electric vehicle (EV) charging in Vehicle-to-Grid (V2G) scenarios, an approach limited to a single control model, such as Deep Q-Networks (DQN), would be insubstantial. The nature of the problem, characterized by multiple running afoul objectives (economic benefits, user needs, battery health, grid stability) and profound uncertainty, requires a rigorous comparative analysis of a all-embracing range of control strategies.
+\\
+For this argue, the research focuses on appraising \begin{comment} evaluating
+\end{comment}
+a diverse portfolio of algorithms, including numerous Deep Reinforcement Learning (DRL) models, heuristic approaches, and Model Predictive Control (MPC). This method allows for a utter mapping of the solution landscape, identifying the strengths and weaknesses of each approach in relation to the different facets of the V2G problem.
+\\
+Briefly, this thesis does not concentrate on a single paradigm, but embraces a \textbf{broad-spectrum comparative perspective} because:
+\\
+\textbf{There is no universal remedy}: The intricacy of the V2G challenge makes it improbable that one algorithm will prove superior across all circumstances.
+\\
+\textbf{We pursue equilibria}: The objective is to unveil the balances between data thriftiness, learning steadiness, resilience to unpredictability, and computational burden across diverse algorithmic families.
+\\
+\textbf{Assessment is more stringent}: Juxtaposing DRL frameworks not only among themselves but also against established references such as heuristics and MPC yields a far more trustworthy appraisal of their genuine incremental merit.
+\\
+
+
+% Make sure you have this package in your preamble
+
+% --- BEGINNING OF ACRONYMS LIST ---
+
+% \chapter*{List of Acronyms} % If you are using the 'book' or 'report' class
+\section*{List of Acronyms} % If you are using the 'article' class
+\addcontentsline{toc}{chapter}{List of Acronyms} % Adds the list to the table of contents
+
+\begin{longtable}{ll}
+\textbf{Acronym} & \textbf{Description} \\
+\hline
+\endhead % This header will be repeated on every page of the list
+
+% --- Category: Artificial Intelligence & Control ---
+\multicolumn{2}{l}{\textbf{Artificial Intelligence \& Control}} \\
+A2C & Advantage Actor-Critic \\
+AC & Actor-Critic \\
+AI & Artificial Intelligence \\
+AL-SAC & Augmented Lagrangian Soft Actor-Critic \\
+ARS & Augmented Random Search \\
+CL & Curriculum Learning \\
+CMDP & Constrained Markov Decision Process \\
+DDPG & Deep Deterministic Policy Gradient \\
+DQN & Deep Q-Networks \\
+DRL & Deep Reinforcement Learning \\
+LQR & Linear Quadratic Regulator \\
+LSTM & Long Short-Term Memory \\
+MARL & Multi-Agent Reinforcement Learning \\
+MDP & Markov Decision Process \\
+MILP & Mixed-Integer Linear Program \\
+MPC & Model Predictive Control \\
+NN & Neural Network \\
+PER & Prioritized Experience Replay \\
+PPO & Proximal Policy Optimization \\
+RL & Reinforcement Learning \\
+SAC & Soft Actor-Critic \\
+TD3 & Twin-Delayed Deep Deterministic Policy Gradient \\
+TQC & Truncated Quantile Critics \\
+TRPO & Trust Region Policy Optimization \\
+\hline
+
+% --- Category: Electric Vehicles and Charging ---
+\multicolumn{2}{l}{\textbf{Electric Vehicles \& Charging}} \\
+AFAP & As Fast As Possible (Heuristic) \\
+ALAP & As Late As Possible (Heuristic) \\
+CAFA & Charge As Fast As Possible \\
+CALA & Charge As Late As Possible \\
+CPO & Charge Point Operator \\
+EV & Electric Vehicle \\
+G2V & Grid-to-Vehicle \\
+SCP & Scheduled Charging Power \\
+SoC & State of Charge \\
+SoH & State of Health \\
+V2B & Vehicle-to-Building \\
+V2G & Vehicle-to-Grid \\
+V2H & Vehicle-to-Home \\
+V2M & Vehicle-to-Microgrid \\
+V2V & Vehicle-to-Vehicle \\
+VPP & Virtual Power Plant \\
+\hline
+
+% --- Category: Electricity Grid and Energy Markets ---
+\multicolumn{2}{l}{\textbf{Power Grid \& Energy Markets}} \\
+ACE & Area Control Error \\
+ARR & Area Regulation Requirement \\
+DER & Distributed Energy Resources \\
+DR & Demand Response \\
+RES & Renewable Energy Sources \\
+\hline
+
+% --- Category: Metrics and Technical Parameters ---
+\multicolumn{2}{l}{\textbf{Metrics \& Technical Parameters}} \\
+DC & Constant Current (charging phase) \\
+CV & Constant Voltage (charging phase) \\
+DoD & Depth of Discharge \\
+MSE & Mean Square Error \\
+OU & Ornstein-Uhlenbeck (stochastic process) \\
+RMSE & Root Mean Square Error \\
+
+\end{longtable}
+
+% --- END OF ACRONYM LIST ---

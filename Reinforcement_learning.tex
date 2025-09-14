@@ -1,0 +1,48 @@
+\subsection{A History-Based Adaptive Reward for Profit Maximization}
+\label{sec:adaptive_reward}
+
+To effectively steer the learning agent towards a policy that is both highly profitable and reliable, we have designed and implemented a novel, history-based adaptive reward function, named \texttt{FastProfitAdaptiveReward}. This function departs from traditional static-weight penalties and instead introduces a dynamic feedback mechanism where the severity of penalties is directly influenced by the agent's recent performance. The core philosophy is to aggressively prioritize economic profit while using adaptive penalties as guardrails that become stricter only when the agent begins to consistently violate operational constraints.
+
+The total reward at each timestep $t$, $R_t$, is calculated as the net economic profit minus any active penalties for user dissatisfaction or transformer overload.
+
+\begin{equation}
+    R_t = \Pi_t - P_t^{\text{sat}} - P_t^{\text{tr}}
+\end{equation}
+
+\subsubsection{Economic Profit}
+The foundation of the reward signal is the direct, instantaneous economic profit, $\Pi_t$. This component provides a clear and strong incentive for the agent to learn market dynamics, encouraging it to charge during low-price periods and discharge (V2G) during high-price periods.
+\begin{equation}
+    \Pi_t = \sum_{i=1}^{N} \left( C_t^{\text{sell}} \cdot P_{i,t}^{\text{dis}} - C_t^{\text{buy}} \cdot P_{i,t}^{\text{ch}} \right) \Delta t
+\end{equation}
+where $N$ is the number of connected EVs, $C_t^{\text{sell}}$ and $C_t^{\text{buy}}$ are the electricity prices, and $P_{i,t}^{\text{dis}}$ and $P_{i,t}^{\text{ch}}$ are the discharging and charging powers for EV $i$.
+
+\subsubsection{Adaptive User Satisfaction Penalty}
+The penalty for failing to meet user charging demands, $P_t^{\text{sat}}$, is not a fixed value. Instead, it adapts based on the system's recent history of performance. The environment maintains a short-term memory of the average user satisfaction over the last 100 timesteps. From this history, we calculate an average satisfaction score, $\bar{S}_{hist}$.
+
+A \textit{satisfaction severity multiplier}, $\lambda_t^{\text{sat}}$, is then calculated. This multiplier grows quadratically as the historical average satisfaction drops, meaning that if the system has been performing poorly, the consequences for a new failure become much more severe.
+\begin{equation}
+    \lambda_t^{\text{sat}} = \lambda_{\text{base}}^{\text{sat}} \cdot (1 - \bar{S}_{hist})^2
+\end{equation}
+where $\lambda_{\text{base}}^{\text{sat}}$ is a base scaling factor (e.g., 20.0). A penalty is only applied if any departing EV's satisfaction, $S_k$, is below a critical threshold (e.g., 95\%). The magnitude of the penalty is the product of the adaptive multiplier and the current satisfaction deficit.
+\begin{equation}
+    P_t^{\text{sat}} = \lambda_t^{\text{sat}} \cdot (1 - \min(S_k)) \quad \forall k \in \text{EVs departing at } t
+\end{equation}
+This creates a powerful feedback loop: a single, isolated failure in an otherwise well-performing system results in a mild penalty. However, persistent failures lead to a rapidly escalating penalty, forcing the agent to correct its behavior.
+
+\subsubsection{Adaptive Transformer Overload Penalty}
+Similarly, the transformer overload penalty, $P_t^{\text{tr}}$, adapts based on the recent frequency of overloads. The environment tracks how often an overload has occurred in the last 100 timesteps, yielding an overload frequency, $F_{hist}^{\text{tr}}$.
+
+This frequency is used to compute a linear \textit{overload severity multiplier}, $\lambda_t^{\text{tr}}$. The more frequently overloads have happened, the higher the penalty for a new one.
+\begin{equation}
+    \lambda_t^{\text{tr}} = \lambda_{\text{base}}^{\text{tr}} \cdot F_{hist}^{\text{tr}}
+\end{equation}
+where $\lambda_{\text{base}}^{\text{tr}}$ is a base scaler (e.g., 50.0). If the total power drawn, $P_j^{\text{total}}(t)$, exceeds the transformer's limit, $P_j^{\text{max}}$, a penalty is applied. This penalty consists of a small, fixed base amount plus the adaptive component, which scales with the magnitude of the current overload.
+\begin{equation}
+    P_t^{\text{tr}} = P_{\text{base}} + \lambda_t^{\text{tr}} \cdot \sum_{j=1}^{N_T} \max(0, P_j^{\text{total}}(t) - P_j^{\text{max}})
+\end{equation}
+This mechanism teaches the agent that while a rare, minor overload might be acceptable in pursuit of high profit, habitual overloading is an unsustainable and heavily penalized strategy.
+
+\subsubsection{Rationale and Significance}
+This history-based adaptive reward function represents a significant advancement over static or purely state-based approaches. By making the penalty weights a function of the system's recent performance history, we provide a more nuanced and stable learning signal. The agent is not punished excessively for isolated, exploratory actions that might lead to a minor constraint violation. Instead, it is strongly discouraged from developing policies that lead to chronic system failures.
+
+The intuition is to mimic a more realistic management objective: maintain high performance on average, and react strongly only when performance trends begin to degrade. This method is also computationally efficient, avoiding complex state-dependent calculations in favor of simple updates to historical data queues. Ultimately, this reward structure guides the agent to discover policies that are not only profitable but also robust and reliable over time, striking a more intelligent balance between economic ambition and operational safety.

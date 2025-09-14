@@ -1,0 +1,83 @@
+% ===================================================================
+% CHAPTER 1: INTRODUCTION
+% ===================================================================
+\chapter{Introduction}
+The shift toward electric mobility constitutes a pivotal element in worldwide strategies for the decarbonization of transportation; nevertheless, the widescale incorporation of electric vehicles into existing power networks introduces a multifaceted spectrum of hurdles and prospects that this thesis seeks to investigate.
+
+
+\subsection{Background and Relevance of Electric Vehicles and Vehicle-to-Grid} % 
+The surge of the Electric Vehicle (EV) market is accelerating a profound reconfiguration of modern mobility, with the promise of lowering carbon emissions while fostering greater energy efficiency \footcite{orfanoudakis2022deep}. 
+This evolution is more than a technological trend: it underpins environmental sustainability by reducing dependence on fossil resources, alleviating the impacts of climate change through diminished greenhouse gas emissions, and improving air quality in densely populated areas. 
+Yet, embedding millions of EVs into existing power systems is far from trivial. 
+It can intensify peak demand, place additional stress on transmission and distribution networks, and trigger side effects such as voltage irregularities or higher line losses \footcite{orfanoudakis2022deep, salvatti2020electric}.
+\\
+\noindent
+In this context, the \textbf{Vehicle-to-Grid (V2G)} concept emerges as a forward-looking and strategic pathway. 
+Through bidirectional power exchange, V2G redefines EVs: no longer passive electrical loads, but mobile and flexible energy assets, able to deliver a spectrum of services to the power system \footcite{alfaverh2022optimal}. 
+This potential becomes even more compelling when one considers that, on average, EVs remain parked and unused for nearly 96\% of the day, offering an ample time window to actively engage with the grid \footcite{evertsson2024investigating}. 
+A further distinctive benefit lies in the rapid responsiveness of EV batteries, which makes them especially suitable for ancillary services demanding quick interventions, such as frequency regulation \footcite{alfaverh2022optimal}. 
+Alongside V2G, other schemes of bidirectional power flow have been proposed, each with its own scope: 
+\begin{enumerate}
+    \item 
+\textbf{Vehicle-to-Home (V2H)}, where an EV sustains household demand during outages or periods of elevated prices, strengthening domestic energy resilience;
+\item
+\textbf{Vehicle-to-Building (V2B)}, extending this logic to commercial or industrial facilities, enabling EVs to support load management and improve consumption efficiency; and 
+\item
+\textbf{Vehicle-to-Vehicle (V2V)}, which allows direct power transfer among EVs, a valuable feature for emergency charging or shared resources. 
+\end{enumerate}
+Taken together, these modalities highlight the versatility of EV batteries as distributed energy units, reinforcing both energy resilience and the transition toward a more sustainable energy ecosystem.
+
+\subsection{Challenges in EV Integration into the Electricity Grid and the Role of Artificial Intelligence} % MODIFIED SECTION
+Modern electricity systems are increasingly shaped by the penetration of intermittent \textbf{Renewable Energy Sources (RESs)} such as wind and solar. 
+Their variability generates pronounced swings in output and persistent mismatches between supply and demand, fuelling price volatility and complicating dispatch strategies. 
+As a consequence, the stability and economic efficiency of the grid are continuously put under strain. 
+Managing these fluctuations, while making rapid operational choices to balance the system and minimize costs, has proven difficult for conventional control frameworks \footcite{orfanoudakis2022deep, minchala2025systematic}. 
+\\
+\noindent
+The parallel rise of EV adoption and RES deployment has produced an environment marked by both uncertainty and complexity. 
+In such conditions, traditional approaches are increasingly inadequate, prompting a growing reliance on methods rooted in artificial intelligence—and particularly in \textbf{Reinforcement Learning (RL)}. 
+This shift alters the very nature of the grid: from a relatively predictable and centralized infrastructure to one that is decentralized, stochastic, and highly dynamic. 
+Rule-based or deterministic controllers, designed for a past paradigm, are ill-suited to cope with this degree of volatility. 
+The outcome is a pressing demand for adaptive and intelligent decision-making mechanisms. 
+This transformation extends beyond the simple challenge of absorbing extra load or integrating new generators: it signals a genuine paradigm change towards a \emph{smart grid} \footcite{alhmoud2024review}, where adaptive, real-time, and autonomous operation is no longer optional but vital to preserve efficiency, resilience, and reliability. 
+In this light, RL appears not merely as a tool for optimization, but as an enabling technology for a cognitive and robust energy infrastructure, capable of navigating the uncertainties inherent in a decarbonized, electrified future.
+\\
+\noindent
+Against this backdrop, \textbf{Deep Reinforcement Learning (DRL)} has gained attention as an especially powerful approach. 
+Its capacity to derive near-optimal strategies in dynamic and uncertain environments—without requiring a precise model of the system or flawless forecasts—makes DRL particularly well-suited for EV integration and advanced grid management \footcite{orfanoudakis2022deep, shibl2023electric}.
+
+
+%====================================================================
+% SEZIONE AGGIORNATA: OBIETTIVI E CONTRIBUTI
+%====================================================================
+\subsection{Objectives and Contributions of the Thesis}
+
+This thesis addresses the complex multi-objective optimization problem inherent in Vehicle-to-Grid (V2G) systems. The overarching objective is to move beyond a purely theoretical analysis by actively developing, testing, and enhancing a high-fidelity simulation architecture. This platform serves as a digital twin to rigorously evaluate and compare advanced control strategies, balancing economic benefits, user mobility needs, battery health, and grid stability under realistic stochastic conditions.
+\\
+More than a simple review of existing literature, this work focuses on the practical implementation and validation of a V2G simulation framework in Python. This tool is leveraged to demonstrate and explore novel perspectives for training intelligent agents. The main contributions are:
+
+\begin{itemize}
+    \item \textbf{Enhancement of a V2G Simulation Architecture:} A significant contribution lies in the systematic testing, validation, and enhancement of the \textbf{EV2Gym} simulation framework. This work solidifies its role as a robust and flexible platform for benchmarking control algorithms, ensuring that the models for battery physics, user behavior, and grid dynamics are coherent and realistic for advanced research.
+
+    \item \textbf{Exploration of Novel Reinforcement Learning Perspectives:} The validated simulation environment is used to investigate and implement advanced training methodologies for RL agents. A key focus is placed on techniques like \textbf{adaptive reward shaping}, where the reward function dynamically evolves during training to guide the agent towards a more holistic and robust control policy, overcoming the limitations of static reward definitions.
+
+    \item \textbf{Practical Implementation of Advanced Control Paradigms:} The thesis demonstrates the practical transition from a theoretical, offline optimal controller to a realistic, online controller. Specifically, it details the implementation of an \textbf{offline MPC using Gurobi}, which acts as a "judge" with perfect foresight, and contrasts it with an \textbf{online MPC formulated in PuLP}, designed to operate as a real-time "controller" with limited future information, highlighting the trade-offs and challenges of real-world deployment.
+\end{itemize}
+
+
+
+%====================================================================
+% SEZIONE AGGIORNATA: STRUTTURA DELLA TESI
+%====================================================================
+\newpage
+\subsection{Thesis Structure}
+The remainder of this thesis is organized as follows:
+\begin{itemize}
+    \item \textbf{Chapter 2: Overview of Optimal Management of EV Charging and Discharging} provides foundational knowledge on V2G technology, the complex multi-objective nature of EV charging optimization, and presents a comprehensive review of state-of-the-art research approaches.
+
+    \item \textbf{Chapter 3: The V2G Simulation Framework: A Digital Twin for V2G Research} details the architecture and core models of the simulation environment. This chapter describes the enhancements made to the framework, establishing it as the central experimental platform for implementing and evaluating the control agents analyzed in this work.
+
+    \item \textbf{Chapter 4: Experimental Campaign and Results Analysis } This chapter presents the results of the comparative analysis between the different control strategies (DRL, MPC, heuristics). It analyzes the performance of novel training techniques and discusses the implications of the findings. % <-- Si consiglia di aggiungere un capitolo dedicato ai risultati
+
+    \item \textbf{Bibliography} lists all cited references.
+\end{itemize}
