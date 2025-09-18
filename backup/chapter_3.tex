@@ -1,0 +1,145 @@
+% ===================================================================
+% CHAPTER 3: The EV2Gym Simulation Framework
+% ===================================================================
+\chapter{An Enhanced V2G Simulation Framework for Robust Control}
+\label{chap:ev2gym}
+
+Developing, validating, and benchmarking advanced control algorithms for Vehicle-to-Grid (V2G) systems is a task fraught with complexity. Real-world experimentation is often impractical due to prohibitive costs, logistical challenges, and risks to grid stability and vehicle hardware. To bridge the gap between theory and practice, a realistic, flexible, and standardized simulation environment is a scientific necessity. This thesis builds upon the foundation of \textbf{EV2Gym}, a state-of-the-art, open-source simulator designed for V2G smart charging research \footcite{orfanoudakis2024ev2gym}. However, this work extends the original framework significantly, transforming it into a high-fidelity \textbf{digital twin} engineered not just for single-scenario optimization, but for the development and rigorous evaluation of \textbf{robust, generalist control agents}.
+
+This enhanced framework provides a dual-pronged approach to experimentation: it allows for deep-dive analysis of agents specialized for a single environment, while also introducing a novel methodology for training and testing agents designed to generalize across a multitude of diverse, unpredictable scenarios. This chapter provides an in-depth tour of this extended architecture, its data-driven models, and its unique evaluation capabilities, establishing the methodological bedrock for the rest of this work.
+
+\section{Core Simulator Architecture}
+The framework retains the modular architecture of EV2Gym, which mirrors the key entities of a real-world V2G system. Its foundation on the OpenAI Gym (now Gymnasium) API remains a cornerstone, providing a standardized agent-environment interface defined by the familiar language of states, actions, and rewards \footcite{brockman2016openai}.
+
+The architecture consists of several interacting components:
+\begin{itemize}
+    \item \textbf{Charge Point Operator (CPO):} The central intelligence of the simulation, managing the charging infrastructure and serving as the primary interface for the control algorithm (the DRL agent). The CPO aggregates system state information and dispatches control actions to individual chargers.
+    \item \textbf{Chargers:} Digital representations of physical charging stations, configurable by type (AC/DC), maximum power, and efficiency. This allows for the simulation of heterogeneous charging infrastructures.
+    \item \textbf{Power Transformers:} These components model the physical connection points to the grid, aggregating the electrical load from multiple chargers. Crucially, they enforce the physical power limits of the local distribution network and can model inflexible base loads (e.g., buildings) and local renewable generation (e.g., solar panels).
+    \item \textbf{Electric Vehicles (EVs):} Dynamic and autonomous agents, each defined by its unique battery capacity, power limits, current and desired energy levels, and specific arrival and departure times.
+\end{itemize}
+
+The simulation process follows a reproducible three-phase structure: (1) \textbf{Initialization} from a comprehensive YAML configuration file, (2) a discrete-time \textbf{Simulation Loop} where the agent interacts with the environment, and (3) a final \textbf{Evaluation and Visualization} phase that generates standardized performance metrics.
+
+\section{Core Physical Models}
+The fidelity of the simulation is anchored in its detailed and empirically validated models, which are essential for developing control strategies robust enough for real-world application.
+
+\subsection{EV Model and Charging/Discharging Dynamics}
+The framework implements a realistic two-stage charging/discharging model that captures the non-linear behavior of lithium-ion batteries, simulating both the \textbf{constant current (CC)} and \textbf{constant voltage (CV)} phases. Each EV is defined by a rich parameter set: maximum capacity ($E_{max}$), a minimum safety capacity ($E_{min}$), separate power limits for charging and discharging ($P_{ch}^{max}, P_{dis}^{max}$), and distinct efficiencies for each process ($\eta_{ch}, \eta_{dis}$).
+
+\subsection{Battery Degradation Model}
+To address the critical issue of battery health in V2G operations, the simulator incorporates a semi-empirical battery degradation model. It quantifies capacity loss ($Q_{lost}$) as the sum of two primary aging mechanisms \footcite{orfanoudakis2024ev2gym}:
+\begin{itemize}
+    \item \textbf{Calendar Aging ($d_{cal}$):} Time-dependent capacity loss, influenced by the battery's average State of Charge (SoC) and temperature.
+    \item \textbf{Cyclic Aging ($d_{cyc}$):} Wear resulting from charge/discharge cycles, dependent on energy throughput, depth-of-cycle, and C-rate.
+\end{itemize}
+This integrated model allows for the direct quantification of how different control strategies impact the battery's long-term State of Health (SoH), enabling the training of agents that balance profitability with battery preservation.
+
+\subsection{EV Behavior and Grid Models}
+To ensure realism, the simulation is driven by authentic, open-source datasets. EV arrival/departure patterns and energy requirements are modeled using probability distributions derived from a large real-world dataset from \textbf{ElaadNL}. Grid conditions are similarly grounded in reality, using inflexible load data from the \textbf{Pecan Street} project and solar generation profiles from the \textbf{Renewables.ninja} platform \footcite{orfanoudakis2024ev2gym}.
+
+\section{A Dual-Pronged Evaluation Architecture}
+A key contribution of this thesis is the development of a sophisticated, dual-mode evaluation pipeline, which distinguishes between specialized and generalized agent performance. This is implemented through two primary execution scripts: \texttt{Single\_Domain\_Env.py} and \texttt{MultiScenarioEnv.py}.
+
+\subsection{Single-Domain Specialization}
+The \texttt{Single\_Domain\_Env.py} script is designed to train and evaluate "specialist" agents. In this workflow, a Reinforcement Learning agent is trained from scratch on a single, fixed configuration file. This approach is used to answer the question: "What is the optimal performance achievable for this specific, known environment?" It allows for a deep-dive analysis of an agent's ability to master one particular scenario, serving as a crucial baseline for performance.
+
+\subsection{Multi-Scenario Generalization}
+The \texttt{MultiScenarioEnv.py} script introduces a more challenging and realistic paradigm: training a single, "generalist" agent that must perform well across a diverse set of scenarios. This is achieved through two key innovations:
+\begin{itemize}
+    \item \textbf{MultiScenarioEnv:} A custom Gymnasium environment that acts as a wrapper around multiple underlying \texttt{EV2Gym} instances. At the beginning of each training episode (i.e., on \texttt{reset()}), this environment randomly selects one of the provided configuration files. This forces the agent to learn a robust policy that is not overfitted to any single scenario's characteristics (e.g., number of chargers, grid capacity, or price volatility).
+    \item \textbf{CompatibilityWrapper:} A critical technical solution to handle the varying observation and action space sizes across different scenarios. Since a neural network policy has a fixed input and output size, this wrapper \textbf{pads} observations from smaller environments to a maximum size and \textbf{slices} action vectors from the agent to match the specific needs of the currently active environment. This enables a single agent to seamlessly control infrastructures of varying scales.
+\end{itemize}
+This multi-scenario training methodology is fundamental to developing agents that are truly robust and ready for deployment in the real world, where conditions are never static.
+
+\section{Software and Experimentation Workflow}
+The project's functionality is organized into a modular structure to facilitate clear and reproducible experimentation.
+\begin{itemize}
+    \item \texttt{ev2gym/}: The core directory containing the simulator's heart.
+    \begin{itemize}
+        \item \texttt{models/}: Defines the main environment (\texttt{ev2gym\_env.py}) and the physical components (\texttt{ev.py}, \texttt{ev\_charger.py}, \texttt{transformer.py}).
+        \item \texttt{baselines/}: Contains the classical control algorithms used for benchmarking, including heuristics (\texttt{heuristics.py}) and Model Predictive Control (\texttt{pulp\_mpc.py}).
+        \item \texttt{rl\_agent/}: Houses DRL-specific components, such as state space definitions (\texttt{state.py}) and reward functions (\texttt{reward.py}).
+        \item \texttt{data/}: Contains the input time-series data for EV arrivals, energy prices, and loads.
+    \end{itemize}
+    \item \texttt{Compare.py}: A powerful utility script for pre-analysis and scenario comparison. It reads multiple YAML configuration files and generates summary tables and legends as images, allowing for a quick, visual comparison of experimental setups.
+    \item \texttt{Single\_Domain\_Env.py}: The primary script for training and evaluating specialist agents on a single, user-selected scenario. It orchestrates the entire benchmark for one environment.
+    \item \texttt{MultiScenarioEnv.py}: The script for training and evaluating robust, generalist agents. It utilizes the \texttt{MultiScenarioEnv} to train a single agent on a collection of scenarios and then evaluates its performance across each of them.
+\end{itemize}
+
+\section{Evaluation Metrics}
+To ensure a fair and comprehensive comparison, all algorithms are evaluated against the same set of pre-generated scenarios (using a "replay" mechanism). The \textbf{mean} and \textbf{standard deviation} of performance are calculated across multiple simulation runs. The key metrics include:
+
+\begin{itemize}
+    \item \textbf{Total Profit (\$):} The net economic outcome, calculated as revenue from energy sales minus the cost of energy purchases.
+    \[
+    \Pi_{\text{total}} = \sum_{t=0}^{T_{\text{sim}}} \sum_{i=1}^{N} \left( C_{\text{sell}}(t) P_{\text{dis},i}(t) - C_{\text{buy}}(t) P_{\text{ch},i}(t) \right) \Delta t
+    \]
+    
+    \item \textbf{Tracking Error (RMSE, kW):} For grid-balancing scenarios, this measures the root-mean-square error between the fleet's aggregated power and a target setpoint.
+    \[
+    E_{\text{track}} = \sqrt{\frac{1}{T_{\text{sim}}} \sum_{t=0}^{T_{\text{sim}}-1} \left( P_{\text{setpoint}}(t) - P_{\text{total}}(t) \right)^2}
+    \]
+    
+    \item \textbf{User Satisfaction (Average):} The fraction of energy delivered compared to what was requested by the user, averaged across all EV sessions. A score of 1 indicates perfect service.
+    \[
+    US_{\text{avg}} = \frac{1}{N_{\text{EVs}}} \sum_{k=1}^{N_{\text{EVs}}} \min \left(1, \frac{E_k(t_k^{\text{dep}})}{E_k^{\text{des}}} \right)
+    \]
+    
+    \item \textbf{Transformer Overload (kWh):} The total energy that exceeded the transformer's rated power limit. An ideal controller should achieve a value of 0.
+    \[
+    O_{\text{tr}} = \sum_{t=0}^{T_{\text{sim}}} \sum_{j=1}^{N_T} \max(0, P_j^{\text{tr}}(t) - P_j^{\text{tr,max}}) \cdot \Delta t
+    \]
+    
+    \item \textbf{Battery Degradation (\$):} The estimated monetary cost of battery aging due to both cyclic and calendar effects.
+    \[
+    D_{\text{batt}} = \sum_{k=1}^{N_{\text{EVs}}} (\text{CyclicCost}_k + \text{CalendarCost}_k)
+    \]
+\end{itemize}
+
+\section{Reinforcement Learning Formulation}
+The control problem is formalized as a Markov Decision Process (MDP), defined by the tuple $(S, A, P, R, \gamma)$.
+
+\subsection{State Space ($S$)}
+The state $s_t \in S$ is a feature vector providing a snapshot of the environment at time $t$. A representative state, as defined in modules like \texttt{V2G\_profit\_max\_loads.py}, includes:
+\[
+s_t = [t, P_{\text{total}}(t-1), \mathbf{c}(t, H), \mathbf{L}_1(t, H), \mathbf{PV}_1(t, H), \dots, \mathbf{s}^{\text{EV}}_1(t), \dots, \mathbf{s}^{\text{EV}}_N(t)]^T
+\]
+where the components are:
+\begin{itemize}
+    \item $t$: The current time step.
+    \item $P_{\text{total}}(t-1)$: The aggregated power from the previous time step.
+    \item $\mathbf{c}(t, H)$: A vector of \textbf{predicted future} electricity prices over a horizon $H$.
+    \item $\mathbf{L}_j(t, H), \mathbf{PV}_j(t, H)$: Forecasts for inflexible loads and solar generation.
+    \item $\mathbf{s}^{\text{EV}}_i(t) = [\text{SoC}_i(t), t^{\text{dep}}_i - t]$: Key information for each EV $i$, including its State of Charge and remaining time until departure.
+\end{itemize}
+
+\subsection{Action Space ($A$)}
+The action $a_t \in A$ is a continuous vector in $\mathbb{R}^N$, where $N$ is the number of chargers. For each charger $i$, the command $a_i(t) \in [-1, 1]$ is a normalized value that is translated into a power command:
+\begin{itemize}
+    \item If $a_i(t) > 0$, the EV is charging: $P_i(t) = a_i(t) \cdot P^{\text{max}}_{\text{charge}, i}$.
+    \item If $a_i(t) < 0$, the EV is discharging (V2G): $P_i(t) = a_i(t) \cdot P^{\text{max}}_{\text{discharge}, i}$.
+\end{itemize}
+
+\subsection{Reward Function ($R(s, a, s')$)}
+The reward function $R(t)$ encodes the objectives of the control agent. The framework allows for the selection of different reward functions from the \texttt{reward.py} module to suit various goals. Key examples include:
+\begin{itemize}
+    \item \textbf{Profit Maximization with Penalties} (\texttt{ProfitMax\_TrPenalty\_UserIncentives}): This function creates a balance between economic gain and physical constraints.
+    \[
+    R(t) = \underbrace{\text{Profit}(t)}_{\text{Economic Gain}} - \underbrace{\lambda_1 \cdot \text{Overload}(t)}_{\text{Grid Penalty}} - \underbrace{\lambda_2 \cdot \text{Unsatisfaction}(t)}_{\text{User Penalty}}
+    \]
+    The agent is rewarded for profit but penalized for overloading transformers and for failing to meet the charging needs of departing drivers.
+    
+    \item \textbf{Squared Tracking Error} (\texttt{SquaredTrackingErrorReward}): Used for grid service applications where precision is paramount.
+    \[
+    R(t) = - \left( P_{\text{setpoint}}(t) - \sum_{i=1}^N P_i(t) \right)^2
+    \]
+    The reward is the negative squared error from the power setpoint, incentivizing the agent to minimize this error at all times.
+\end{itemize}
+
+By leveraging this enhanced framework, this thesis moves beyond single-scenario optimization to develop and validate an intelligent V2G control agent that is not only high-performing but also robust, adaptable, and ready for the complexities of real-world deployment.
+
+\input{Reinforcement_learning}
+
+\input{gurobi_mpc}
+\input{pulp_mpc}

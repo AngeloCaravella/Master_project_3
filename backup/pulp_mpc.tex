@@ -1,0 +1,77 @@
+\section{Online MPC Formulation (PuLP Implementation)}
+
+The Model Predictive Control (MPC) implemented with PuLP solves a profit maximization problem at each time step $t$ over a finite prediction horizon $H$. This formulation is designed for online, real-time control, where decisions are made based on the current system state and future predictions.
+
+\subsection{Mathematical Formulation}
+At each time step $t$, the MPC controller solves the following optimization problem.
+
+\subsubsection{Objective Function: Net Operational Profit}
+The objective is to maximize the total net operational profit over the control horizon $H$. This provides a comprehensive economic model that goes beyond simple energy arbitrage.
+\begin{equation}
+\max_{P^{\text{ch}}, P^{\text{dis}}, z} \sum_{k=t}^{t+H-1} \sum_{i \in \text{CS}} \left( \text{Revenues}_{i,k} - \text{Costs}_{i,k} \right)
+\end{equation}
+The revenue and cost components are defined for each station $i$ at time step $k$ as:
+\begin{itemize}
+    \item \textbf{Revenues} consist of:
+    \begin{itemize}
+        \item Grid Sales Revenue (V2G): $c^{\text{sell}}_k \cdot P^{\text{dis}}_{i,k} \cdot \Delta t$
+        \item User Charging Revenue: $c^{\text{user}} \cdot P^{\text{ch}}_{i,k} \cdot \Delta t$
+    \end{itemize}
+    \item \textbf{Costs} consist of:
+    \begin{itemize}
+        \item Grid Purchase Cost: $c^{\text{buy}}_k \cdot P^{\text{ch}}_{i,k} \cdot \Delta t$
+        \item Battery Degradation Cost: $c^{\text{deg}} \cdot (P^{\text{ch}}_{i,k} + P^{\text{dis}}_{i,k}) \cdot \Delta t$
+    \end{itemize}
+\end{itemize}
+where $c^{\text{sell}}_k$ and $c^{\text{buy}}_k$ are the time-varying electricity prices, $c^{\text{user}}$ is the fixed price for the end-user, $c^{\text{deg}}$ is the estimated cost of battery degradation per kWh cycled, and $\Delta t$ is the time step duration.
+
+\subsubsection{System Constraints}
+The optimization is subject to the following constraints for each station $i$ and time step $k \in [t, t+H-1]$.
+
+\paragraph{Energy Balance Dynamics.} The state of energy of the EV battery evolves according to:
+\begin{equation}
+E_{i,k} = E_{i,k-1} + \left( \eta^{\text{ch}} P^{\text{ch}}_{i,k} - \frac{1}{\eta^{\text{dis}}} P^{\text{dis}}_{i,k} \right) \cdot \Delta t
+\end{equation}
+where the initial state $E_{i,t-1}$ is the currently measured energy level of the EV.
+
+\paragraph{Power Limits and Mutual Exclusion.} Charging and discharging powers are bounded by the EV's capabilities and controlled by a binary variable $z_{i,k}$ to prevent simultaneous operation.
+\begin{align}
+    0 &\le P^{\text{ch}}_{i,k} \le P^{\text{ch,max}}_{i} \cdot z_{i,k} \\
+    0 &\le P^{\text{dis}}_{i,k} \le P^{\text{dis,max}}_{i} \cdot (1 - z_{i,k})
+\end{align}
+
+\paragraph{State of Energy (SoE) Limits.} The battery energy level must remain within its physical operational window.
+\begin{equation}
+E^{\text{min}}_{i} \le E_{i,k} \le E^{\text{max}}_{i}
+\end{equation}
+
+\paragraph{User Satisfaction (Hard Constraint).} The desired energy level must be met at the time of departure. This is modeled as a hard constraint, reflecting a non-negotiable service requirement.
+\begin{equation}
+E_{i,k_{\text{dep}}} \ge E^{\text{des}}_{i}
+\end{equation}
+where $k_{\text{dep}}$ is the predicted departure step of the EV within the horizon.
+
+\paragraph{Transformer Power Limit.} The total net power drawn from (or injected into) the grid by all charging stations must not exceed the transformer's maximum capacity.
+\begin{equation}
+\sum_{i \in \text{CS}} (P^{\text{ch}}_{i,k} - P^{\text{dis}}_{i,k}) \le P^{\text{tr,max}}
+\end{equation}
+
+
+\section{Conceptual Comparison: PuLP MPC vs. Gurobi Offline Optimizer}
+
+While both the PuLP MPC and the Gurobi offline optimizer are used to solve the EV charging problem, they operate on fundamentally different principles and serve distinct purposes. This section provides a discursive comparison of their core concepts.
+\\
+\subsection{Core Philosophy: Controller vs. Judge}
+The most significant difference lies in their philosophy. The \textbf{PuLP MPC} is designed as a \textbf{controller}. It operates online, making decisions in real-time with incomplete information about the future (e.g., EV arrivals, price fluctuations beyond the prediction horizon). Its goal is to find a practical and robust strategy for the immediate future.
+\\
+Conversely, the \textbf{Gurobi formulation} acts as a \textbf{judge}. It is an offline tool that solves the problem over the entire simulation period with perfect hindsight (a-posteriori). Its purpose is not to control the system in real-time, but to establish a theoretical performance benchmark---the "perfect score"---against which the performance of a practical controller like the MPC can be measured.
+
+\subsection{Objective Function: Operational Profit vs. Energy Arbitrage}
+The objectives, while both related to profit, reflect their different roles. The PuLP MPC maximizes a detailed \textbf{Net Operational Profit}, incorporating a realistic business model that includes revenue from end-users and operational costs like battery degradation. This makes its decisions economically grounded from a business perspective.
+\\
+The Gurobi optimizer, on the other hand, typically maximizes profit from a simpler \textbf{energy arbitrage} model, focusing on the difference between buying and selling electricity. While it includes a penalty for not meeting user demand, it does not explicitly account for the same level of operational economic detail as the MPC.
+
+\subsection{Handling of User Satisfaction: Hard vs. Soft Constraints}
+This distinction is critical from an operational standpoint. The PuLP MPC treats user satisfaction as a \textbf{Hard Constraint}. The EV \textit{must} reach its desired energy level by its departure time. If the model determines this is impossible, the optimization problem becomes infeasible, signaling a failure to meet a mandatory service level agreement.
+\\
+The Gurobi formulation treats user satisfaction primarily as a \textbf{Soft Constraint} via a penalty term in its objective function. This allows the optimizer to make a trade-off: it can choose to not fully charge a vehicle if the economic benefit of doing so (e.g., selling a large amount of energy to the grid at a high price) outweighs the penalty for customer dissatisfaction. This is useful for theoretical analysis but less practical for guaranteeing service.

@@ -19,7 +19,24 @@
 
 \refsection{0}
   \datalist[entry]{nyt/global//global/global/global}
-    \entry{alfaverh2022optimal}{article}{}{}
+    \entry{european_commission_2021_fit_for_55}{report}{}{}
+      \list{institution}{1}{%
+        {European Commission}%
+      }
+      \list{location}{1}{%
+        {Brussels}%
+      }
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labeltitlesource}{title}
+      \field{number}{COM(2021) 550 final}
+      \field{title}{'Fit for 55': delivering the EU's 2030 Climate Target on the way to climate neutrality}
+      \field{type}{techreport}
+      \field{year}{2021}
+    \endentry
+    \entry{alfaverh2022optima}{article}{}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=721163e981dd5a3b58175b5a2e0c2385}{%
            family={Alfaverh},
@@ -27,8 +44,8 @@
            given={Farag},
            giveni={F\bibinitperiod},
            givenun=0}}%
-        {{un=0,uniquepart=base,hash=b45bdb9b774bc9a51495d37803e55f7e}{%
-           family={Denaı̈},
+        {{un=0,uniquepart=base,hash=3417c4ad600297af35c02dc22153a22c}{%
+           family={Denaï},
            familyi={D\bibinitperiod},
            given={Mouloud},
            giveni={M\bibinitperiod},
@@ -43,14 +60,14 @@
       \list{publisher}{1}{%
         {Elsevier}%
       }
-      \strng{namehash}{62dcaf950ababd70b74d09a967c04836}
-      \strng{fullhash}{62dcaf950ababd70b74d09a967c04836}
-      \strng{fullhashraw}{62dcaf950ababd70b74d09a967c04836}
-      \strng{bibnamehash}{62dcaf950ababd70b74d09a967c04836}
-      \strng{authorbibnamehash}{62dcaf950ababd70b74d09a967c04836}
-      \strng{authornamehash}{62dcaf950ababd70b74d09a967c04836}
-      \strng{authorfullhash}{62dcaf950ababd70b74d09a967c04836}
-      \strng{authorfullhashraw}{62dcaf950ababd70b74d09a967c04836}
+      \strng{namehash}{0657628b86a991289ba88298aabbf66d}
+      \strng{fullhash}{0657628b86a991289ba88298aabbf66d}
+      \strng{fullhashraw}{0657628b86a991289ba88298aabbf66d}
+      \strng{bibnamehash}{0657628b86a991289ba88298aabbf66d}
+      \strng{authorbibnamehash}{0657628b86a991289ba88298aabbf66d}
+      \strng{authornamehash}{0657628b86a991289ba88298aabbf66d}
+      \strng{authorfullhash}{0657628b86a991289ba88298aabbf66d}
+      \strng{authorfullhashraw}{0657628b86a991289ba88298aabbf66d}
       \field{sortinit}{A}
       \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
       \field{extradatescope}{labelyear}
@@ -108,6 +125,60 @@
       \verb{doi}
       \verb 10.1016/j.est.2022.105149
       \endverb
+    \endentry
+    \entry{birkl2017degradation}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=baf641ca48045dddf0ce669ea80044ca}{%
+           family={Birkl},
+           familyi={B\bibinitperiod},
+           given={Christoph\bibnamedelima R},
+           giveni={C\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dac70759e60ccd2d76114b9ec1f5d1df}{%
+           family={Roberts},
+           familyi={R\bibinitperiod},
+           given={Malcolm\bibnamedelima R},
+           giveni={M\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b33ffda9cd2f3acbff4b78111c2b3148}{%
+           family={McTurk},
+           familyi={M\bibinitperiod},
+           given={Edward},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4a4a36b3b7becacea9d42edd2841c460}{%
+           family={Bruce},
+           familyi={B\bibinitperiod},
+           given={Peter\bibnamedelima G},
+           giveni={P\bibinitperiod\bibinitdelim G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=301522086d949ec2e46ae206f84aca35}{%
+           family={Howey},
+           familyi={H\bibinitperiod},
+           given={David\bibnamedelima A},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0a9ea611789056bbc1ad21d275fcc872}
+      \strng{fullhash}{fc619a37620bd273e3130a83bd5f28cb}
+      \strng{fullhashraw}{fc619a37620bd273e3130a83bd5f28cb}
+      \strng{bibnamehash}{0a9ea611789056bbc1ad21d275fcc872}
+      \strng{authorbibnamehash}{0a9ea611789056bbc1ad21d275fcc872}
+      \strng{authornamehash}{0a9ea611789056bbc1ad21d275fcc872}
+      \strng{authorfullhash}{fc619a37620bd273e3130a83bd5f28cb}
+      \strng{authorfullhashraw}{fc619a37620bd273e3130a83bd5f28cb}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Power Sources}
+      \field{title}{Degradation diagnostics for lithium ion cells}
+      \field{volume}{341}
+      \field{year}{2017}
+      \field{pages}{373\bibrangedash 386}
+      \range{pages}{14}
     \endentry
     \entry{brockman2016openai}{article}{}{}
       \name{author}{7}{}{%
@@ -175,37 +246,6 @@
       \verb 10.48550/arXiv.1606.01540
       \endverb
     \endentry
-    \entry{european_commission_2021_fit_for_55}{report}{}{}
-      \name{author}{1}{}{%
-        {{un=0,uniquepart=base,hash=a1b813a6e85874b4c945aec2cdbea74c}{%
-           family={{European Commission}},
-           familyi={E\bibinitperiod}}}%
-      }
-      \list{institution}{1}{%
-        {European Commission}%
-      }
-      \list{location}{1}{%
-        {Brussels}%
-      }
-      \strng{namehash}{a1b813a6e85874b4c945aec2cdbea74c}
-      \strng{fullhash}{a1b813a6e85874b4c945aec2cdbea74c}
-      \strng{fullhashraw}{a1b813a6e85874b4c945aec2cdbea74c}
-      \strng{bibnamehash}{a1b813a6e85874b4c945aec2cdbea74c}
-      \strng{authorbibnamehash}{a1b813a6e85874b4c945aec2cdbea74c}
-      \strng{authornamehash}{a1b813a6e85874b4c945aec2cdbea74c}
-      \strng{authorfullhash}{a1b813a6e85874b4c945aec2cdbea74c}
-      \strng{authorfullhashraw}{a1b813a6e85874b4c945aec2cdbea74c}
-      \field{sortinit}{E}
-      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{number}{COM(2021) 550 final}
-      \field{title}{'Fit for 55': delivering the EU's 2030 Climate Target on the way to climate neutrality}
-      \field{type}{techreport}
-      \field{year}{2021}
-    \endentry
     \entry{evertsson2024investigating}{thesis}{}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=9fe542939ae368d92205de3b9b4804fb}{%
@@ -272,7 +312,7 @@
       \field{type}{mathesis}
       \field{year}{2023}
     \endentry
-    \entry{fujimoto2018addressing}{article}{}{}
+    \entry{fujimoto2018addressing}{inproceedings}{}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=064fb8795fb3fe6537e4d29fc8578ec4}{%
            family={Fujimoto},
@@ -319,56 +359,7 @@
       \field{pages}{1587\bibrangedash 1596}
       \range{pages}{10}
     \endentry
-    \entry{ghosh2024optimal}{article}{}{}
-      \name{author}{3}{}{%
-        {{un=0,uniquepart=base,hash=df11ce01bfc0398d8ad19b30a57cf21b}{%
-           family={Ghosh},
-           familyi={G\bibinitperiod},
-           given={Anirban},
-           giveni={A\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=d7ac8bf623333c4f96b9ddabbf292d56}{%
-           family={Nomani},
-           familyi={N\bibinitperiod},
-           given={Izhar},
-           giveni={I\bibinitperiod},
-           givenun=0}}%
-        {{un=1,uniquepart=given,hash=d17fb9b688663392c7b4c9bfe0e7035d}{%
-           family={Singh},
-           familyi={S\bibinitperiod},
-           given={Ranjan},
-           giveni={R\bibinitperiod},
-           givenun=1}}%
-      }
-      \list{publisher}{1}{%
-        {Nature Publishing Group UK London}%
-      }
-      \strng{namehash}{6cc182f0b015ef95a3daff0b2c751839}
-      \strng{fullhash}{6cc182f0b015ef95a3daff0b2c751839}
-      \strng{fullhashraw}{6cc182f0b015ef95a3daff0b2c751839}
-      \strng{bibnamehash}{6cc182f0b015ef95a3daff0b2c751839}
-      \strng{authorbibnamehash}{6cc182f0b015ef95a3daff0b2c751839}
-      \strng{authornamehash}{6cc182f0b015ef95a3daff0b2c751839}
-      \strng{authorfullhash}{6cc182f0b015ef95a3daff0b2c751839}
-      \strng{authorfullhashraw}{6cc182f0b015ef95a3daff0b2c751839}
-      \field{sortinit}{G}
-      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Scientific Reports}
-      \field{number}{1}
-      \field{title}{Optimal scheduling of solar powered EV charging stations in a radial distribution network using equilibrium optimizer}
-      \field{volume}{14}
-      \field{year}{2024}
-      \field{pages}{4499}
-      \range{pages}{1}
-      \verb{doi}
-      \verb 10.1038/s41598-024-54985-w
-      \endverb
-    \endentry
-    \entry{haarnoja2018soft}{article}{}{}
+    \entry{haarnoja2018soft}{inproceedings}{}{}
       \name{author}{4}{}{%
         {{un=0,uniquepart=base,hash=45b14f55dd7ae28cb6cb2e23e4a168b9}{%
            family={Haarnoja},
@@ -542,12 +533,12 @@
            given={Vinay},
            giveni={V\bibinitperiod},
            givenun=1}}%
-        {{un=1,uniquepart=given,hash=761b8eb7a84cb04f1d22257765e0724d}{%
+        {{un=0,uniquepart=base,hash=761b8eb7a84cb04f1d22257765e0724d}{%
            family={Singh},
            familyi={S\bibinitperiod},
            given={Surender},
            giveni={S\bibinitperiod},
-           givenun=1}}%
+           givenun=0}}%
         {{un=1,uniquepart=given,hash=ca8f4119a21580b01c28dd3bee5363c8}{%
            family={Kumar},
            familyi={K\bibinitperiod},
@@ -581,6 +572,56 @@
       \verb{doi}
       \verb 10.3389/fenrg.2024.1357863
       \endverb
+    \endentry
+    \entry{kuznetsov2020controlling}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=4ee684bb358390206fa0ba3f1ae455bb}{%
+           family={Kuznetsov},
+           familyi={K\bibinitperiod},
+           given={Anton},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0194d68efbf4085579e80a4b8e558b7f}{%
+           family={Shvechikov},
+           familyi={S\bibinitperiod},
+           given={Pavel},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=59929908fd5827c99e14ddf49ea96c79}{%
+           family={Grishin},
+           familyi={G\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f1c8fe7ad4d22499bdaaa3917e11783d}{%
+           family={Vetrov},
+           familyi={V\bibinitperiod},
+           given={Dmitry},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{organization}{1}{%
+        {PMLR}%
+      }
+      \strng{namehash}{c6d1d61934dac89ab125b6e5fa0f84e7}
+      \strng{fullhash}{ce4dbb9fc2d61d775ae27775dc82eff6}
+      \strng{fullhashraw}{ce4dbb9fc2d61d775ae27775dc82eff6}
+      \strng{bibnamehash}{c6d1d61934dac89ab125b6e5fa0f84e7}
+      \strng{authorbibnamehash}{c6d1d61934dac89ab125b6e5fa0f84e7}
+      \strng{authornamehash}{c6d1d61934dac89ab125b6e5fa0f84e7}
+      \strng{authorfullhash}{ce4dbb9fc2d61d775ae27775dc82eff6}
+      \strng{authorfullhashraw}{ce4dbb9fc2d61d775ae27775dc82eff6}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International Conference on Machine Learning}
+      \field{title}{Controlling overestimation bias with truncated quantile critics}
+      \field{year}{2020}
+      \field{pages}{5528\bibrangedash 5538}
+      \range{pages}{11}
     \endentry
     \entry{lillicrap2015continuous}{article}{}{}
       \name{author}{8}{}{%
@@ -750,6 +791,46 @@
       \field{pages}{111589}
       \range{pages}{1}
     \endentry
+    \entry{mania2018simple}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=c9a92d36b8abe1d608f3669f77008540}{%
+           family={Mania},
+           familyi={M\bibinitperiod},
+           given={Horia},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8bc2c63cf1c4c6e9e4d317839dda4de2}{%
+           family={Guy},
+           familyi={G\bibinitperiod},
+           given={Aurelia},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3503059e1c0c778913607c87d8c5173a}{%
+           family={Recht},
+           familyi={R\bibinitperiod},
+           given={Benjamin},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4671a6a5c43e8f8468962c189b1745f5}
+      \strng{fullhash}{4671a6a5c43e8f8468962c189b1745f5}
+      \strng{fullhashraw}{4671a6a5c43e8f8468962c189b1745f5}
+      \strng{bibnamehash}{4671a6a5c43e8f8468962c189b1745f5}
+      \strng{authorbibnamehash}{4671a6a5c43e8f8468962c189b1745f5}
+      \strng{authornamehash}{4671a6a5c43e8f8468962c189b1745f5}
+      \strng{authorfullhash}{4671a6a5c43e8f8468962c189b1745f5}
+      \strng{authorfullhashraw}{4671a6a5c43e8f8468962c189b1745f5}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in neural information processing systems}
+      \field{title}{Simple random search of static linear policies is competitive for reinforcement learning}
+      \field{volume}{31}
+      \field{year}{2018}
+    \endentry
     \entry{minchala2025systematic}{article}{}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=712d1c47dde35ba674567361d1f4a659}{%
@@ -798,6 +879,80 @@
       \verb{doi}
       \verb 10.3390/modelling6010020
       \endverb
+    \endentry
+    \entry{mnih2016asynchronous}{inproceedings}{}{}
+      \name{author}{8}{}{%
+        {{un=0,uniquepart=base,hash=f7d23cfe4ca0e6bf7a8c251bfa78aca6}{%
+           family={Mnih},
+           familyi={M\bibinitperiod},
+           given={Volodymyr},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3aa2033b86ba7b0b9e3b30102cdf745c}{%
+           family={Badia},
+           familyi={B\bibinitperiod},
+           given={Adria\bibnamedelima Puigdomenech},
+           giveni={A\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9e80f4779b032f68a6106e1424345450}{%
+           family={Mirza},
+           familyi={M\bibinitperiod},
+           given={Mehdi},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dfca94b0427da7f9088af596e23b46c0}{%
+           family={Graves},
+           familyi={G\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3a6fdf4df9a25f1d2d506ad9e86e1f6c}{%
+           family={Lillicrap},
+           familyi={L\bibinitperiod},
+           given={Timothy},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b63b9b2d91f6ba1b1739563edc0432ab}{%
+           family={Harley},
+           familyi={H\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=89dbd30410c2085cd059f32c57d4593e}{%
+           family={Silver},
+           familyi={S\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=481308b301166b521c74fde6566e97e6}{%
+           family={Kavukcuoglu},
+           familyi={K\bibinitperiod},
+           given={Koray},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{organization}{1}{%
+        {PMLR}%
+      }
+      \strng{namehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{fullhash}{3c9ce48a826d675e6366b9844d39a485}
+      \strng{fullhashraw}{3c9ce48a826d675e6366b9844d39a485}
+      \strng{bibnamehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{authorbibnamehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{authornamehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{authorfullhash}{3c9ce48a826d675e6366b9844d39a485}
+      \strng{authorfullhashraw}{3c9ce48a826d675e6366b9844d39a485}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International conference on machine learning}
+      \field{title}{Asynchronous methods for deep reinforcement learning}
+      \field{year}{2016}
+      \field{pages}{1928\bibrangedash 1937}
+      \range{pages}{10}
     \endentry
     \entry{ng1999policy}{article}{}{}
       \name{author}{3}{}{%
@@ -909,8 +1064,8 @@
            given={Christian},
            giveni={C\bibinitperiod},
            givenun=0}}%
-        {{un=0,uniquepart=base,hash=49ee67e2ca249866ec9209971cd7f913}{%
-           family={Y{ı}lmaz},
+        {{un=0,uniquepart=base,hash=b7474f519efb34cfd85deeac8895fd85}{%
+           family={Yïlmaz},
            familyi={Y\bibinitperiod},
            given={Yasin\bibnamedelima Emir},
            giveni={Y\bibinitperiod\bibinitdelim E\bibinitperiod},
@@ -928,14 +1083,14 @@
            giveni={P\bibinitperiod\bibinitdelim P\bibinitperiod},
            givenun=0}}%
       }
-      \strng{namehash}{2bbc0554613d13f17efe8295b7c685e1}
-      \strng{fullhash}{3623b428c1144f2ff8836c96c00dc13f}
-      \strng{fullhashraw}{3623b428c1144f2ff8836c96c00dc13f}
-      \strng{bibnamehash}{2bbc0554613d13f17efe8295b7c685e1}
-      \strng{authorbibnamehash}{2bbc0554613d13f17efe8295b7c685e1}
-      \strng{authornamehash}{2bbc0554613d13f17efe8295b7c685e1}
-      \strng{authorfullhash}{3623b428c1144f2ff8836c96c00dc13f}
-      \strng{authorfullhashraw}{3623b428c1144f2ff8836c96c00dc13f}
+      \strng{namehash}{e59bd4ab4b9eb8affb93d46b894d10eb}
+      \strng{fullhash}{19d7db048839c8c66f592cb29d1e13a1}
+      \strng{fullhashraw}{19d7db048839c8c66f592cb29d1e13a1}
+      \strng{bibnamehash}{e59bd4ab4b9eb8affb93d46b894d10eb}
+      \strng{authorbibnamehash}{e59bd4ab4b9eb8affb93d46b894d10eb}
+      \strng{authornamehash}{e59bd4ab4b9eb8affb93d46b894d10eb}
+      \strng{authorfullhash}{19d7db048839c8c66f592cb29d1e13a1}
+      \strng{authorfullhashraw}{19d7db048839c8c66f592cb29d1e13a1}
       \field{sortinit}{O}
       \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
       \field{extradatescope}{labelyear}
@@ -950,107 +1105,73 @@
       \endverb
     \endentry
     \entry{sadeghi2021deep}{article}{}{}
-      \name{author}{4}{}{%
-        {{un=0,uniquepart=base,hash=94f5ce4830902da219939ab235994d60}{%
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=94431bee23052575b8278a4430ad39c6}{%
            family={Sadeghi},
-           familyi={S\bibinitperiod},
-           given={Alireza},
-           giveni={A\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=9701db272829fd5a8a601c73f2312a93}{%
-           family={Sadeghi},
-           familyi={S\bibinitperiod},
-           given={Seyedamirabbas},
-           giveni={S\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=3bd4400129463277bb17f358382a72a7}{%
-           family={Gündüz},
-           familyi={G\bibinitperiod},
-           given={Deniz},
-           giveni={D\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=de7b0e512fcdd087f5750837f7c7cb9f}{%
-           family={Poor},
-           familyi={P\bibinitperiod},
-           given={H\bibnamedelima Vincent},
-           giveni={H\bibinitperiod\bibinitdelim V\bibinitperiod},
-           givenun=0}}%
+           familyi={S\bibinitperiod}}}%
       }
-      \list{publisher}{1}{%
-        {IEEE}%
-      }
-      \strng{namehash}{73e5d7966e54f2ffc9d54ce4bc8d43af}
-      \strng{fullhash}{9faae39d0206cb2bcfaf5a2984d7bdd2}
-      \strng{fullhashraw}{9faae39d0206cb2bcfaf5a2984d7bdd2}
-      \strng{bibnamehash}{73e5d7966e54f2ffc9d54ce4bc8d43af}
-      \strng{authorbibnamehash}{73e5d7966e54f2ffc9d54ce4bc8d43af}
-      \strng{authornamehash}{73e5d7966e54f2ffc9d54ce4bc8d43af}
-      \strng{authorfullhash}{9faae39d0206cb2bcfaf5a2984d7bdd2}
-      \strng{authorfullhashraw}{9faae39d0206cb2bcfaf5a2984d7bdd2}
+      \strng{namehash}{94431bee23052575b8278a4430ad39c6}
+      \strng{fullhash}{94431bee23052575b8278a4430ad39c6}
+      \strng{fullhashraw}{94431bee23052575b8278a4430ad39c6}
+      \strng{bibnamehash}{94431bee23052575b8278a4430ad39c6}
+      \strng{authorbibnamehash}{94431bee23052575b8278a4430ad39c6}
+      \strng{authornamehash}{94431bee23052575b8278a4430ad39c6}
+      \strng{authorfullhash}{94431bee23052575b8278a4430ad39c6}
+      \strng{authorfullhashraw}{94431bee23052575b8278a4430ad39c6}
       \field{sortinit}{S}
       \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{IEEE Transactions on Smart Grid}
-      \field{number}{6}
-      \field{title}{Deep reinforcement learning for frequency control in power grids with V2G}
-      \field{volume}{12}
+      \field{journaltitle}{Université d'Ottawa / University of Ottawa}
+      \field{title}{Cost and Power Loss Aware Coalitions under Uncertainty in Transactive Energy Systems}
       \field{year}{2021}
-      \field{pages}{5338\bibrangedash 5348}
-      \range{pages}{11}
     \endentry
     \entry{salvatti2020electric}{article}{}{}
       \name{author}{5}{}{%
-        {{un=0,uniquepart=base,hash=81081c8e1cb7d1cfe928a33b92a8adb4}{%
+        {{un=0,uniquepart=base,hash=90623bca7218c11dfb0ac81fa3307f6e}{%
            family={Salvatti},
            familyi={S\bibinitperiod},
-           given={Gean\bibnamedelima A},
+           given={Gabriel\bibnamedelima Antonio},
            giveni={G\bibinitperiod\bibinitdelim A\bibinitperiod},
            givenun=0}}%
-        {{un=0,uniquepart=base,hash=71776ab18c55171993408631a279d728}{%
+        {{un=0,uniquepart=base,hash=df3fbfbf0eaa97746953908c282b93e6}{%
            family={Carati},
            familyi={C\bibinitperiod},
-           given={Edevar\bibnamedelima G},
+           given={Emerson\bibnamedelima Giovani},
            giveni={E\bibinitperiod\bibinitdelim G\bibinitperiod},
            givenun=0}}%
-        {{un=0,uniquepart=base,hash=bf8134b9b19c8566d51efddda50ab072}{%
+        {{un=0,uniquepart=base,hash=95bf0d03fcd9e180864e13d89bf98e0a}{%
            family={Cardoso},
            familyi={C\bibinitperiod},
-           given={Ricardo},
+           given={Rafael},
            giveni={R\bibinitperiod},
            givenun=0}}%
-        {{un=0,uniquepart=base,hash=6635c7e79cb496310c7644516d9fa8d9}{%
+        {{un=0,uniquepart=base,hash=68c36495ab198dcdaba16b35d034604c}{%
            family={Costa},
            familyi={C\bibinitperiod},
-           given={João\bibnamedelimb Paulo\bibnamedelima C},
-           giveni={J\bibinitperiod\bibinitdelim P\bibinitperiod\bibinitdelim C\bibinitperiod},
+           given={Jean\bibnamedelima Patric},
+           giveni={J\bibinitperiod\bibinitdelim P\bibinitperiod},
            givenun=0,
            prefix={da},
            prefixi={d\bibinitperiod},
            prefixun=0}}%
-        {{un=0,uniquepart=base,hash=47e8d1ca73157ef1a4a8b55c9431ba4b}{%
-           family={Oliveira\bibnamedelima Stein},
-           familyi={O\bibinitperiod\bibinitdelim S\bibinitperiod},
-           given={César\bibnamedelima M},
-           giveni={C\bibinitperiod\bibinitdelim M\bibinitperiod},
-           givenun=0,
-           prefix={de},
-           prefixi={d\bibinitperiod},
-           prefixun=0}}%
+        {{un=0,uniquepart=base,hash=2bdf6bdda27376ee4ee1a72091ea7ea0}{%
+           family={Stein},
+           familyi={S\bibinitperiod},
+           given={Carlos\bibnamedelimb Marcelo\bibnamedelimb de\bibnamedelima Oliveira},
+           giveni={C\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim d\bibinitperiod\bibinitdelim O\bibinitperiod},
+           givenun=0}}%
       }
-      \list{publisher}{1}{%
-        {MDPI}%
-      }
-      \strng{namehash}{8b3a49dc24ecc2f39a36744b95cf1ddb}
-      \strng{fullhash}{0782d014786516a0263ea3f25d30edf9}
-      \strng{fullhashraw}{0782d014786516a0263ea3f25d30edf9}
-      \strng{bibnamehash}{8b3a49dc24ecc2f39a36744b95cf1ddb}
-      \strng{authorbibnamehash}{8b3a49dc24ecc2f39a36744b95cf1ddb}
-      \strng{authornamehash}{8b3a49dc24ecc2f39a36744b95cf1ddb}
-      \strng{authorfullhash}{0782d014786516a0263ea3f25d30edf9}
-      \strng{authorfullhashraw}{0782d014786516a0263ea3f25d30edf9}
+      \strng{namehash}{571a5c4d8440be4521dab63f370f7502}
+      \strng{fullhash}{a2d148e4ec4d45f76c9bcfbc1d10c3ad}
+      \strng{fullhashraw}{a2d148e4ec4d45f76c9bcfbc1d10c3ad}
+      \strng{bibnamehash}{571a5c4d8440be4521dab63f370f7502}
+      \strng{authorbibnamehash}{571a5c4d8440be4521dab63f370f7502}
+      \strng{authornamehash}{571a5c4d8440be4521dab63f370f7502}
+      \strng{authorfullhash}{a2d148e4ec4d45f76c9bcfbc1d10c3ad}
+      \strng{authorfullhashraw}{a2d148e4ec4d45f76c9bcfbc1d10c3ad}
       \field{sortinit}{S}
       \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
       \field{extradatescope}{labelyear}
@@ -1059,7 +1180,7 @@
       \field{labeltitlesource}{title}
       \field{journaltitle}{Energies}
       \field{number}{5}
-      \field{title}{Electric vehicles energy management with V2G/G2V multifactor optimization of smart grids}
+      \field{title}{Electric Vehicles Energy Management with V2G/G2V Multifactor Optimization of Smart Grids}
       \field{volume}{13}
       \field{year}{2020}
       \field{pages}{1191}
@@ -1067,6 +1188,161 @@
       \verb{doi}
       \verb 10.3390/en13051191
       \endverb
+    \endentry
+    \entry{schaul2015prioritized}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=a56e72b23778a835bdade7d0511e43a3}{%
+           family={Schaul},
+           familyi={S\bibinitperiod},
+           given={Tom},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d1c6b8444cb95e400ca38d5ae5c5afd3}{%
+           family={Quan},
+           familyi={Q\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=af540e84ef1ecdaa70b1f7c90f59fd7d}{%
+           family={Antonoglou},
+           familyi={A\bibinitperiod},
+           given={Ioannis},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=89dbd30410c2085cd059f32c57d4593e}{%
+           family={Silver},
+           familyi={S\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{04a0db021533adedf96ff47bc975d01a}
+      \strng{fullhash}{cf83dab6b2af35a31aaeaaf1c6f70196}
+      \strng{fullhashraw}{cf83dab6b2af35a31aaeaaf1c6f70196}
+      \strng{bibnamehash}{04a0db021533adedf96ff47bc975d01a}
+      \strng{authorbibnamehash}{04a0db021533adedf96ff47bc975d01a}
+      \strng{authornamehash}{04a0db021533adedf96ff47bc975d01a}
+      \strng{authorfullhash}{cf83dab6b2af35a31aaeaaf1c6f70196}
+      \strng{authorfullhashraw}{cf83dab6b2af35a31aaeaaf1c6f70196}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1511.05952}
+      \field{title}{Prioritized experience replay}
+      \field{year}{2015}
+      \verb{doi}
+      \verb 10.48550/arXiv.1511.05952
+      \endverb
+    \endentry
+    \entry{schulman2015trust}{inproceedings}{}{}
+      \name{author}{5}{ul=2}{%
+        {{un=0,uniquepart=base,hash=3e09bd2a25d237ebdaed560a07c0451e}{%
+           family={Schulman},
+           familyi={S\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c9545da54b33744da25943cdf66eadac}{%
+           family={Levine},
+           familyi={L\bibinitperiod},
+           given={Sergey},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e28d4ee199593959d8c29980a64f1974}{%
+           family={Abbeel},
+           familyi={A\bibinitperiod},
+           given={Pieter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5010abb47d34a51acdafb266a811dc5f}{%
+           family={Jordan},
+           familyi={J\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a901fd78fe1108cfa7d11129644967c7}{%
+           family={Moritz},
+           familyi={M\bibinitperiod},
+           given={Philipp},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{organization}{1}{%
+        {PMLR}%
+      }
+      \strng{namehash}{4290bc9e05fb16d946cdb7a6a222296e}
+      \strng{fullhash}{4dd71bd159aa7e980fe73c614ae2e339}
+      \strng{fullhashraw}{4dd71bd159aa7e980fe73c614ae2e339}
+      \strng{bibnamehash}{4290bc9e05fb16d946cdb7a6a222296e}
+      \strng{authorbibnamehash}{4290bc9e05fb16d946cdb7a6a222296e}
+      \strng{authornamehash}{4290bc9e05fb16d946cdb7a6a222296e}
+      \strng{authorfullhash}{4dd71bd159aa7e980fe73c614ae2e339}
+      \strng{authorfullhashraw}{4dd71bd159aa7e980fe73c614ae2e339}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International conference on machine learning}
+      \field{title}{Trust region policy optimization}
+      \field{year}{2015}
+      \field{pages}{1889\bibrangedash 1897}
+      \range{pages}{9}
+    \endentry
+    \entry{schulman2017proximal}{article}{}{}
+      \name{author}{5}{ul=2}{%
+        {{un=0,uniquepart=base,hash=3e09bd2a25d237ebdaed560a07c0451e}{%
+           family={Schulman},
+           familyi={S\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=674ede0b9cd02a2bf5fc662972efb9f0}{%
+           family={Wolski},
+           familyi={W\bibinitperiod},
+           given={Filip},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4164e43d8cf919f5e3f8d80f5ea23f36}{%
+           family={Dhariwal},
+           familyi={D\bibinitperiod},
+           given={Prafulla},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a812c46caad94fc8701be37871f303ba}{%
+           family={Radford},
+           familyi={R\bibinitperiod},
+           given={Alec},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=be38507da6ab98e7ac01ac2c6b7e13eb}{%
+           family={Klimov},
+           familyi={K\bibinitperiod},
+           given={Oleg},
+           giveni={O\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{f85997ca29b89a9a0cc61ebadb2cd7fe}
+      \strng{fullhash}{a6c6ed5a5aeb74e536f16291276ae392}
+      \strng{fullhashraw}{a6c6ed5a5aeb74e536f16291276ae392}
+      \strng{bibnamehash}{f85997ca29b89a9a0cc61ebadb2cd7fe}
+      \strng{authorbibnamehash}{f85997ca29b89a9a0cc61ebadb2cd7fe}
+      \strng{authornamehash}{f85997ca29b89a9a0cc61ebadb2cd7fe}
+      \strng{authorfullhash}{a6c6ed5a5aeb74e536f16291276ae392}
+      \strng{authorfullhashraw}{a6c6ed5a5aeb74e536f16291276ae392}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1707.06347}
+      \field{title}{Proximal policy optimization algorithms}
+      \field{year}{2017}
     \endentry
     \entry{schwenk2022computationally}{article}{}{}
       \name{author}{4}{}{%
@@ -1171,29 +1447,90 @@
       \verb 10.1016/j.egyr.2023.07.039
       \endverb
     \endentry
-    \entry{RED_III_directive_2023}{misc}{}{}
-      \name{author}{1}{}{%
-        {{un=0,uniquepart=base,hash=5384e86affa2f2dc807028dcafdd86b2}{%
-           family={{The European Parliament and the Council of the European Union}},
-           familyi={T\bibinitperiod}}}%
+    \entry{vetter2005ageing}{article}{}{}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=a2665767d55223ee5cf2eff7ee6f4862}{%
+           family={Vetter},
+           familyi={V\bibinitperiod},
+           given={Joachim},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f54b967f0db1413a2c5c57edc9eede3e}{%
+           family={Novák},
+           familyi={N\bibinitperiod},
+           given={Pavel},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1fff559e68cb4ef206b1856b8dc1808d}{%
+           family={Wagner},
+           familyi={W\bibinitperiod},
+           given={Michael\bibnamedelima R},
+           giveni={M\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7af3d3c475f64ac4c1cf6bb7d895a511}{%
+           family={Veit},
+           familyi={V\bibinitperiod},
+           given={Christoph},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b6c84540da003159bbd2ce07fa44ab11}{%
+           family={Móller},
+           familyi={M\bibinitperiod},
+           given={Kerstin\bibnamedelima C},
+           giveni={K\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1b54abb6f274df85943a7694c1c1a84f}{%
+           family={Besenhard},
+           familyi={B\bibinitperiod},
+           given={Jórg\bibnamedelima O},
+           giveni={J\bibinitperiod\bibinitdelim O\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6745b89c8db7d66948e0d5836a11b4e4}{%
+           family={Winter},
+           familyi={W\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=30402561ec25e9ec16b0ba459264d8c2}{%
+           family={Wohlfahrt-Mehrens},
+           familyi={W\bibinithyphendelim M\bibinitperiod},
+           given={Margret},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=20d02920ca5027c95937340ddfc74a0f}{%
+           family={Vogler},
+           familyi={V\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8acef9c2f79cfb9ce7da7799c122124f}{%
+           family={Hammouche},
+           familyi={H\bibinitperiod},
+           given={Adnan},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
       }
-      \strng{namehash}{5384e86affa2f2dc807028dcafdd86b2}
-      \strng{fullhash}{5384e86affa2f2dc807028dcafdd86b2}
-      \strng{fullhashraw}{5384e86affa2f2dc807028dcafdd86b2}
-      \strng{bibnamehash}{5384e86affa2f2dc807028dcafdd86b2}
-      \strng{authorbibnamehash}{5384e86affa2f2dc807028dcafdd86b2}
-      \strng{authornamehash}{5384e86affa2f2dc807028dcafdd86b2}
-      \strng{authorfullhash}{5384e86affa2f2dc807028dcafdd86b2}
-      \strng{authorfullhashraw}{5384e86affa2f2dc807028dcafdd86b2}
-      \field{sortinit}{T}
-      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \strng{namehash}{2504a6419c68cebec8220c1f40b72512}
+      \strng{fullhash}{018846f7031898b89f8db48717672be5}
+      \strng{fullhashraw}{018846f7031898b89f8db48717672be5}
+      \strng{bibnamehash}{2504a6419c68cebec8220c1f40b72512}
+      \strng{authorbibnamehash}{2504a6419c68cebec8220c1f40b72512}
+      \strng{authornamehash}{2504a6419c68cebec8220c1f40b72512}
+      \strng{authorfullhash}{018846f7031898b89f8db48717672be5}
+      \strng{authorfullhashraw}{018846f7031898b89f8db48717672be5}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{note}{Official Journal of the European Union, L 2413}
-      \field{title}{Directive (EU) 2023/2413 of the European Parliament and of the Council of 18 October 2023 amending Directive (EU) 2018/2001 as regards the promotion of energy from renewable sources}
-      \field{year}{2023}
+      \field{journaltitle}{Journal of Power Sources}
+      \field{number}{1--2}
+      \field{title}{Ageing mechanisms in lithium-ion batteries}
+      \field{volume}{147}
+      \field{year}{2005}
+      \field{pages}{269\bibrangedash 281}
+      \range{pages}{13}
     \endentry
     \entry{wan2022dynamic}{article}{}{}
       \name{author}{4}{}{%
@@ -1298,57 +1635,39 @@
       \endverb
     \endentry
     \entry{zou2021deep}{article}{}{}
-      \name{author}{4}{}{%
-        {{un=0,uniquepart=base,hash=154cf5602d618da7d415b80365445d35}{%
-           family={Zou},
-           familyi={Z\bibinitperiod},
-           given={Yushi},
-           giveni={Y\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=4624a6bdc229727c62f10b07bf849351}{%
-           family={Yu},
-           familyi={Y\bibinitperiod},
-           given={James\bibnamedelima JQ},
-           giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=621013bf54d3546375ad71f17f020b5b}{%
-           family={Liu},
-           familyi={L\bibinitperiod},
-           given={Yang},
-           giveni={Y\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=f2a0a4f5a03bef37fc5552061319cb71}{%
-           family={Liu},
-           familyi={L\bibinitperiod},
-           given={Jun},
-           giveni={J\bibinitperiod},
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=608dfbf16564182e3b86a60a58c625fa}{%
+           family={Xie},
+           familyi={X\bibinitperiod},
+           given={Hongbin},
+           giveni={H\bibinitperiod},
            givenun=0}}%
       }
-      \list{publisher}{1}{%
-        {Elsevier}%
-      }
-      \strng{namehash}{32e4f7ce1c7a8e85b7b4e94eff2aa195}
-      \strng{fullhash}{ce7811b152a57c1790b3ca27360be2c9}
-      \strng{fullhashraw}{ce7811b152a57c1790b3ca27360be2c9}
-      \strng{bibnamehash}{32e4f7ce1c7a8e85b7b4e94eff2aa195}
-      \strng{authorbibnamehash}{32e4f7ce1c7a8e85b7b4e94eff2aa195}
-      \strng{authornamehash}{32e4f7ce1c7a8e85b7b4e94eff2aa195}
-      \strng{authorfullhash}{ce7811b152a57c1790b3ca27360be2c9}
-      \strng{authorfullhashraw}{ce7811b152a57c1790b3ca27360be2c9}
-      \field{sortinit}{Z}
-      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \strng{namehash}{608dfbf16564182e3b86a60a58c625fa}
+      \strng{fullhash}{608dfbf16564182e3b86a60a58c625fa}
+      \strng{fullhashraw}{608dfbf16564182e3b86a60a58c625fa}
+      \strng{bibnamehash}{608dfbf16564182e3b86a60a58c625fa}
+      \strng{authorbibnamehash}{608dfbf16564182e3b86a60a58c625fa}
+      \strng{authornamehash}{608dfbf16564182e3b86a60a58c625fa}
+      \strng{authorfullhash}{608dfbf16564182e3b86a60a58c625fa}
+      \strng{authorfullhashraw}{608dfbf16564182e3b86a60a58c625fa}
+      \field{sortinit}{X}
+      \field{sortinithash}{1965c258adceecf23ce3d67b05113442}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Energy and AI}
-      \field{title}{A deep reinforcement learning approach for EV charging and V2G discharging scheduling}
-      \field{volume}{5}
+      \field{journaltitle}{Advances in Applied Energy}
+      \field{title}{Deep reinforcement learning-based control strategies for electric vehicle charging and V2G services}
       \field{year}{2021}
-      \field{pages}{100081}
-      \range{pages}{1}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.adapen.2025.100214
+      \endverb
     \endentry
   \enddatalist
+  \missing{blomgren2017development}
+  \missing{plett2015battery}
+  \missing{wang2012thermal}
 \endrefsection
 \endinput
 

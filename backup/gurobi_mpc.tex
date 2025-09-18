@@ -1,0 +1,65 @@
+\newpage
+\section{Model Predictive Control (MPC)}
+The MPC, implemented in \texttt{mpc.py} and \texttt{eMPC.py}, solves an optimization problem at every time step over a prediction horizon $H$.
+
+\subsection{System Model}
+The system is modeled in linear state-space form. The state $\mathbf{x}_k \in \mathbb{R}^N$ is the vector of SoCs of all EVs at time $k$. The input $\mathbf{u}_k \in \mathbb{R}^{2N}$ is the vector of charging and discharging powers.
+\[
+\mathbf{x}_{k+1} = A_k \mathbf{x}_k + B_k \mathbf{u}_k
+\]
+The matrices $A_k$ (\texttt{Amono}) and $B_k$ (\texttt{Bmono}) are time-varying because they depend on which EVs are connected. $A_k$ is typically a diagonal identity-like matrix modeling the persistence of EVs. $B_k$ maps power to SoC change, including efficiencies and $\Delta t$.
+
+\subsection{Optimization Problem}
+At time $t$, the MPC solves:
+\[
+\min_{\{\mathbf{u}_k\}_{k=t}^{t+H-1}} \sum_{k=t}^{t+H-1} \mathbf{f}_k^T \mathbf{u}_k
+\]
+subject to:
+\begin{align*}
+    & \mathbf{x}_{k+1} = A_k \mathbf{x}_k + B_k \mathbf{u}_k, \quad \forall k \in [t, t+H-1] & \text{(Dynamics)} \\
+    & \mathbf{x}^{\text{min}}_k \le \mathbf{x}_k \le \mathbf{x}^{\text{max}}_k & \text{(SoC limits)} \\
+    & \mathbf{0} \le \mathbf{u}^{\text{ch}}_k \le \mathbf{u}^{\text{ch,max}}_k \cdot \mathbf{z}_k & \text{(Charge limits)} \\
+    & \mathbf{0} \le \mathbf{u}^{\text{dis}}_k \le \mathbf{u}^{\text{dis,max}}_k \cdot (1 - \mathbf{z}_k) & \text{(Discharge limits)} \\
+    & \sum_{i \in \text{CS}_j} (u^{\text{ch}}_i - u^{\text{dis}}_i) + L_j(k) - PV_j(k) \le P_j^{\text{tr,max}}(k) & \text{(Transformer limits)}
+\end{align*}
+where $\mathbf{z}_k$ is a vector of binary variables to prevent simultaneous charge and discharge. The cost vector $\mathbf{f}_k$ contains the energy prices. The code formulates this problem compactly as $\mathbf{AU} \le \mathbf{bU}$, where $\mathbf{U}$ is the vector of all actions over the horizon.
+
+\section{Offline Optimization with Gurobi}
+Gurobi is used to find the optimal offline (a posteriori) solution, providing a performance benchmark. The files \texttt{profit\_max.py} and \texttt{tracking\_error.py} define the optimization problem over the entire simulation horizon $T_{\text{sim}}$.
+
+\subsection{Decision Variables}
+\begin{itemize}
+    \item $E_{p,i,t}$: Energy in the EV at port $p$ of station $i$ at time $t$.
+    \item $I^{\text{ch}}_{p,i,t}, I^{\text{dis}}_{p,i,t}$: Charging/discharging currents.
+    \item $\omega^{\text{ch}}_{p,i,t}, \omega^{\text{dis}}_{p,i,t}$: Binary variables for operating modes.
+\end{itemize}
+
+\subsection{Objective Function (Example: Profit Maximization)}
+\[
+\max \sum_{t=0}^{T_{\text{sim}}} \sum_{i=1}^{N_{CS}} \sum_{p=1}^{N_p} \left( C_{\text{sell}}(t) P^{\text{dis}}_{p,i,t} - C_{\text{buy}}(t) P^{\text{ch}}_{p,i,t} \right) \Delta t - \lambda \sum_{k \in \text{EVs departed}} (E_k^{\text{des}} - E_k(t_k^{\text{dep}}))^2
+\]
+where $P = V \cdot I \cdot \eta$.
+
+\subsection{Main Constraints}
+\begin{itemize}
+    \item \textbf{Energy Balance:}
+    \[
+    E_{p,i,t} = E_{p,i,t-1} + (\eta_{\text{ch}} V_i I^{\text{ch}}_{p,i,t} - \frac{1}{\eta_{\text{dis}}} V_i I^{\text{dis}}_{p,i,t}) \Delta t
+    \]
+    \item \textbf{Activation of Current:}
+    \[
+    I^{\text{ch}}_{p,i,t} \le M \cdot \omega^{\text{ch}}_{p,i,t} \quad , \quad I^{\text{dis}}_{p,i,t} \le M \cdot \omega^{\text{dis}}_{p,i,t}
+    \]
+    \item \textbf{Mutual Exclusion:}
+    \[
+    \omega^{\text{ch}}_{p,i,t} + \omega^{\text{dis}}_{p,i,t} \le 1
+    \]
+    \item \textbf{Current and SoC Limits:}
+    \[
+    I^{\text{min}} \le I_{p,i,t} \le I^{\text{max}} \quad , \quad E^{\text{min}} \le E_{p,i,t} \le E^{\text{max}}
+    \]
+    \item \textbf{SoC at Departure:}
+    \[
+    E_{p,i}(t^{\text{dep}}) \ge E^{\text{des}}_{p,i}
+    \]
+\end{itemize}

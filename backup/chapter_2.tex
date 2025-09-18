@@ -1,7 +1,7 @@
 \chapter{State of the Art in Optimal V2G Management}
 
 \section{The V2G Imperative: A Cornerstone of Europe's Green Transition}
-Our society stands at a critical juncture, facing the twin revolutions of decarbonizing transport and transforming our energy systems. This is not merely an ambition but a legally binding mandate, enshrined in frameworks like the \textbf{European Green Deal} and its ambitious \textbf{"Fit for 55"} package \footcite{european_commission_2021_fit_for_55}. These policies impose a rapid phase-out of internal combustion engines and mandate a massive scale-up of renewable energy sources, as detailed in the revised Renewable Energy Directive (RED III). The proliferation of Electric Vehicles (EVs) sits squarely at the nexus of this challenge.
+Our society stands at a critical juncture, facing the twin revolutions of decarbonizing transport and transforming our energy systems. This is not merely an ambition but a legally binding mandate, enshrined in frameworks like the \textbf{European Green Deal} and its ambitious \textbf{"Fit for 55"} package \footcite{european_commission_2021_fit_for_55}. These policies impose a rapid phase-out of internal combustion engines and mandate a massive scale-up of renewable energy sources, as detailed in the revised Renewable Energy Directive (RED III) \footcite{RED_III_directive_2023}. The proliferation of Electric Vehicles (EVs) sits squarely at the nexus of this challenge.
 \\
 \noindent
 Initially viewed with apprehension—a looming threat of massive, synchronized loads poised to destabilize fragile distribution networks—that perception is now obsolete. Today, we must see EVs not as a problem, but as a foundational pillar of the solution. This paradigm shift is embodied in the concept of \textbf{Vehicle-to-Grid (V2G)}. V2G is the critical enabling technology that transforms millions of EVs from passive energy consumers into an active, distributed, and intelligent grid asset. The key lies hidden in plain sight: private vehicles remain parked and connected for an astonishing 96\% of their existence \footcite{evertsson2024investigating}, representing a potential of terawatt-hours of mobile storage waiting to be harnessed.
@@ -66,6 +66,8 @@ This architecture is particularly powerful for V2G because it can directly learn
 
 % ===================================================================
 % REWARD SHAPING SECTION
+% The detailed discussion on reward shaping techniques (PBRS, Dynamic,
+% Curriculum Learning) is now encapsulated in the external file.
 % ===================================================================
 \input{reward}
 
@@ -113,49 +115,6 @@ PPO achieves the stability benefits of TRPO using only first-order optimization,
 \paragraph{Augmented Random Search (ARS)}
 ARS is an on-policy, gradient-free method that optimizes the policy by operating directly in the parameter space\footcite{mania2018simple}. Instead of calculating gradients, it explores random directions around the current policy parameters and updates them based on the observed performance. While often much less sample-efficient than gradient-based methods for complex V2G problems, its simplicity can be competitive in certain scenarios.
 
-\section{The Model-Based Benchmark: Model Predictive Control (MPC)}
-While DRL offers a powerful model-free approach, it is essential to compare it against the most robust model-based paradigm: \textbf{Model Predictive Control (MPC)} \footcite{minchala2025systematic}. MPC is an advanced control method that utilizes an explicit model of the system to predict its future evolution and compute an optimal control sequence over a finite prediction horizon, $N$. Its primary strength lies in its inherent ability to handle complex dynamics and operational constraints proactively.
-
-\subsection{Implicit MPC: Online Optimization}
-The most common formulation of MPC is \textbf{Implicit MPC}, where a detailed optimization problem is solved online at each control step. For a linear time-invariant system, this problem is typically a Quadratic Program (QP).
-\\
-\noindent
-The controller's objective is to find a sequence of future control inputs $U = [u_{t|t}, ..., u_{t+N-1|t}]$ that minimizes a cost function $J$, which penalizes deviations from a desired state and the control effort itself.
-
-\begin{equation}
-\min_{U} J(x_t, U) = \sum_{k=0}^{N-1} (x_{t+k|t}^T Q x_{t+k|t} + u_{t+k|t}^T R u_{t+k|t}) + x_{t+N|t}^T P x_{t+N|t}
-\end{equation}
-where $x_{t+k|t}$ is the predicted state at future time $k$ based on information at current time $t$, and $Q$, $R$, and $P$ are weighting matrices.
-
-\noindent
-This optimization is subject to critical constraints that define the system's valid operating envelope:
-\begin{itemize}
-    \item \textbf{System Dynamics:} The model that predicts the next state.
-    \begin{equation}
-    x_{t+k+1|t} = A x_{t+k|t} + B u_{t+k|t}
-    \end{equation}
-    \item \textbf{State and Input Constraints:} Physical or operational limits.
-    \begin{gather}
-    x_{min} \le x_{t+k|t} \le x_{max} \\
-    u_{min} \le u_{t+k|t} \le u_{max}
-    \end{gather}
-\end{itemize}
-At each time step $t$, this problem is solved to find the optimal control sequence $U^*$. Only the first action, $u_{t|t}^*$, is applied to the system. The entire process is then repeated at the next time step, $t+1$, using new state measurements—a principle known as a \textit{receding horizon}. This constant re-evaluation gives MPC its feedback mechanism and robustness to disturbances.
-
-\subsection{Explicit MPC: Offline Pre-computation}
-For systems with fast dynamics or limited online computational power, \textbf{Explicit MPC} offers an alternative. In this paradigm, the optimization problem is solved offline for all possible states within the operating range using multi-parametric programming.
-\\
-\noindent
-The result is a pre-computed, explicit control law, $\pi(x_t)$, which is a \textbf{piecewise affine function} of the state vector $x_t$. The state space is partitioned into a set of distinct polyhedral regions, $\mathcal{X}_i$, each with its own corresponding optimal control law.
-\begin{equation}
-u^*(x_t) = F_i x_t + g_i \quad \text{if } x_t \in \mathcal{X}_i
-\end{equation}
-Here, $F_i$ is the gain matrix and $g_i$ is the offset for region $i$. The online operation is reduced to two simple steps:
-\begin{enumerate}
-    \item Identify which region $\mathcal{X}_i$ the current state $x_t$ belongs to (a fast lookup procedure).
-    \item Apply the corresponding pre-computed affine control law.
-\end{enumerate}
-This eliminates the need for a powerful online solver but comes at the cost of a potentially very high offline computation burden and significant memory requirements to store the lookup table of control laws.
 
 \section{A Comparative Perspective on Control Methodologies}
 While DRL represents the cutting edge, it is crucial to contextualize it within the broader landscape.
@@ -177,7 +136,7 @@ While DRL represents the cutting edge, it is crucial to contextualize it within 
 \textbf{Model Predictive Control (MPC)} is the most powerful model-based alternative \footcite{alsabbagh2022reinforcement}. Its primary strength is its ability to handle constraints. However, its performance is fundamentally shackled to the accuracy of its internal model and forecasts \footcite{faggio2023design}. In the V2G domain, creating an accurate model is nearly impossible due to non-linear battery dynamics, market volatility, and human unpredictability. Furthermore, solving the large-scale Mixed-Integer Linear Program (MILP) required at each time step becomes computationally intractable for large fleets \footcite{schwenk2022computationally}.
 \\
 \noindent
-Other methods, such as \textbf{meta-heuristic algorithms} (e.g., genetic algorithms), are typically used for offline scheduling and lack the real-time responsiveness required for dynamic V2G control \footcite{kumar2024integration}.
+Other methods, such as \textbf{meta-heuristic algorithms} (e.g., genetic algorithms), are typically used for offline scheduling and lack the real-time responsiveness required for dynamic V2G control \footcite{ghosh2024optimal, kumar2024integration}.
 \\
 \noindent
 In conclusion, the singular advantage of DRL is its inherent ability to learn and internalize the complex, non-linear trade-offs of the multi-objective V2G problem directly from data. This makes it uniquely suited to navigating the uncertainties of the real world. While other methods have their place, DRL stands out as the most promising technology for deploying the truly intelligent, autonomous, and robust V2G management systems required to achieve the ambitious energy and climate goals of the European Union.
@@ -260,6 +219,7 @@ The trade-offs between chemistries are summarized in Table \ref{tab:chem_compari
 \centering
 \caption{Comparative analysis of key automotive battery chemistries\footcite{blomgren2017development, wang2012thermal}.}
 \label{tab:chem_comparison_detailed}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lccccc@{}}
 \toprule
 \textbf{Metric} & \textbf{NCA} & \textbf{NMC} & \textbf{LFP} & \textbf{LTO} & \textbf{LCO} \\
@@ -269,7 +229,8 @@ The trade-offs between chemistries are summarized in Table \ref{tab:chem_compari
 \textbf{Safety} & Good & Very Good & Excellent & Excellent & Poor \\
 \textbf{Thermal Runaway Temp ($^{\circ}$C)} & $\sim$150 - 180 & $\sim$180 - 210 & $\sim$220 - 270 & >250 & $\sim$150 \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}
 
 \subsection{Battery Pack Architecture}

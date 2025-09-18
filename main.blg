@@ -1,29 +1,19 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
-[0] Config.pm:331> INFO - Logfile is 'main.blg'
-[98] biber-MSWIN64:342> INFO - === 
-[144] Biber.pm:421> INFO - Reading 'main.bcf'
-[254] Biber.pm:1002> INFO - Found 27 citekeys in bib section 0
-[265] Biber.pm:4487> INFO - Processing section 0
-[274] Biber.pm:4678> INFO - Looking for bibtex file 'references.bib' for section 0
-[381] bibtex.pm:1713> INFO - LaTeX decoding ...
-[452] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
-[633] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[638] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[640] Biber.pm:4307> INFO - Sorting list 'nyt/global//global/global/global' of type 'entry' with template 'nyt' and locale 'en-US'
-[641] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
-[671] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[690] bbl.pm:779> INFO - Output to main.bbl
-[692] Biber.pm:132> WARN - Duplicate entry key: 'evertsson2024investigating' in file 'references.bib', skipping ...
-[692] Biber.pm:132> WARN - Duplicate entry key: 'alfaverh2022optimal' in file 'references.bib', skipping ...
-[692] Biber.pm:132> WARN - Duplicate entry key: 'orfanoudakis2022deep' in file 'references.bib', skipping ...
-[694] Biber.pm:132> WARN - Duplicate entry key: 'khan2024review' in file 'references.bib', skipping ...
-[695] Biber.pm:132> WARN - Duplicate entry key: 'liu2023optimal' in file 'references.bib', skipping ...
-[696] Biber.pm:132> WARN - Duplicate entry key: 'wang2022multi' in file 'references.bib', skipping ...
-[696] Biber.pm:132> WARN - Duplicate entry key: 'alsabbagh2022reinforcement' in file 'references.bib', skipping ...
-[697] Biber.pm:132> WARN - Duplicate entry key: 'faggio2023design' in file 'references.bib', skipping ...
-[698] Biber.pm:132> WARN - Duplicate entry key: 'schwenk2022computationally' in file 'references.bib', skipping ...
-[699] Biber.pm:132> WARN - Duplicate entry key: 'ghosh2024optimal' in file 'references.bib', skipping ...
-[699] Biber.pm:132> WARN - Duplicate entry key: 'kumar2024integration' in file 'references.bib', skipping ...
-[699] Biber.pm:132> WARN - BibTeX subsystem: warning: comma(s) at end of name (removing)
-[700] Biber.pm:132> WARN - BibTeX subsystem: warning: comma(s) at end of name (removing)
-[700] Biber.pm:134> INFO - WARNINGS: 13
+[1] Config.pm:331> INFO - Logfile is 'main.blg'
+[109] biber-MSWIN64:342> INFO - === 
+[155] Biber.pm:421> INFO - Reading 'main.bcf'
+[257] Biber.pm:1002> INFO - Found 36 citekeys in bib section 0
+[272] Biber.pm:4487> INFO - Processing section 0
+[281] Biber.pm:4678> INFO - Looking for bibtex file 'references.bib' for section 0
+[394] bibtex.pm:1713> INFO - LaTeX decoding ...
+[453] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[672] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[672] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[673] Biber.pm:4307> INFO - Sorting list 'nyt/global//global/global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[673] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[706] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[731] bbl.pm:779> INFO - Output to main.bbl
+[732] Biber.pm:132> WARN - I didn't find a database entry for 'plett2015battery' (section 0)
+[732] Biber.pm:132> WARN - I didn't find a database entry for 'blomgren2017development' (section 0)
+[733] Biber.pm:132> WARN - I didn't find a database entry for 'wang2012thermal' (section 0)
+[733] Biber.pm:134> INFO - WARNINGS: 3

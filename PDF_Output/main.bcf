@@ -2377,42 +2377,54 @@
     <bcf:citekey order="1" intorder="1">orfanoudakis2022deep</bcf:citekey>
     <bcf:citekey order="2" intorder="1">orfanoudakis2022deep</bcf:citekey>
     <bcf:citekey order="2" intorder="2">salvatti2020electric</bcf:citekey>
-    <bcf:citekey order="3" intorder="1">alfaverh2022optimal</bcf:citekey>
+    <bcf:citekey order="3" intorder="1">alfaverh2022optima</bcf:citekey>
     <bcf:citekey order="4" intorder="1">evertsson2024investigating</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">alfaverh2022optimal</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">alfaverh2022optima</bcf:citekey>
     <bcf:citekey order="6" intorder="1">orfanoudakis2022deep</bcf:citekey>
     <bcf:citekey order="6" intorder="2">minchala2025systematic</bcf:citekey>
     <bcf:citekey order="7" intorder="1">alhmoud2024review</bcf:citekey>
     <bcf:citekey order="8" intorder="1">orfanoudakis2022deep</bcf:citekey>
     <bcf:citekey order="8" intorder="2">shibl2023electric</bcf:citekey>
     <bcf:citekey order="9" intorder="1">european_commission_2021_fit_for_55</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">RED_III_directive_2023</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">evertsson2024investigating</bcf:citekey>
-    <bcf:citekey order="12" intorder="1">alfaverh2022optimal</bcf:citekey>
-    <bcf:citekey order="12" intorder="2">sadeghi2021deep</bcf:citekey>
-    <bcf:citekey order="13" intorder="1">orfanoudakis2022deep</bcf:citekey>
-    <bcf:citekey order="14" intorder="1">khan2024review</bcf:citekey>
-    <bcf:citekey order="14" intorder="2">zou2021deep</bcf:citekey>
-    <bcf:citekey order="15" intorder="1">wan2022dynamic</bcf:citekey>
-    <bcf:citekey order="16" intorder="1">ng1999policy</bcf:citekey>
-    <bcf:citekey order="17" intorder="1">wan2022dynamic</bcf:citekey>
-    <bcf:citekey order="18" intorder="1">lillicrap2015continuous</bcf:citekey>
-    <bcf:citekey order="19" intorder="1">orfanoudakis2022deep</bcf:citekey>
-    <bcf:citekey order="19" intorder="2">alfaverh2022optimal</bcf:citekey>
-    <bcf:citekey order="20" intorder="1">fujimoto2018addressing</bcf:citekey>
-    <bcf:citekey order="21" intorder="1">liu2023optimal</bcf:citekey>
-    <bcf:citekey order="21" intorder="2">wang2022multi</bcf:citekey>
-    <bcf:citekey order="22" intorder="1">haarnoja2018soft</bcf:citekey>
-    <bcf:citekey order="23" intorder="1">logeshwaran2022comparative</bcf:citekey>
-    <bcf:citekey order="24" intorder="1">alsabbagh2022reinforcement</bcf:citekey>
-    <bcf:citekey order="25" intorder="1">faggio2023design</bcf:citekey>
-    <bcf:citekey order="26" intorder="1">schwenk2022computationally</bcf:citekey>
-    <bcf:citekey order="27" intorder="1">ghosh2024optimal</bcf:citekey>
-    <bcf:citekey order="27" intorder="2">kumar2024integration</bcf:citekey>
-    <bcf:citekey order="28" intorder="1">orfanoudakis2024ev2gym</bcf:citekey>
-    <bcf:citekey order="29" intorder="1">brockman2016openai</bcf:citekey>
-    <bcf:citekey order="30" intorder="1">orfanoudakis2024ev2gym</bcf:citekey>
-    <bcf:citekey order="31" intorder="1">orfanoudakis2024ev2gym</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">evertsson2024investigating</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">alfaverh2022optima</bcf:citekey>
+    <bcf:citekey order="11" intorder="2">sadeghi2021deep</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">orfanoudakis2022deep</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">khan2024review</bcf:citekey>
+    <bcf:citekey order="13" intorder="2">zou2021deep</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">wan2022dynamic</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">ng1999policy</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">wan2022dynamic</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">lillicrap2015continuous</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">orfanoudakis2022deep</bcf:citekey>
+    <bcf:citekey order="18" intorder="2">alfaverh2022optima</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">fujimoto2018addressing</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">liu2023optimal</bcf:citekey>
+    <bcf:citekey order="20" intorder="2">wang2022multi</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">haarnoja2018soft</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">logeshwaran2022comparative</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">kuznetsov2020controlling</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">schaul2015prioritized</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">mnih2016asynchronous</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">schulman2015trust</bcf:citekey>
+    <bcf:citekey order="27" intorder="1">schulman2017proximal</bcf:citekey>
+    <bcf:citekey order="28" intorder="1">mania2018simple</bcf:citekey>
+    <bcf:citekey order="29" intorder="1">minchala2025systematic</bcf:citekey>
+    <bcf:citekey order="30" intorder="1">alsabbagh2022reinforcement</bcf:citekey>
+    <bcf:citekey order="31" intorder="1">faggio2023design</bcf:citekey>
+    <bcf:citekey order="32" intorder="1">schwenk2022computationally</bcf:citekey>
+    <bcf:citekey order="33" intorder="1">kumar2024integration</bcf:citekey>
+    <bcf:citekey order="34" intorder="1">birkl2017degradation</bcf:citekey>
+    <bcf:citekey order="35" intorder="1">vetter2005ageing</bcf:citekey>
+    <bcf:citekey order="36" intorder="1">birkl2017degradation</bcf:citekey>
+    <bcf:citekey order="37" intorder="1">plett2015battery</bcf:citekey>
+    <bcf:citekey order="38" intorder="1">plett2015battery</bcf:citekey>
+    <bcf:citekey order="39" intorder="1">blomgren2017development</bcf:citekey>
+    <bcf:citekey order="39" intorder="2">wang2012thermal</bcf:citekey>
+    <bcf:citekey order="40" intorder="1">orfanoudakis2024ev2gym</bcf:citekey>
+    <bcf:citekey order="41" intorder="1">brockman2016openai</bcf:citekey>
+    <bcf:citekey order="42" intorder="1">orfanoudakis2024ev2gym</bcf:citekey>
+    <bcf:citekey order="43" intorder="1">orfanoudakis2024ev2gym</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">

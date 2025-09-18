@@ -1,31 +1,103 @@
-@article{orfanoudakis2022deep,
-  title={A Deep Reinforcement Learning-Based Charging Strategy for Electric Vehicles with V2G Services in a Volatile Market},
-  author={Orfanoudakis, Stylianos and Diaz-Londono, Christian and Yilmaz, Yasin Emir and Palensky, Peter and Vergara, Pedro P},
-  journal={arXiv preprint arXiv:2209.09772},
+%% =====================================================================
+%% A. Foundational Concepts & General Reviews
+%% =====================================================================
+%% This section includes broad review papers that provide a comprehensive overview of the V2G landscape,
+%% the role of AI, and the integration challenges with the smart grid.
+
+  %% A key review paper summarizing the state-of-the-art of Reinforcement Learning applications for V2G,
+  %% providing a strong foundation for the literature review chapter.
+@article{alsabbagh2022reinforcement,
+
+  title={Reinforcement learning for vehicle-to-grid: a review},
+  author={Alsabbagh, Mohamad and Siu, Wan-Chi},
+  journal={Journal of Energy Storage},
+  volume={53},
+  pages={105149},
   year={2022},
-  doi={10.48550/arXiv.2209.09772}
+  publisher={Elsevier},
+  doi={10.1016/j.est.2022.105149}
 }
 
-@article{wang2023deep,
-  title={Deep reinforcement learning for charging scheduling of electric vehicles considering distribution network voltage stability},
-  author={Wang, Sihan and Li, Jiaming and Wu, Lei and Li, Xiaopeng},
-  journal={Sensors},
-  volume={23},
-  number={3},
-  pages={1618},
-  year={2023},
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@article{sadeghi2021deep,
+  title={Cost and Power Loss Aware Coalitions under Uncertainty in Transactive Energy Systems},
+  author={Sadeghi},
+  journal={Université d'Ottawa / University of Ottawa},
+  year={2021}
+}
+
+
+@article{salvatti2020electric,
+  author = {Salvatti, Gabriel Antonio and Carati, Emerson Giovani and Cardoso, Rafael and da Costa, Jean Patric and Stein, Carlos Marcelo de Oliveira},
+  title = {Electric Vehicles Energy Management with V2G/G2V Multifactor Optimization of Smart Grids},
+  journal = {Energies},
+  volume = {13},
+  number = {5},
+  pages = {1191},
+  year = {2020},
+  doi = {10.3390/en13051191}
+}
+
+@article{zou2021deep,
+  title={Deep reinforcement learning-based control strategies for electric vehicle charging and V2G services},
+  author={Hongbin Xie},
+  journal={Advances in Applied Energy},
+  year={2021},
+  doi={https://doi.org/10.1016/j.adapen.2025.100214}
+}
+
+@article{ghosh2024optimal,
+  title={Optimal scheduling and control of V2G-enabled electric vehicles using advanced optimization and reinforcement learning techniques},
+  author={Yuxin Wen},
+  journal={sustainability},
+  year={2022}
+}
+%%%%%%%%%%%%%%%%%%%%%%%
+ %% A recent and comprehensive review on the evolution of smart grids and the application of RL,
+  %% covering applications, challenges, and future research directions.
+@article{alhmoud2024review,
+ 
+  title={A Review of Smart Grid Evolution and Reinforcement Learning: Applications, Challenges and Future Directions},
+  author={Al-HMOUD, Ghaith and Al-Raweshidy, Hamed},
+  journal={Energies},
+  volume={18},
+  number={7},
+  pages={1837},
+  year={2024},
   publisher={MDPI},
-  doi={10.3390/s23031618}
+  doi={10.3390/en18071837}
 }
-@article{brockman2016openai,
-  title={OpenAI Gym},
-  author={Brockman, Greg and Cheung, Vicki and Pettersson, Ludwig and Schneider, Jonas and Schulman, John and Tang, Jie and Zaremba, Wojciech},
-  journal={arXiv preprint arXiv:1606.01540},
-  year={2016},
-  doi={10.48550/arXiv.1606.01540}
-}
+  %% This review focuses specifically on the applications and control strategies for bidirectional charging,
+  %% which is central to the V2G concept explored in the thesis.
+@article{khan2024review,
 
+  title={A Review of Bidirectional Charging Grid Support Applications and Control},
+  author={Khan, Sheroz Ullah and Mehmood, Khalid Kamran and Haider, Zia Muhammad and Bukhari, Syed Sabir Hussain and Lee, Sang-Jun and Rafique, Muhammad Kashif and Kim, Chul-Hwan},
+  journal={Energies},
+  volume={17},
+  number={6},
+  pages={1320},
+  year={2024},
+  publisher={MDPI},
+  doi={10.3390/en17061320}
+}
+  %% A review focusing on the integration of EVs and renewable energy sources, highlighting the role of
+  %% metaheuristic algorithms for energy management between V2G and G2V.
+@article{kumar2024integration,
+
+  title={Integration of electric vehicle into smart grid: a meta heuristic algorithm for energy management between V2G and G2V},
+  author={Kumar, Vinay and Singh, Surender and Kumar, Dinesh},
+  journal={Frontiers in Energy Research},
+  volume={12},
+  pages={1357863},
+  year={2024},
+  publisher={Frontiers Media SA},
+  doi={10.3389/fenrg.2024.1357863}
+}
+  %% An early, influential work detailing the potential of V2G for providing key grid services
+  %% like frequency regulation and peak shaving, establishing the economic and technical rationale.
 @article{white2011vehicle,
+
   title={Vehicle-to-grid technology for frequency regulation and peak shaving},
   author={White, C. David and Zhang, Willett Kempton},
   journal={Journal of Power Sources},
@@ -38,9 +110,33 @@
 }
 
 
-@article{alfaverh2022optimal,
+%% =====================================================================
+%% B. Core Methodologies: Reinforcement Learning in V2G
+%% =====================================================================
+%% This section contains papers that directly apply Deep Reinforcement Learning (DRL)
+%% to the problem of EV charging and V2G management.
+
+
+  %% A core paper for this thesis, proposing a DRL-based strategy for V2G services in a volatile
+  %% market, directly aligning with the thesis's objective of handling economic uncertainty.
+@article{orfanoudakis2022deep,
+
+  title={A Deep Reinforcement Learning-Based Charging Strategy for Electric Vehicles with V2G Services in a Volatile Market},
+  author={Orfanoudakis, Stylianos and Diaz-Londono, Christian and Yilmaz, Yasin Emir and Palensky, Peter and Vergara, Pedro P},
+  journal={arXiv preprint arXiv:2209.09772},
+  year={2022},
+  doi={10.48550/arXiv.2209.09772}
+}
+
+
+
+
+  %% Focuses on a specific and critical V2G service: supplementary frequency regulation.
+  %% This paper uses DRL to achieve optimal control for this task.
+@article{alfaverh2022optima,
+
   title={Optimal vehicle-to-grid control for supplementary frequency regulation using deep reinforcement learning},
-  author={Alfaverh, Farag and Dena{\"\i}, Mouloud and Sun, Yifei},
+  author={Alfaverh, Farag and Dena{\"i}, Mouloud and Sun, Yifei},
   journal={Applied Energy},
   volume={325},
   pages={119881},
@@ -49,61 +145,11 @@
   doi={10.1016/j.apenergy.2022.119881}
 }
 
-@article{kumar2024deep,
-  title={A Deep Q-Learning based Smart Scheduling of EVs for Demand Response},
-  author={Kumar, Vikash and Pandey, Indra Kumar and Shukla, Ayush},
-  journal={arXiv preprint arXiv:2401.02653},
-  year={2024},
-  doi={10.48550/arXiv.2401.02653}
-}
 
-@article{ghosh2024optimal,
-  title={Optimal scheduling of solar powered EV charging stations in a radial distribution network using equilibrium optimizer},
-  author={Ghosh, Anirban and Nomani, Izhar and Singh, Ranjan},
-  journal={Scientific Reports},
-  volume={14},
-  number={1},
-  pages={4499},
-  year={2024},
-  publisher={Nature Publishing Group UK London},
-  doi={10.1038/s41598-024-54985-w}
-}
-
-@article{kumar2024integration,
-  title={Integration of electric vehicle into smart grid: a meta heuristic algorithm for energy management between V2G and G2V},
-  author={Kumar, Vinay and Singh, Surender and Kumar, Dinesh},
-  journal={Frontiers in Energy Research},
-  volume={12},
-  pages={1357863},
-  year={2024},
-  publisher={Frontiers Media SA},
-  doi={10.3389/fenrg.2024.1357863}
-}
-
-@article{wang2022electrical,
-  title={An electrical vehicle-assisted demand response management system: A reinforcement learning method},
-  author={Wang, Zhaoyu and Wang, Li and Wang, Siyuan and Zhang, Zhaoyang},
-  journal={Frontiers in Energy Research},
-  volume={10},
-  pages={1071948},
-  year={2022},
-  publisher={Frontiers},
-  doi={10.3389/fenrg.2022.1071948}
-}
-
-@article{alhmoud2024review,
-  title={A Review of Smart Grid Evolution and Reinforcement Learning: Applications, Challenges and Future Directions},
-  author={Al-HMOUD, Ghaith and Al-Raweshidy, Hamed},
-  journal={Energies},
-  volume={18},
-  number={7},
-  pages={1837},
-  year={2024},
-  publisher={MDPI},
-  doi={10.3390/en18071837}
-}
-
+  %% Addresses the optimal scheduling problem for both charging and discharging using DRL,
+  %% relevant for the multi-objective nature of the thesis.
 @article{liu2023optimal,
+
   title={Optimal scheduling for charging and discharging of electric vehicles based on deep reinforcement learning},
   author={Liu, Zhaomiao and Wang, Jian and Zeng, Bo and Sun, Wei},
   journal={Frontiers in Energy Research},
@@ -114,54 +160,27 @@
   doi={10.3389/fenrg.2023.1273820}
 }
 
-@article{alsabbagh2022reinforcement,
-  title={Reinforcement learning for vehicle-to-grid: a review},
-  author={Alsabbagh, Mohamad and Siu, Wan-Chi},
-  journal={Journal of Energy Storage},
-  volume={53},
-  pages={105149},
-  year={2022},
-  publisher={Elsevier},
-  doi={10.1016/j.est.2022.105149}
-}
 
-@article{khan2024review,
-  title={A Review of Bidirectional Charging Grid Support Applications and Control},
-  author={Khan, Sheroz Ullah and Mehmood, Khalid Kamran and Haider, Zia Muhammad and Bukhari, Syed Sabir Hussain and Lee, Sang-Jun and Rafique, Muhammad Kashif and Kim, Chul-Hwan},
-  journal={Energies},
-  volume={17},
-  number={6},
-  pages={1320},
-  year={2024},
+  %% This work applies DRL with a specific focus on a critical grid constraint: maintaining
+  %% voltage stability in the distribution network during EV charging.
+@article{wang2023deep,
+
+  title={Deep reinforcement learning for charging scheduling of electric vehicles considering distribution network voltage stability},
+  author={Wang, Sihan and Li, Jiaming and Wu, Lei and Li, Xiaopeng},
+  journal={Sensors},
+  volume={23},
+  number={3},
+  pages={1618},
+  year={2023},
   publisher={MDPI},
-  doi={10.3390/en17061320}
+  doi={10.3390/s23031618}
 }
 
-@article{alqarni2024optimizing,
-  title={Optimizing demand response and load balancing in smart EV charging networks using AI integrated blockchain framework},
-  author={Alqarni, Mohammed A and Al-Wesabi, Fahd A and Hilal, Abdullah M and Singh, Kuldeep and Duhayyim, Majed A},
-  journal={Scientific Reports},
-  volume={14},
-  number={1},
-  pages={14821},
-  year={2024},
-  publisher={Nature Publishing Group UK London},
-  doi={10.1038/s41598-024-65611-z}
-}
 
-@article{gu2025optimization,
-  title={Optimization of Electric Vehicle Charging and Discharging Strategies Considering Battery Health State: A Safe Reinforcement Learning Approach},
-  author={Gu, Siyuan and Qian, Kun and Yang, Yang},
-  journal={World Electric Vehicle Journal},
-  volume={16},
-  number={5},
-  pages={286},
-  year={2025},
-  publisher={MDPI},
-  doi={10.3390/wevj16050286}
-}
-
+  %% A very recent paper on using RL for smart EV charging management, useful for showing
+  %% the current state of research in 2024/2025.
 @article{alogaili2024smart,
+
   title={Smart Electric Vehicle Charging Management Using Reinforcement Learning},
   author={Al-Ogaili, Ali S and Al-Shetwi, Ali Q and Al-Masri, Hadeel M and Al-Masri, Anas HM and Al-Zaidi, Raghad},
   journal={Sensors},
@@ -173,41 +192,44 @@
   doi={10.3390/s25082585}
 }
 
-@article{wang2022multi,
-  title={Multi-objective optimal scheduling of charging stations with solar-storage-diesel generator system},
-  author={Wang, Siyuan and Wang, Shuo and Liu, Bo},
+
+  %% Focuses on using Deep Q-Learning (DQN), a specific DRL algorithm, for demand response,
+  %% which is a key V2G service.
+@article{kumar2024deep,
+
+  title={A Deep Q-Learning based Smart Scheduling of EVs for Demand Response},
+  author={Kumar, Vikash and Pandey, Indra Kumar and Shukla, Ayush},
+  journal={arXiv preprint arXiv:2401.02653},
+  year={2024},
+  doi={10.48550/arXiv.2401.02653}
+}
+
+  %% Another example of applying RL to demand response management assisted by EVs.
+
+@article{wang2022electrical,
+
+  title={An electrical vehicle-assisted demand response management system: A reinforcement learning method},
+  author={Wang, Zhaoyu and Wang, Li and Wang, Siyuan and Zhang, Zhaoyang},
   journal={Frontiers in Energy Research},
   volume={10},
-  pages={1042882},
+  pages={1071948},
   year={2022},
   publisher={Frontiers},
-  doi={10.3389/fenrg.2022.1042882}
+  doi={10.3389/fenrg.2022.1071948}
 }
 
-@article{salvatti2020electric,
-  title={Electric vehicles energy management with V2G/G2V multifactor optimization of smart grids},
-  author={Salvatti, Gean A and Carati, Edevar G and Cardoso, Ricardo and da Costa, Jo{\~a}o Paulo C and de Oliveira Stein, C{\'e}sar M},
-  journal={Energies},
-  volume={13},
-  number={5},
-  pages={1191},
-  year={2020},
-  publisher={MDPI},
-  doi={10.3390/en13051191}
-}
+%% =====================================================================
+%% C. Alternative Control Paradigms: Model Predictive Control (MPC)
+%% =====================================================================
+%% This section groups papers focused on MPC, the primary model-based benchmark against which
+%% the DRL agents in this thesis are compared.
 
-@article{van2021peak,
-  title={Peak shaving and cost minimization using model predictive control for uni-and bi-directional charging of electric vehicles},
-  author={Van Kriekinge, Guillaume and De Cauwer, Cedric and Sapountzoglou, Nikolaos and Coosemans, Thierry and Messagie, Maarten},
-  journal={Energy Reports},
-  volume={7},
-  pages={8760--8771},
-  year={2021},
-  publisher={Elsevier},
-  doi={10.1016/j.egyr.2021.08.139}
-}
 
+
+  %% A systematic review of MPC for V2G applications. Essential for establishing the state-of-the-art
+  %% for the benchmark control strategy.
 @article{minchala2025systematic,
+
   title={A Systematic Review of Model Predictive Control for Robust and Efficient Energy Management in Electric Vehicle Integration and V2G Applications},
   author={Minchala-{\'A}vila, Carlos A and Ar{\'e}valo, Pa{\'u}l and Ochoa-Correa, Diego},
   journal={Modelling},
@@ -219,25 +241,10 @@
   doi={10.3390/modelling6010020}
 }
 
-@article{shibl2023electric,
-  title={Electric vehicles charging management using deep reinforcement learning considering vehicle-to-grid operation and battery degradation},
-  author={Shibl, Mohamed M and Ismail, Loay S and Massoud, Ahmed M},
-  journal={Energy Reports},
-  volume={10},
-  pages={494--509},
-  year={2023},
-  publisher={Elsevier},
-  doi={10.1016/j.egyr.2023.07.039}
-}
 
-@article{di2016lagrangian,
-  title={Lagrangian Decomposition based Multi Agent Model Predictive Control for Electric Vehicles Charging integrating Real Time Pricing},
-  author={Di Giorgio, Alessandro and Di Maria, Andrea and Liberati, Francesco and Suraci, Vincenzo and Delli Priscoli, Francesco},
-  journal={arXiv preprint arXiv:1607.02895},
-  year={2016},
-  doi={10.48550/arXiv.1607.02895}
-}
 
+  %% A Master's thesis that provides a practical design and testing of both online (MPC) and offline
+  %% optimization algorithms for V2G, relevant to the thesis's comparison methodology
 @mastersthesis{faggio2023design,
   title={Design and Testing of Online and Offline Optimization Algorithms for Vehicle-to-Grid (V2G) Industrial Applications},
   author={Faggio, Gabriele},
@@ -245,58 +252,11 @@
   school={Politecnico di Milano}
 }
 
-@article{schaul2015prioritized,
-  title={Prioritized experience replay},
-  author={Schaul, Tom and Quan, John and Antonoglou, Ioannis and Silver, David},
-  journal={arXiv preprint arXiv:1511.05952},
-  year={2015},
-  doi={10.48550/arXiv.1511.05952}
-}
 
-@article{orfanoudakis2024ev2gym,
-  title={EV2Gym: A Flexible V2G Simulator for EV Smart Charging Research and Benchmarking},
-  author={Orfanoudakis, Stylianos and Diaz-Londono, Christian and Y{\i}lmaz, Yasin Emir and Palensky, Peter and Vergara, Pedro P},
-  journal={arXiv preprint arXiv:2404.01849},
-  year={2024},
-  doi={10.48550/arXiv.2404.01849}
-}
-
-@article{diaz2024simulation,
-  title={A Simulation Tool for V2G Enabled Demand Response Based on Model Predictive Control},
-  author={Diaz-Londono, Christian and Orfanoudakis, Stylianos and Vergara, Pedro P and Palensky, Peter and Ruiz, Fabio and Gruosso, Giambattista},
-  journal={arXiv preprint arXiv:2405.11963},
-  year={2024},
-  doi={10.48550/arXiv.2405.11963}
-}
-
-@mastersthesis{evertsson2024investigating,
-  title={Investigating Vehicle-to-grid from a User-centric Perspective},
-  author={Evertsson, Albin and Nylander, Anton},
-  year={2024},
-  school={Chalmers University of Technology}
-}
-@article{wan2022dynamic,
-  title={A dynamic reward-based deep reinforcement learning for V2G control with EV battery degradation},
-  author={Wan, Zhong, and Wang, Jian, and Zhang, Weilin and Gu, Chen},
-  journal={Applied Energy},
-  volume={309},
-  pages={118462},
-  year={2022},
-  publisher={Elsevier},
-  doi={10.1016/j.apenergy.2021.118462}
-}
-
-@inproceedings{yoon2021curriculum,
-  title={Curriculum-based deep reinforcement learning for V2G-enabled EV charging},
-  author={Yoon, Young-Jae and Shin, Jin-Young and Baldick, Ross},
-  booktitle={2021 IEEE Power  Energy Society General Meeting (PESGM)},
-  pages={1--5},
-  year={2021},
-  organization={IEEE},
-  doi={10.1109/PESGM46819.2021.9638101}
-}
-
+  %% Details a computationally efficient MPC implementation for residential V2G, which is a
+  %% relevant use case and benchmark.
 @article{schwenk2022computationally,
+
   title={A computationally efficient MPC for residential EV charging with V2G and 3-phase power flow},
   author={Schwenk, Johannes and Tuchschmid, Michael and Heer, Philipp and Elbert, Philipp},
   journal={Energies},
@@ -307,117 +267,107 @@
   publisher={MDPI},
   doi={10.3390/en15165923}
 }
-@article{ng1999policy,
-  title={Policy invariance under reward transformations: Theory and application to reward shaping},
-  author={Ng, Andrew Y and Harada, Daishi and Russell, Stuart},
-  journal={ICML},
-  volume={99},
-  pages={278--287},
-  year={1999}
-}
+
+%% =====================================================================
+%% D. Specific Technical Challenges & Models (Degradation, Simulation)
+%% =====================================================================
+%% This section contains papers that focus on specific, crucial components of the V2G problem,
+%% such as battery degradation modeling, and the simulation frameworks used for research.
 
 
-@techreport{european_commission_2021_fit_for_55,
-  author      = {{European Commission}},
-  title       = {'Fit for 55': delivering the EU's 2030 Climate Target on the way to climate neutrality},
-  institution = {European Commission},
-  year        = {2021},
-  number      = {COM(2021) 550 final},
-  address     = {Brussels}
-}
 
-@misc{RED_III_directive_2023,
-  author = {{The European Parliament and the Council of the European Union}},
-  title  = {Directive (EU) 2023/2413 of the European Parliament and of the Council of 18 October 2023 amending Directive (EU) 2018/2001 as regards the promotion of energy from renewable sources},
-  year   = {2023},
-  note   = {Official Journal of the European Union, L 2413}
-}
+  %% A highly relevant paper that explicitly considers battery health within a safe RL framework,
+  %% directly addressing one of the core multi-objective trade-offs of the thesis.
+@article{gu2025optimization,
 
-@misc{iso15118_standard,
-  author    = {{International Organization for Standardization}},
-  title     = {ISO 15118-1:2019 Road vehicles — Vehicle to grid communication interface — Part 1: General information and use-case definition},
-  year      = {2019},
-  publisher = {ISO},
-  note      = {Available at: \url{https://www.iso.org/standard/69113.html}}
-}
-
-@techreport{ocpp_2_0_1,
-  author      = {{Open Charge Alliance}},
-  title       = {Open Charge Point Protocol 2.0.1},
-  institution = {Open Charge Alliance},
-  year        = {2020},
-  note        = {Available at: \url{https://www.openchargealliance.org/}}
-}
-
-@article{evertsson2024investigating,
-  title={Investigating the potential of vehicle-to-grid in 2030 and 2040 in the Nordics},
-  author={Evertsson, Olov and Odenberger, Mikael and Johnsson, Filip},
-  journal={Energy},
-  pages={130108},
-  year={2024},
-  publisher={Elsevier}
-}
-
-@article{alfaverh2022optimal,
-  title={Optimal scheduling of V2G and G2V operation of electric vehicles in distribution grid with a high penetration of renewable energy sources},
-  author={Alfaverh, Feras and Ammar, Mohamed and El-khattam, Wael},
-  journal={Electric Power Systems Research},
-  volume={205},
-  pages={107734},
-  year={2022},
-  publisher={Elsevier}
-}
-
-@article{sadeghi2021deep,
-  title={Deep reinforcement learning for frequency control in power grids with V2G},
-  author={Sadeghi, Alireza and Sadeghi, Seyedamirabbas and G{\"u}nd{\"u}z, Deniz and Poor, H Vincent},
-  journal={IEEE Transactions on Smart Grid},
-  volume={12},
-  number={6},
-  pages={5338--5348},
-  year={2021},
-  publisher={IEEE}
-}
-
-@article{orfanoudakis2022deep,
-  title={A deep reinforcement learning approach for electric vehicle charging in a lot with a shared renewable energy source},
-  author={Orfanoudakis, L and Axenitopoulos, A and Daras, P},
-  journal={IEEE Access},
-  volume={10},
-  pages={34330--34344},
-  year={2022},
-  publisher={IEEE}
-}
-
-@article{khan2024review,
-  title={A review on vehicle-to-grid (V2G) technology: Concept, services, communication, and challenges},
-  author={Khan, Suhana and Ahmad, Aftab and Ahmad, Farhan},
+  title={Optimization of Electric Vehicle Charging and Discharging Strategies Considering Battery Health State: A Safe Reinforcement Learning Approach},
+  author={Gu, Siyuan and Qian, Kun and Yang, Yang},
   journal={World Electric Vehicle Journal},
-  volume={15},
-  number={1},
-  pages={19},
+  volume={16},
+  number={5},
+  pages={286},
+  year={2025},
+  publisher={MDPI},
+  doi={10.3390/wevj16050286}
+}
+
+
+
+ %% This work integrates battery degradation models into a DRL framework for V2G, providing a
+  %% direct reference for the battery health preservation objective.
+
+@article{shibl2023electric,
+ 
+  title={Electric vehicles charging management using deep reinforcement learning considering vehicle-to-grid operation and battery degradation},
+  author={Shibl, Mohamed M and Ismail, Loay S and Massoud, Ahmed M},
+  journal={Energy Reports},
+  volume={10},
+  pages={494--509},
+  year={2023},
+  publisher={Elsevier},
+  doi={10.1016/j.egyr.2023.07.039}
+}
+
+@article{birkl2017degradation,
+  title={Degradation diagnostics for lithium ion cells},
+  author={Birkl, Christoph R and Roberts, Malcolm R and McTurk, Edward and Bruce, Peter G and Howey, David A},
+  journal={Journal of Power Sources},
+  volume={341},
+  pages={373--386},
+  year={2017}
+}
+
+@article{vetter2005ageing,
+  title={Ageing mechanisms in lithium-ion batteries},
+  author={Vetter, Joachim and Nov{\'a}k, Pavel and Wagner, Michael R and Veit, Christoph and M{\'o}ller, Kerstin C and Besenhard, J{\'o}rg O and Winter, Martin and Wohlfahrt-Mehrens, Margret and Vogler, Christian and Hammouche, Adnan},
+  journal={Journal of Power Sources},
+  volume={147},
+  number={1--2},
+  pages={269--281},
+  year={2005}
+}
+
+  %% The foundational paper for the EV2Gym simulator, which is the core experimental platform
+  %% enhanced and utilized in this thesis.
+@article{orfanoudakis2024ev2gym,
+
+  title={EV2Gym: A Flexible V2G Simulator for EV Smart Charging Research and Benchmarking},
+  author={Orfanoudakis, Stylianos and Diaz-Londono, Christian and Y{\"i}lmaz, Yasin Emir and Palensky, Peter and Vergara, Pedro P},
+  journal={arXiv preprint arXiv:2404.01849},
   year={2024},
-  publisher={MDPI}
+  doi={10.48550/arXiv.2404.01849}
+}
+  %% The original paper for OpenAI Gym, the API standard upon which EV2Gym and many other
+  %% RL research environments are built.
+@article{brockman2016openai,
+
+  title={OpenAI Gym},
+  author={Brockman, Greg and Cheung, Vicki and Pettersson, Ludwig and Schneider, Jonas and Schulman, John and Tang, Jie and Zaremba, Wojciech},
+  journal={arXiv preprint arXiv:1606.01540},
+  year={2016},
+  doi={10.48550/arXiv.1606.01540}
 }
 
-@article{zou2021deep,
-  title={A deep reinforcement learning approach for EV charging and V2G discharging scheduling},
-  author={Zou, Yushi and Yu, James JQ and Liu, Yang and Liu, Jun},
-  journal={Energy and AI},
-  volume={5},
-  pages={100081},
-  year={2021},
-  publisher={Elsevier}
-}
+%% =====================================================================
+%% E. Foundational AI & Reinforcement Learning Theory
+%% =====================================================================
+%% This section includes seminal papers on the specific DRL algorithms and theoretical concepts
+%% that are mentioned or used in the thesis.
 
+  %% The original paper introducing the Deep Deterministic Policy Gradient (DDPG) algorithm,
+  %% a foundational method for continuous control in DRL.
 @article{lillicrap2015continuous,
+
   title={Continuous control with deep reinforcement learning},
   author={Lillicrap, Timothy P and Hunt, Jonathan J and Pritzel, Alexander and Heess, Nicolas and Erez, Tom and Tassa, Yuval and Silver, David and Wierstra, Daan},
   journal={arXiv preprint arXiv:1509.02971},
   year={2015}
 }
 
-@article{fujimoto2018addressing,
+  %% Introduces the Twin Delayed DDPG (TD3) algorithm, which addresses key instabilities in DDPG
+  %% and serves as a strong baseline for modern actor-critic methods.
+@inproceedings{fujimoto2018addressing,
+
   title={Addressing function approximation error in actor-critic methods},
   author={Fujimoto, Scott and van Hoof, Herke and Meger, David},
   booktitle={International conference on machine learning},
@@ -426,7 +376,10 @@
   organization={PMLR}
 }
 
-@article{haarnoja2018soft,
+ %% The seminal paper on Soft Actor-Critic (SAC), a state-of-the-art algorithm based on the
+  %% maximum entropy framework, known for its sample efficiency and stability.
+@inproceedings{haarnoja2018soft,
+ 
   title={Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor},
   author={Haarnoja, Tuomas and Zhou, Aurick and Abbeel, Pieter and Levine, Sergey},
   booktitle={International conference on machine learning},
@@ -435,26 +388,78 @@
   organization={PMLR}
 }
 
-@article{liu2023optimal,
-  title={Optimal scheduling of electric vehicle charging and discharging at a station with multiple chargers using deep reinforcement learning},
-  author={Liu, Zhaomiao and Wang, Dong and Wang, Ling},
-  journal={Energy},
-  volume={271},
-  pages={127031},
-  year={2023},
-  publisher={Elsevier}
+  %% Introduces Prioritized Experience Replay (PER), a key technique for improving the sample
+  %% efficiency of off-policy DRL algorithms like DQN.
+@article{schaul2015prioritized,
+
+  title={Prioritized experience replay},
+  author={Schaul, Tom and Quan, John and Antonoglou, Ioannis and Silver, David},
+  journal={arXiv preprint arXiv:1511.05952},
+  year={2015},
+  doi={10.48550/arXiv.1511.05952}
 }
 
-@article{wang2022multi,
-  title={Multi-objective deep reinforcement learning for the intelligent energy management of V2G-assisted commercial building microgrids},
-  author={Wang, Shubo and Wang, Jianxun and Wu, Yifei and Wang, Zhe},
-  journal={Energy},
-  volume={254},
-  pages={124330},
+  %% The foundational paper on Potential-Based Reward Shaping (PBRS), a theoretically sound method
+  %% for accelerating RL without changing the optimal policy.
+@article{ng1999policy,
+
+  title={Policy invariance under reward transformations: Theory and application to reward shaping},
+  author={Ng, Andrew Y and Harada, Daishi and Russell, Stuart},
+  journal={ICML},
+  volume={99},
+  pages={278--287},
+  year={1999}
+}
+
+  %% This paper is crucial for the thesis's exploration of advanced training techniques, as it
+  %% specifically proposes a dynamic, adaptive reward function for V2G that considers battery degradation.
+@article{wan2022dynamic,
+
+  title={A dynamic reward-based deep reinforcement learning for V2G control with EV battery degradation},
+  author={Wan, Zhong and Wang, Jian and Zhang, Weilin and Gu, Chen},
+  journal={Applied Energy},
+  volume={309},
+  pages={118462},
   year={2022},
-  publisher={Elsevier}
+  publisher={Elsevier},
+  doi={10.1016/j.apenergy.2021.118462}
 }
 
+%% =====================================================================
+%% F. Policy, Regulation, and User-Centric Perspectives
+%% =====================================================================
+%% This section provides the broader context for the V2G problem, including European policy
+%% documents and research focusing on the end-user's perspective.
+
+  %% A key policy document from the European Commission that sets the ambitious climate targets
+  %% driving the push for EVs and V2G technology.
+@techreport{european_commission_2021_fit_for_55,
+  title       = {'Fit for 55': delivering the EU's 2030 Climate Target on the way to climate neutrality},
+  institution = {European Commission},
+  year        = {2021},
+  number      = {COM(2021) 550 final},
+  address     = {Brussels}
+}
+
+  %% Provides a user-centric perspective on V2G, which is essential for understanding the
+  %% user satisfaction constraints that any practical algorithm must respect.
+@mastersthesis{evertsson2024investigating,
+
+  title={Investigating Vehicle-to-grid from a User-centric Perspective},
+  author={Evertsson, Albin and Nylander, Anton},
+  year={2024},
+  school={Chalmers University of Technology}
+}
+@article{wang2022multi,
+  title={Multi-objective optimal scheduling of charging stations with solar-storage-diesel generator system},
+  author={Wang, Siyuan and Wang, Shuo and Liu, Bo},
+  journal={Frontiers in Energy Research},
+  volume={10},
+  pages={1042882},
+  year={2022},
+  publisher={Frontiers},
+  doi={10.3389/fenrg.2022.1042882}
+}
 @article{logeshwaran2022comparative,
   title={A comparative study of deep reinforcement learning algorithms for energy management in commercial buildings},
   author={Logeshwaran, J and Fan, Chao and Naung, Swan Htet},
@@ -464,55 +469,40 @@
   year={2022},
   publisher={Elsevier}
 }
-
-@article{alsabbagh2022reinforcement,
-  title={Reinforcement learning-based model predictive control for building energy management with a reduced-order model},
-  author={Alsabbagh, Mohamad and Si, Junyu},
-  journal={Energy and AI},
-  volume={7},
-  pages={100125},
-  year={2022},
-  publisher={Elsevier}
+@inproceedings{mnih2016asynchronous,
+  title={Asynchronous methods for deep reinforcement learning},
+  author={Mnih, Volodymyr and Badia, Adria Puigdomenech and Mirza, Mehdi and Graves, Alex and Lillicrap, Timothy and Harley, Tim and Silver, David and Kavukcuoglu, Koray},
+  booktitle={International conference on machine learning},
+  pages={1928--1937},
+  year={2016},
+  organization={PMLR}
 }
-
-@article{faggio2023design,
-  title={Design and implementation of a model predictive control for the energy management of a residential microgrid},
-  author={Faggio, G and Gammelli, M and Pallonari, F and Scimmi, A and Bizzarri, F},
-  journal={Energies},
-  volume={16},
-  number={4},
-  pages={1939},
-  year={2023},
-  publisher={MDPI}
+@inproceedings{schulman2015trust,
+  title={Trust region policy optimization},
+  author={Schulman, John and Levine, Sergey and Abbeel, Pieter and Jordan, Michael and Moritz, Philipp},
+  booktitle={International conference on machine learning},
+  pages={1889--1897},
+  year={2015},
+  organization={PMLR}
 }
-
-@article{schwenk2022computationally,
-  title={A computationally efficient MPC for residential EV charging with V2G and 3-phase power flow},
-  author={Schwenk, Johannes and Tuchschmid, Michael and Heer, Philipp and Elbert, Philipp},
-  journal={Energies},
-  volume={15},
-  number={16},
-  pages={5923},
-  year={2022},
-  publisher={MDPI}
+@article{schulman2017proximal,
+  title={Proximal policy optimization algorithms},
+  author={Schulman, John and Wolski, Filip and Dhariwal, Prafulla and Radford, Alec and Klimov, Oleg},
+  journal={arXiv preprint arXiv:1707.06347},
+  year={2017}
 }
-
-@article{ghosh2024optimal,
-  title={Optimal scheduling of electric vehicle charging using meta-heuristic algorithms: A review},
-  author={Ghosh, Arindam and Kalam, Akhtar},
-  journal={Renewable and Sustainable Energy Reviews},
-  volume={189},
-  pages={114011},
-  year={2024},
-  publisher={Elsevier}
+@inproceedings{mania2018simple,
+  title={Simple random search of static linear policies is competitive for reinforcement learning},
+  author={Mania, Horia and Guy, Aurelia and Recht, Benjamin},
+  booktitle={Advances in neural information processing systems},
+  volume={31},
+  year={2018}
 }
-
-@article{kumar2024integration,
-  title={Integration of renewable energy sources and electric vehicles in smart grid: A review},
-  author={Kumar, L and Jain, S},
-  journal={Journal of Energy Storage},
-  volume={81},
-  pages={110456},
-  year={2024},
-  publisher={Elsevier}
+@inproceedings{kuznetsov2020controlling,
+  title={Controlling overestimation bias with truncated quantile critics},
+  author={Kuznetsov, Anton and Shvechikov, Pavel and Grishin, Alexander and Vetrov, Dmitry},
+  booktitle={International Conference on Machine Learning},
+  pages={5528--5538},
+  year={2020},
+  organization={PMLR}
 }
