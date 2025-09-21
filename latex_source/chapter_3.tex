@@ -1,0 +1,226 @@
+% ===================================================================
+% CHAPTER 3: The EV2Gym Simulation Framework
+% ===================================================================
+\chapter{An Enhanced V2G Simulation Framework for Robust Control}
+\label{chap:ev2gym}
+
+Developing, validating, and benchmarking advanced control algorithms for Vehicle-to-Grid (V2G) systems is a complex endeavor. Real-world experimentation is often impractical due to prohibitive costs, logistical challenges, and risks to grid stability and vehicle hardware. To bridge the gap between theory and practice, a realistic, flexible, and standardized simulation environment is a scientific necessity. This thesis builds upon the foundation of \textbf{EV2Gym}, a state-of-the-art, open-source simulator designed for V2G smart charging research \footcite{orfanoudakis2024ev2gym}. This work, however, extends the original framework significantly, transforming it into a high-fidelity \textbf{digital twin} engineered not just for single-scenario optimization, but for the development and rigorous evaluation of \textbf{robust, generalist control agents}.
+
+This enhanced framework offers a two-pronged approach to experimentation: it allows for deep-dive analysis of agents specialized for a single environment, while also introducing a novel methodology for training and testing agents designed to generalize across a multitude of diverse, unpredictable scenarios. This chapter provides an in-depth tour of this extended architecture, its data-driven models, and its unique evaluation capabilities, establishing the methodological bedrock for the rest of this work.
+
+\section{Core Simulator Architecture}
+The framework is built on the modular architecture of EV2Gym, which mirrors the key entities of a real-world V2G system. Its foundation on the OpenAI Gym (now Gymnasium) API is a cornerstone, providing a standardized agent-environment interface defined by the familiar language of states, actions, and rewards \footcite{brockman2016openai}.
+
+The architecture consists of several interacting components:
+\begin{itemize}
+    \item \textbf{Charge Point Operator (CPO):} The central intelligence of the simulation, managing the charging infrastructure and serving as the primary interface for the control algorithm (the DRL agent). The CPO aggregates system state information and dispatches control actions to individual chargers.
+    \item \textbf{Chargers:} Digital representations of physical charging stations, configurable by type (AC/DC), maximum power, and efficiency. This allows for the simulation of heterogeneous charging infrastructures.
+    \item \textbf{Power Transformers:} These components model the physical connection points to the grid, aggregating the electrical load from multiple chargers. Crucially, they enforce the physical power limits of the local distribution network and can model inflexible base loads (e.g., buildings) and local renewable generation (e.g., solar panels).
+    \item \textbf{Electric Vehicles (EVs):} Dynamic and autonomous agents, each defined by its unique battery capacity, power limits, current and desired energy levels, and specific arrival and departure times.
+\end{itemize}
+The simulation process follows a reproducible three-phase structure: (1) \textbf{Initialization} from a comprehensive YAML configuration file, (2) a discrete-time \textbf{Simulation Loop} where the agent interacts with the environment, and (3) a final \textbf{Evaluation and Visualization} phase that generates standardized performance metrics.
+
+\section{Core Physical Models}
+The simulation's fidelity is anchored in its detailed, empirically validated models, which are essential for developing control strategies robust enough for real-world application.
+
+\subsection{EV Model and Charging/Discharging Dynamics}
+The framework implements a realistic two-stage charging/discharging model that captures the non-linear behavior of lithium-ion batteries, simulating both the \textbf{constant current (CC)} and \textbf{constant voltage (CV)} phases. Each EV is defined by a rich parameter set: maximum capacity ($E_{max}$), a minimum safety capacity ($E_{min}$), separate power limits for charging and discharging ($P_{ch}^{max}, P_{dis}^{max}$), and distinct efficiencies for each process ($\eta_{ch}, \eta_{dis}$).
+
+\subsection{Battery Degradation Model}
+To address the critical issue of battery health in V2G operations, the simulator incorporates a semi-empirical battery degradation model. It quantifies capacity loss ($Q_{lost}$) as the sum of two primary aging mechanisms \footcite{orfanoudakis2024ev2gym}:
+\begin{itemize}
+    \item \textbf{Calendar Aging ($d_{cal}$):} Time-dependent capacity loss, influenced by the battery's average State of Charge (SoC) and temperature.
+    \item \textbf{Cyclic Aging ($d_{cyc}$):} Wear resulting from charge/discharge cycles, dependent on energy throughput, depth-of-cycle, and C-rate.
+\end{itemize}
+This integrated model allows for the direct quantification of how different control strategies impact the battery's long-term State of Health (SoH), enabling the training of agents that balance profitability with battery preservation.
+
+\subsection{EV Behavior and Grid Models}
+To ensure realism, the simulation is driven by authentic, open-source datasets. EV arrival/departure patterns and energy requirements are modeled using probability distributions derived from a large real-world dataset from \textbf{ElaadNL}. Grid conditions are similarly grounded in reality, using inflexible load data from the \textbf{Pecan Street} project and solar generation profiles from the \textbf{Renewables.ninja} platform \footcite{orfanoudakis2024ev2gym}.
+
+\section{A Unified Experimentation and Evaluation Workflow}
+A key contribution of this thesis is the development of a unified and powerful experimentation workflow, orchestrated by the main script \texttt{run\_experiments.py}. This script replaces the previous fragmented approach, providing a single, interactive interface to manage the entire lifecycle of training, benchmarking, and evaluation for V2G control agents. This workflow is designed to be both flexible for research and rigorous for evaluation, supporting the dual goals of developing specialized and generalized agents.
+
+\subsection{Orchestration via \texttt{run\_experiments.py}}
+The \texttt{run\_experiments.py} script acts as the central hub for all experimentation. It guides the user through an interactive command-line process, ensuring consistency and reproducibility. The key steps are:
+\begin{enumerate}
+    \item \textbf{Algorithm Selection:} The user can select from a predefined list of algorithms to benchmark. This includes Deep Reinforcement Learning agents (e.g., SAC, DDPG+PER, TQC), classical optimization methods (Model Predictive Control), and rule-based heuristics (e.g., Charge As Fast As Possible).
+    \item \textbf{Scenario Selection:} The script automatically detects all available \texttt{.yaml} configuration files, allowing the user to choose one or more scenarios for the experiment. This choice determines the mode of operation (single-domain vs. multi-scenario).
+    \item \textbf{Reward Function Selection:} The framework's flexibility is enhanced by allowing the user to dynamically select the reward function for the RL agents from the \texttt{reward.py} module.
+    \item \textbf{Training and Benchmarking:} Based on the user's selections, the script proceeds to the optional training phase and then to a comprehensive benchmark, saving all results in a timestamped directory.
+\end{enumerate}
+
+\subsection{Dual-Mode Training: Specialists and Generalists}
+The new workflow elegantly unifies the training of both "specialist" and "generalist" agents, a concept previously handled by separate scripts. The behavior is determined implicitly by the number of selected scenarios:
+\begin{itemize}
+    \item \textbf{Single-Domain Specialization:} If the user selects a single scenario, the script trains an RL agent exclusively on that environment. This produces a specialist agent, optimized to extract maximum performance from a specific, known set of conditions (e.g., a particular charging station topology and price profile).
+    \item \textbf{Multi-Scenario Generalization:} If multiple scenarios are selected, the script automatically utilizes the \texttt{MultiScenarioEnv} wrapper. This custom Gymnasium environment dynamically switches between the different selected configurations at the start of each training episode. This process forces the agent to learn a robust and generalizable policy that performs well across a wide range of conditions, preventing overfitting to any single scenario. To handle the technical challenge of varying observation and action space sizes across scenarios, a \texttt{CompatibilityWrapper} is used to pad and slice the state-action vectors, enabling a single neural network policy to control heterogeneous environments.
+\end{itemize}
+
+\subsection{Reproducible Benchmarking and Evaluation}
+To ensure a fair and scientifically valid comparison, the \texttt{run\_benchmark} function implements a rigorous evaluation protocol. For each scenario, it first generates a "replay" file containing the exact sequence of stochastic events (e.g., EV arrivals, energy demands). This exact same sequence is then used to evaluate every algorithm, eliminating randomness as a factor in performance differences. The script runs multiple simulations for statistical robustness, aggregates the mean results, and automatically generates a suite of comparative plots, including overall performance metrics and detailed battery degradation analyses.
+
+\section{Evaluation Metrics}
+To ensure a fair and comprehensive comparison, all algorithms are evaluated against an identical set of pre-generated scenarios through a "replay" mechanism. The \textbf{mean} and \textbf{standard deviation} of performance are calculated across multiple simulation runs. The key metrics include:
+
+\begin{itemize}
+    \item \textbf{Total Profit (\$):} The net economic outcome, calculated as revenue from energy sales minus the cost of energy purchases.
+    \[
+    \Pi_{\text{total}} = \sum_{t=0}^{T_{\text{sim}}} \sum_{i=1}^{N} \left( C_{\text{sell}}(t) P_{\text{dis},i}(t) - C_{\text{buy}}(t) P_{\text{ch},i}(t) \right) \Delta t
+    \]
+    
+    \item \textbf{Tracking Error (RMSE, kW):} For grid-balancing scenarios, this measures the root-mean-square error between the fleet's aggregated power and a target setpoint.
+    \[
+    E_{\text{track}} = \sqrt{\frac{1}{T_{\text{sim}}} \sum_{t=0}^{T_{\text{sim}}-1} \left( P_{\text{setpoint}}(t) - P_{\text{total}}(t) \right)^2}
+    \]
+    
+    \item \textbf{User Satisfaction (Average):} The fraction of energy delivered compared to what was requested by the user, averaged across all EV sessions. A score of 1 indicates perfect service.
+    \[
+    US_{\text{avg}} = \frac{1}{N_{\text{EVs}}} \sum_{k=1}^{N_{\text{EVs}}} \min \left(1, \frac{E_k(t_k^{\text{dep}})}{E_k^{\text{des}}} \right)
+    \]
+    
+    \item \textbf{Transformer Overload (kWh):} The total energy that exceeded the transformer's rated power limit. An ideal controller should achieve a value of 0.
+    \[
+    O_{\text{tr}} = \sum_{t=0}^{T_{\text{sim}}} \sum_{j=1}^{N_T} \max(0, P_j^{\text{tr}}(t) - P_j^{\text{tr,max}}) \cdot \Delta t
+    \]
+    
+    \item \textbf{Battery Degradation (\$):} The estimated monetary cost of battery aging due to both cyclic and calendar effects.
+    \[
+    D_{\text{batt}} = \sum_{k=1}^{N_{\text{EVs}}} (\text{CyclicCost}_k + \text{CalendarCost}_k)
+    \]
+\end{itemize}
+
+\section{Simulator Implementation Details}
+\label{sec:sim_architecture}
+During the analysis and implementation of new metrics, fundamental details about the \texttt{EV2Gym} simulator's architecture emerged, which warrant documentation. The configuration of Electric Vehicles (EVs) and the calculation of their degradation follow a specific logic dependent on a key parameter in the \texttt{.yaml} configuration files.
+
+\subsubsection{Vehicle Definition Modes}
+The simulator operates in two distinct modes, controlled by the boolean flag \texttt{heterogeneous\_ev\_specs}:
+\begin{itemize}
+    \item \textbf{Heterogeneous Mode (\texttt{True}):} In this mode, the simulator ignores the default vehicle specifications in the \texttt{.yaml} file. Instead, it loads a list of vehicle profiles from an external JSON file, specified by the \texttt{ev\_specs\_file} parameter (e.g., \texttt{ev\_specs\_v2g\_enabled2024.json}). This allows for the creation of a realistic fleet with diverse battery capacities, charging powers, and efficiencies. For instance, the fleet may include a \textbf{Peugeot 208} with a 46.3 kWh battery and a 7.4 kW charge rate, alongside a \textbf{Volkswagen ID.4} with a 77 kWh battery and an 11 kW charge rate. A vehicle is randomly selected from this list for each new arrival event.
+    \item \textbf{Homogeneous Mode (\texttt{False}):} In this mode, the external JSON file is ignored. All vehicles created in the simulation are identical, and their characteristics are defined exclusively by the \texttt{ev:} block within the \texttt{.yaml} configuration file. The \texttt{battery\_capacity} parameter in this block becomes the single source of truth for the entire fleet.
+\end{itemize}
+
+\subsubsection{Empirical Calibration of the Degradation Model}
+A significant enhancement in this work is the move towards a more physically representative and flexible battery degradation model. While the underlying semi-empirical model for calendar and cyclic aging remains, the methodology for parameterizing it has been fundamentally improved, addressing previous inconsistencies.
+
+This is achieved through the \texttt{Fit\_battery.py} script, a new utility for empirical model calibration. The script implements the following workflow:
+\begin{enumerate}
+    \item \textbf{Data Loading:} It loads time-series data from real-world battery aging experiments. The expected data includes measurements of capacity loss over time, along with contextual variables like state of charge (SoC), temperature, and energy throughput.
+    \item \textbf{Model Fitting:} Using the \texttt{curve\_fit} function from the SciPy library, the script fits the parameters of the \texttt{Qlost\_model} (which combines calendar and cyclic aging) to the empirical data. This optimization process finds the physical constants (e.g., $\epsilon_0, \zeta_0$) that best explain the observed degradation.
+    \item \textbf{Parameter Export:} The script outputs the calibrated parameters. These values can then be used directly in the simulator's configuration, ensuring that the degradation model for a specific EV fleet is grounded in experimental evidence for that battery type.
+\end{enumerate}
+This calibration workflow, integrated optionally into the main \texttt{run\_experiments.py} script, elevates the simulation's fidelity. It allows the framework to move beyond a single, fixed degradation model (previously calibrated for a 78 kWh battery) and enables the creation of high-fidelity digital twins for a wide variety of EV batteries, provided that the necessary experimental data is available.
+
+\section{Reinforcement Learning Formulation}
+The control problem is formalized as a Markov Decision Process (MDP), defined by the tuple $(S, A, P, R, \gamma)$.
+
+\subsection{State Space ($S$)}
+The state $s_t \in S$ is a feature vector providing a snapshot of the environment at time $t$. A representative state, as defined in modules like \texttt{V2G\_profit\_max\_loads.py}, includes:
+\[
+ s_t = [t, P_{\text{total}}(t-1), \mathbf{c}(t, H), \mathbf{L}_1(t, H), \mathbf{PV}_1(t, H), \dots, \mathbf{s}^{\text{EV}}_1(t), \dots, \mathbf{s}^{\text{EV}}_N(t)]^T
+\]
+where the components are:
+\begin{itemize}
+    \item $t$: The current time step.
+    \item $P_{\text{total}}(t-1)$: The aggregated power from the previous time step.
+    \item $\mathbf{c}(t, H)$: A vector of \textbf{predicted future} electricity prices over a horizon $H$.
+    \item $\mathbf{L}_j(t, H), \mathbf{PV}_j(t, H)$: Forecasts for inflexible loads and solar generation.
+    \item $\mathbf{s}^{\text{EV}}_i(t) = [\text{SoC}_i(t), t^{\text{dep}}_i - t]$: Key information for each EV $i$, including its State of Charge and remaining time until departure.
+\end{itemize}
+
+\subsection{Action Space ($A$)}
+The action $a_t \in A$ is a continuous vector in $\mathbb{R}^N$, where $N$ is the number of chargers. For each charger $i$, the command $a_i(t) \in [-1, 1]$ is a normalized value that is translated into a power command:
+\begin{itemize}
+    \item If $a_i(t) > 0$, the EV is charging: $P_i(t) = a_i(t) \cdot P^{\text{max}}_{\text{charge}, i}$.
+    \item If $a_i(t) < 0$, the EV is discharging (V2G): $P_i(t) = a_i(t) \cdot P^{\text{max}}_{\text{discharge}, i}$.
+\end{itemize}
+
+\subsection{Reward Function}
+The reward function $R(t)$ encodes the objectives of the control agent. The framework allows for the selection of different reward functions from the \texttt{reward.py} module to suit various goals. Key examples include:
+\begin{itemize}
+    \item \textbf{Profit Maximization with Penalties} (\texttt{ProfitMax\_TrPenalty\_UserIncentives}): This function creates a balance between economic gain and physical constraints.
+    \[
+    R(t) = \underbrace{\text{Profit}(t)}_{\text{Economic Gain}} - \underbrace{\lambda_1 \cdot \text{Overload}(t)}_{\text{Grid Penalty}} - \underbrace{\lambda_2 \cdot \text{Unsatisfaction}(t)}_{\text{User Penalty}}
+    \]
+    The agent is rewarded for profit but penalized for overloading transformers and for failing to meet the charging needs of departing drivers.
+    
+    \item \textbf{Squared Tracking Error} (\texttt{SquaredTrackingErrorReward}): Used for grid service applications where precision is paramount.
+    \[
+    R(t) = - \left( P_{\text{setpoint}}(t) - \sum_{i=1}^N P_i(t) \right)^2
+    \]
+    The reward is the negative squared error from the power setpoint, incentivizing the agent to minimize this error at all times.
+\end{itemize}
+
+By using this enhanced framework, this thesis moves beyond single-scenario optimization to develop and validate an intelligent V2G control agent that is not only high-performing but also robust, adaptable, and ready for the complexities of real-world deployment.
+
+\section{Reinforcement Learning Algorithms}
+This work benchmarks several state-of-the-art Deep Reinforcement Learning algorithms. The following sections provide a detailed mathematical description of the selected off-policy, actor-critic algorithms.
+
+\subsubsection{Soft Actor-Critic (SAC)}
+SAC is an off-policy actor-critic algorithm designed for continuous action spaces that optimizes a stochastic policy. Its core feature is entropy maximization, which encourages exploration and improves robustness. The agent aims to maximize not only the expected sum of rewards but also the entropy of its policy.
+
+The objective function is:
+\[
+J(\pi) = \sum_{t=0}^{T} \mathbb{E}_{(s_t, a_t) \sim \rho_\pi} \left[ r(s_t, a_t) + \alpha \mathcal{H}(\pi(\cdot|s_t)) \right]
+\]
+where $\mathcal{H}$ is the entropy of the policy $\pi$ and $\alpha$ is the temperature parameter, which controls the trade-off between reward and entropy.
+
+SAC uses a soft Q-function, trained to minimize the soft Bellman residual:
+\[
+L(\theta_Q) = \mathbb{E}_{(s_t, a_t, r_t, s_{t+1}) \sim D} \left[ \left( Q(s_t, a_t) - \left(r_t + \gamma V_{\bar{\psi}}(s_{t+1})\right) \right)^2 \right]
+\]
+where $D$ is the replay buffer and the soft state value function $V$ is defined as:
+\[
+V_{\text{soft}}(s_t) = \mathbb{E}_{a_t \sim \pi} [Q_{\text{soft}}(s_t, a_t) - \alpha \log \pi(a_t|s_t)]
+\]
+To mitigate positive bias, SAC employs two Q-networks (Clipped Double-Q) and takes the minimum of the two target Q-values during the Bellman update.
+
+\subsubsection{Deep Deterministic Policy Gradient + PER (DDPG+PER)}
+DDPG is an off-policy algorithm that concurrently learns a deterministic policy $\mu(s | \theta^\mu)$ and a Q-function $Q(s, a | \theta^Q)$. It is the deep-learning extension of the DPG algorithm for continuous action spaces.
+
+\begin{itemize}
+    \item \textbf{Critic Update:} The critic is updated by minimizing the mean-squared Bellman error, similar to Q-learning. Target networks ($Q'$ and $\mu'$) are used to stabilize training.
+    \[
+    L(\theta^Q) = \mathbb{E}_{(s_t, a_t, r_t, s_{t+1}) \sim D} \left[ (y_t - Q(s_t, a_t | \theta^Q))^2 \right]
+    \]
+    where the target $y_t$ is given by:
+    \[
+    y_t = r_t + \gamma Q'(s_{t+1}, \mu'(s_{t+1}|
+    \theta^{\mu'})|
+    \theta^{Q'})
+    \]
+    \item \textbf{Actor Update:} The actor is updated using the deterministic policy gradient theorem:
+    \[
+    \nabla_{\theta^\mu} J \approx \mathbb{E}_{s_t \sim D} [\nabla_a Q(s, a | \theta^Q)|_{s=s_t, a=\mu(s_t)} \nabla_{\theta^\mu} \mu(s_t | \theta^\mu)]
+    \]
+    \item \textbf{Prioritized Experience Replay (PER):} This work enhances DDPG with PER. Instead of uniform sampling from the replay buffer $D$, PER samples transitions based on their TD-error, prioritizing those where the model has the most to learn. The probability of sampling transition $i$ is:
+    \[
+    P(i) = \frac{p_i^\beta}{\sum_k p_k^\beta}
+    \]
+    where $p_i = |\delta_i| + \epsilon$ is the priority based on the TD-error $\delta_i$, and $\beta$ controls the degree of prioritization. To correct for the bias introduced by non-uniform sampling, PER uses importance-sampling (IS) weights.
+\end{itemize}
+
+\subsubsection{Truncated Quantile Critics (TQC)}
+TQC enhances the stability of SAC by modeling the entire distribution of returns instead of just its mean. This is achieved through quantile regression and a novel truncation mechanism to combat Q-value overestimation.
+
+\begin{itemize}
+    \item \textbf{Distributional Learning:} TQC employs a set of $N$ critic networks, \{$Q_{\phi_i}(s, a)\}_{i=1}^{N}$, each trained to estimate a specific quantile $\tau_i$ of the return distribution. The target quantiles are implicitly defined as $\tau_i = \frac{i-0.5}{N}$. The critics are trained by minimizing the quantile Huber loss, $L_{QH}$.
+    
+    \item \textbf{Distributional Target Calculation:} A distributional target is constructed for the Bellman update. First, an action is sampled from the target policy for the next state: $\tilde{a}_{t+1} \sim \pi_{\theta'}(\cdot|s_{t+1})$. Then, a set of $N$ Q-value estimates for the next state is obtained from the $N$ target critic networks: \{$Q_{\phi'_j}(s_{t+1}, \tilde{a}_{t+1})\}_{j=1}^{N}$.
+    
+    \item \textbf{Truncation:} This is the key idea of TQC. To combat overestimation, the algorithm discards the $k$ largest Q-value estimates from the set of $N$ target values. This truncation removes the most optimistic estimates, which are a primary source of bias, leading to more conservative and stable updates.
+    
+    \item \textbf{Critic Update:} The target value for updating the $i$-th critic is formed using the Bellman equation with the truncated set of next-state Q-values. The overall critic loss is the sum of the quantile losses across all critics:
+    \[
+    L(\phi) = \sum_{i=1}^{N} \mathbb{E}_{(s,a,r,s') \sim D} \left[ L_{QH}\left(r + \gamma Q_{\text{trunc}}(s', \tilde{a}') - Q_{\phi_i}(s,a) \right) \right]
+    \]
+    where $Q_{\text{trunc}}$ represents the value derived from the truncated set of target quantiles.
+\end{itemize}
+
+
+
+\input{Reinforcement_learning}
+
+
+\input{gurobi_mpc}
+\input{pulp_mpc}

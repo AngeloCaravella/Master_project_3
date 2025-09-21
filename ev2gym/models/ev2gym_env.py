@@ -343,6 +343,7 @@ class EV2Gym(gym.Env):
         self.current_step = 0
         self.total_evs_spawned = 0
         self.total_reward = 0
+        self.departed_evs = []
 
         self.current_ev_departed = 0
         self.current_ev_arrived = 0
@@ -414,7 +415,7 @@ class EV2Gym(gym.Env):
         total_costs = 0
         total_invalid_action_punishment = 0
         user_satisfaction_list = []
-        self.departing_evs = []
+        departing_evs_this_step = []
 
         self.current_ev_departed = 0
         self.current_ev_arrived = 0
@@ -433,7 +434,7 @@ class EV2Gym(gym.Env):
                 self.charge_prices[cs.id, self.current_step],
                 self.discharge_prices[cs.id, self.current_step])
 
-            self.departing_evs += ev
+            departing_evs_this_step += ev
 
             for u in user_satisfaction:
                 user_satisfaction_list.append(u)
@@ -470,7 +471,8 @@ class EV2Gym(gym.Env):
             elif ev.time_of_arrival > self.current_step + 1:
                 break
 
-        self._update_power_statistics(self.departing_evs)
+        self.departed_evs.extend(departing_evs_this_step)
+        self._update_power_statistics(departing_evs_this_step)
 
         self.current_step += 1
         self._step_date()
@@ -594,7 +596,7 @@ class EV2Gym(gym.Env):
 
         self.save_plots = save_plots
 
-    def _update_power_statistics(self, departing_evs):
+    def _update_power_statistics(self, departing_evs_this_step):
         '''Updates the power statistics of the simulation'''
 
         # if not self.lightweight_plots:
@@ -625,7 +627,7 @@ class EV2Gym(gym.Env):
                     self.port_energy_level[port, cs.id,
                                            self.current_step] = ev.current_capacity/ev.battery_capacity
 
-            for ev in self.departing_evs:
+            for ev in departing_evs_this_step:
                 if not self.lightweight_plots:
                     self.port_energy_level[ev.id, ev.location, self.current_step] = \
                         ev.current_capacity/ev.battery_capacity

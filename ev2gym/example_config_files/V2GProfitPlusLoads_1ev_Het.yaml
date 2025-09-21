@@ -4,7 +4,7 @@
 # Simulation Parameters
 ##############################################################################
 timescale: 15 # in minutes per step
-simulation_length: 115 #90 # in steps per simulation
+simulation_length: 112 #90 # in steps per simulation
 
 ##############################################################################
 # Date and Time
@@ -26,18 +26,18 @@ simulation_days: weekdays # weekdays, weekends, or both
 
 # EV Spawn Behavior
 scenario: workplace # public, private, or workplace
-spawn_multiplier: 5 # 1 is default, the higher the number the more EVs spawn. Play somewhere between 3-7. With 1 often only 1/5 EVs show up.
+spawn_multiplier: 1 # 1 is default, the higher the number the more EVs spawn. Play somewhere between 3-7. With 1 often only 1/5 EVs show up.
 
 ##############################################################################
 # Prices
 ##############################################################################
-discharge_price_factor: 1 # how many times more abs(expensive/cheaper) it is to discharge than to charge. Are similar, discharging cost could be a bit higher.
+discharge_price_factor: 0.8 # how many times more abs(expensive/cheaper) it is to discharge than to charge. Are similar, discharging cost could be a bit higher.
 
 ##############################################################################
 # Charging Network
 ##############################################################################
-v2g_enabled: False # True or False
-number_of_charging_stations: 10 
+v2g_enabled: True # True or False
+number_of_charging_stations: 1
 number_of_transformers: 1
 number_of_ports_per_cs: 1
 # Provide path if you want to load a specific charging topology,
@@ -58,21 +58,21 @@ power_setpoint_flexiblity: 10 # (in percentage +/- %)
 tr_seed: -1 # seed for the random number generator of transformer loads(-1 for random seed)
 
 inflexible_loads: # Offices, homes
-  include: False # True or False
-  inflexible_loads_capacity_multiplier_mean: 1 # 1 is default, the higher the number the more inflexible loads
+  include: True # True or False
+  inflexible_loads_capacity_multiplier_mean: 0.8 # 1 is default, the higher the number the more inflexible loads
   forecast_mean: 30 # in percentage of load at time t%
   forecast_std: 5 # in percentage of load at time t%
 
 # PV solar Power
 solar_power:
-  include: False # True or False
+  include: True # True or False
   solar_power_capacity_multiplier_mean: 1 # 1 is default, the higher the number the more solar power
   forecast_mean: 20 # in percentage of load at time t%
   forecast_std: 5 # in percentage of load at time t%
 
 # Whether to include demand response in the transformer power limit
 demand_response:
-  include: False # True or False
+  include: True # True or False
   events_per_day: 1
   #How much of the transformer power limit can be used for demand response
   event_capacity_percentage_mean: 35 # (in percentage +/- %) reduction
@@ -89,7 +89,7 @@ demand_response:
 ##############################################################################
 heterogeneous_ev_specs: True #if False, each EV has the same specifications
 # such as battery capacity, charging rate, etc.
-ev_specs_file: ./ev2gym/data/ev_specs.json # path to the file with the EV specifications
+ev_specs_file: ./ev2gym/data/ev_specs_v2g_enabled2024.json # path to the file with the EV specifications
 
 ##############################################################################
 # Default Model values
@@ -99,14 +99,14 @@ ev_specs_file: ./ev2gym/data/ev_specs.json # path to the file with the EV specif
 
 # Default Transformer model
 transformer:
-  max_power: 100 # in kW
+  max_power: 200 # in kW
 
 # Default Charging Station model
 charging_station:  
   min_charge_current: 0 # Amperes
-  max_charge_current: 16 # Amperes
+  max_charge_current: 32 # Amperes
   min_discharge_current: 0 # Amperes (actual value <=0)
-  max_discharge_current: -16 # Amperes (actual value <=0)
+  max_discharge_current: -32 # Amperes (actual value <=0)
   voltage: 400 # Line-Line Voltage in Volts
   phases: 3 # 1,2, or 3
 
@@ -120,14 +120,14 @@ ev:
   max_discharge_power: -11 # in kW
   min_discharge_power: 0 # in kW
   ev_phases: 3  
-  charge_efficiency: 1 # 0-1 (0% - 100%)
-  discharge_efficiency: 1 # 0-1 (0% - 100%)
-  transition_soc: 1 # 0-1 (0% - 100%)
+  charge_efficiency: 0.95 # 0-1 (0% - 100%)
+  discharge_efficiency: 0.9 # 0-1 (0% - 100%)
+  transition_soc: 0.8 # 0-1 (0% - 100%)
 
   #The following values are also used if "heterogeneous_ev_specs = True"
-  min_battery_capacity: 5 # in kWh
-  min_time_of_stay: 60 # in minutes
-  min_emergency_battery_capacity: 25 # in kWh
+  min_battery_capacity: 15 # in kWh
+  min_time_of_stay: 180 # in minutes
+  min_emergency_battery_capacity: 10 # in kWh
   desired_capacity: 1 # in (0-1) (0% - 100%)
   #if trasition_soc is < 1, the curve of the line is affected by:
   transition_soc_multiplier: 5 # default 1 (the higher the number the shorter the effect of CCCV region)

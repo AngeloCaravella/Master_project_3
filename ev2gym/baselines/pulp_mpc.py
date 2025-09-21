@@ -17,7 +17,7 @@ class eMPC_V2G_PuLP:
     """
     def __init__(self, env, control_horizon=10, w_departure_penalty=10.0,
                  costo_degrado_kwh=0.02, prezzo_ricarica_utente_kwh=0.5,
-                 fattore_aggressivita_profitto=1.0, **kwargs): # MODIFICA: Valore di default per aggressività cambiato a 1.0
+                 fattore_aggressivita_profitto=1.0, mpc_desired_soc_factor=0.95, **kwargs): # MODIFICA: Valore di default per aggressività cambiato a 1.0
         """
         Inizializzazione del controller MPC.
 
@@ -39,6 +39,7 @@ class eMPC_V2G_PuLP:
         self.prezzo_ricarica_utente_kwh = prezzo_ricarica_utente_kwh
         # MODIFICA: fattore_aggressivita_profitto non è più usato per pesare i costi, ma può essere usato per altre logiche se necessario
         self.fattore_aggressivita_profitto = np.clip(fattore_aggressivita_profitto, 0.0, 1.0)
+        self.mpc_desired_soc_factor = mpc_desired_soc_factor
 
     def get_action(self, env):
         current_step = env.current_step
@@ -111,7 +112,7 @@ class eMPC_V2G_PuLP:
                 if 0 <= departure_step_in_horizon < horizon:
                     final_E = E[cs_id, departure_step_in_horizon]
                     # Vincolo "duro" (hard constraint) per la soddisfazione utente
-                    prob += final_E >= ev.desired_capacity, f"User_{cs_id}_Departure_SoC"
+                    prob += final_E >= ev.desired_capacity * self.mpc_desired_soc_factor, f"User_{cs_id}_Departure_SoC"
                     
                     # Logica di penalità (soft constraint) rimossa dall'obiettivo per evitare conflitti con la massimizzazione del profitto
                     # soc_deviation = pulp.LpVariable(f"SoCDev_{cs_id}", lowBound=0)

@@ -63,6 +63,7 @@ class EV():
                  charge_efficiency=1, # can be a list of charge efficiencies for different current levels
                  discharge_efficiency=1, # can be a list of discharge efficiencies for different current levels
                  timescale=5,
+                 degradation_params=None
                  ):
 
         self.id = id
@@ -111,6 +112,17 @@ class EV():
 
         self.calendar_loss = 0
         self.cyclic_loss = 0
+        
+        # Degradation parameters
+        if degradation_params is None:
+            degradation_params = {}
+        self.eps0 = degradation_params.get('eps0', 6e6)
+        self.eps1 = degradation_params.get('eps1', 1.3e6)
+        self.eps2 = degradation_params.get('eps2', 7000)
+        self.z0 = degradation_params.get('z0', 4e-4)
+        self.z1 = degradation_params.get('z1', 2e-3)
+        self.Qacc = degradation_params.get('Qacc', 12000)
+
 
     def reset(self):
         '''
@@ -324,7 +336,7 @@ class EV():
                     new_soc = pilot_dsoc + self.get_soc()
                 else:
                     new_soc = 1 + np.exp(
-                        self.transition_soc_multiplier *
+                        self.transition_soc_multiplier *\
                         (pilot_dsoc + self.get_soc() - pilot_transition_soc)
                         / (pilot_transition_soc - 1)
                     ) * (pilot_transition_soc - 1)
@@ -441,80 +453,37 @@ class EV():
 
     def get_battery_degradation(self) -> Tuple[float, float]:
         '''
-        A function that returns the capacity loss of the EV.
-
-        Qacc := Accumulated battery cell throughput (Ah)
-        Qsim := Battery cell throughput during simulation (Ah)        
-        Tacc := Battery age (days)
-        Tsim := Simulation time (days)
-        theta := Battery temperature (K)
-
-        Outputs: 
-            - Capacity loss: the capacity loss
+        Calculates battery degradation based on a semi-empirical model.
+        The model is composed of calendar and cyclic aging components.
+        Model adapted from: Fit_battery.py script and its underlying logic.
+        
+        Outputs:
+            - d_cal (float): Calendar aging component (capacity loss).
+            - d_cyc (float): Cyclic aging component (capacity loss).
         '''
-
-        # Degradation modelling parameters
-        e0 = 7.543e6
-        e1 = 23.75e6
-        e2 = 6976
-
-        z0 = 7.348e-3
-        z1 = 3.667
-        z2 = 7.6e-4
-        z3 = 4.081e-3
-
-        b_cap_ah = 2.05  # ah
-        b_cap_kwh = 78  # kwh
-
-        d_dist = 15000  # km
-        b_age = 2*365  # days
-        G = 0.186  # kwh/km
-
-        # Age of the battery in days
-        T_acc = b_age
-
-        # Simulation time in days
-        T_sim = (self.time_of_departure - self.time_of_arrival + 1) * \
-            self.timescale / (60*24)  # days
-
-        theta = 298.15  # Kelvin
-        k = 0.8263  # Volts
-
-        v_min = 3.3324  # Volts
-        # Add the final soc to the historic soc
+        # Add the final SoC to the historic SoC for an accurate average
         self.historic_soc.append(self.get_soc())
-        avg_soc = np.mean(self.historic_soc)
-        v_avg = v_min + k * avg_soc
+        SoC_mean = np.mean(self.historic_soc)
+        
+        # Simulation time in days
+        t_days = (self.time_of_departure - self.time_of_arrival + 1) * self.timescale / (60 * 24)
+        
+        # Assume constant temperature for now, can be made a parameter later
+        theta_C = 25  # Celsius
+        theta_K = theta_C + 273.15
 
-        # alpha(v_avg)
-        alpha = (e0 * v_avg - e1) * math.exp(-e2 / theta)
-        d_cal = alpha * 0.75 * T_sim / (T_acc)**0.25
+        # --- Calendar Aging ---
+        # dcal = 0.75 * (eps0 * SoC_mean - eps1) * exp(-eps2/theta) * t_days / (t_days+1)**0.25
+        d_cal = 0.75 * (self.eps0 * SoC_mean - self.eps1) * np.exp(-self.eps2 / theta_K) * t_days / (t_days + 1)**0.25
 
-        # beta(v_avg, soc_avg)
-        # print(f'avg_soc: {avg_soc}')
-        self.active_steps.append(1)
+        # --- Cyclic Aging ---
+        # dcyc = (z0 + z1 * abs(SoC_mean-0.5)) * E_exchanged / sqrt(Qacc)
+        # abs_total_energy_exchanged is in kWh, same unit as the model expects
+        E_exchanged = self.abs_total_energy_exchanged
+        d_cyc = (self.z0 + self.z1 * abs(SoC_mean - 0.5)) * E_exchanged / np.sqrt(self.Qacc)
 
-        # get historic soc that self.active_steps == 1
-        filtered_historic_soc = [soc for i, soc in enumerate(
-            self.historic_soc) if self.active_steps[i] == 1]
-        # print(f'filtered soc {filtered_historic_soc}')
-        avg_filtered_soc = np.mean(filtered_historic_soc)
-
-        delta_DoD = 2 * \
-            abs(avg_filtered_soc.repeat(len(filtered_historic_soc)) -
-                filtered_historic_soc).mean()
-        # print(f'delta_DoD: {delta_DoD}')
-        v_half_soc = v_min + k * 0.5
-        beta = z0 * (v_half_soc - z1)**2 + z2 + z3 * delta_DoD
-
-        Q_sim = (self.abs_total_energy_exchanged / b_cap_kwh) * b_cap_ah
-
-        # accumulated throughput
-        Q_acc = 2 * (b_age * (d_dist / 365) * G * b_cap_ah) / b_cap_kwh
-        # print(f'Q_acc: {Q_acc}')
-
-        d_cyc = beta * 0.5 * Q_sim / (Q_acc)**0.5
-
+        # The model from Fit_battery.py returns Qlost, which is a percentage.
+        # We assume d_cal and d_cyc are the components of this loss.
         self.calendar_loss = d_cal
         self.cyclic_loss = d_cyc
 

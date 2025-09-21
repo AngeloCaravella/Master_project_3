@@ -71,7 +71,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>labeldateparts</bcf:key>
-      <bcf:value>1</bcf:value>
+      <bcf:value>0</bcf:value>
     </bcf:option>
     <bcf:option type="multivalued">
       <bcf:key>labeldatespec</bcf:key>
@@ -172,7 +172,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>sortingtemplatename</bcf:key>
-      <bcf:value>nyt</bcf:value>
+      <bcf:value>nty</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>sortsets</bcf:key>
@@ -180,11 +180,11 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>uniquelist</bcf:key>
-      <bcf:value>true</bcf:value>
+      <bcf:value>false</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>uniquename</bcf:key>
-      <bcf:value>full</bcf:value>
+      <bcf:value>false</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>uniqueprimaryauthor</bcf:key>
@@ -314,7 +314,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>labeldateparts</bcf:key>
-      <bcf:value>1</bcf:value>
+      <bcf:value>0</bcf:value>
     </bcf:option>
     <bcf:option type="multivalued">
       <bcf:key>labeldatespec</bcf:key>
@@ -395,11 +395,11 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>uniquelist</bcf:key>
-      <bcf:value>true</bcf:value>
+      <bcf:value>false</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>uniquename</bcf:key>
-      <bcf:value>full</bcf:value>
+      <bcf:value>false</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>uniqueprimaryauthor</bcf:key>
@@ -560,7 +560,6 @@
     <bcf:option datatype="string">datelabel</bcf:option>
     <bcf:option datatype="string">backrefstyle</bcf:option>
     <bcf:option datatype="string">arxiv</bcf:option>
-    <bcf:option datatype="string">mergedate</bcf:option>
     <bcf:option datatype="boolean">familyinits</bcf:option>
     <bcf:option datatype="boolean">giveninits</bcf:option>
     <bcf:option datatype="boolean">prefixinits</bcf:option>
@@ -644,7 +643,7 @@
     <bcf:option datatype="boolean">doi</bcf:option>
     <bcf:option datatype="boolean">eprint</bcf:option>
     <bcf:option datatype="boolean">related</bcf:option>
-    <bcf:option datatype="boolean">dashed</bcf:option>
+    <bcf:option datatype="boolean">subentry</bcf:option>
     <bcf:option datatype="boolean">bibtexcaseprotection</bcf:option>
     <bcf:option datatype="integer">mincrossrefs</bcf:option>
     <bcf:option datatype="integer">minxrefs</bcf:option>
@@ -675,7 +674,6 @@
     <bcf:option datatype="string">loccittracker</bcf:option>
     <bcf:option datatype="string">uniquelist</bcf:option>
     <bcf:option datatype="string">uniquename</bcf:option>
-    <bcf:option datatype="string">mergedate</bcf:option>
     <bcf:option datatype="boolean">familyinits</bcf:option>
     <bcf:option datatype="boolean">giveninits</bcf:option>
     <bcf:option datatype="boolean">prefixinits</bcf:option>
@@ -727,6 +725,7 @@
     <bcf:option datatype="boolean">doi</bcf:option>
     <bcf:option datatype="boolean">eprint</bcf:option>
     <bcf:option datatype="boolean">related</bcf:option>
+    <bcf:option datatype="boolean">subentry</bcf:option>
     <bcf:option datatype="boolean">bibtexcaseprotection</bcf:option>
     <bcf:option datatype="xml">labelalphatemplate</bcf:option>
     <bcf:option datatype="xml">translit</bcf:option>
@@ -765,7 +764,6 @@
     <bcf:option datatype="string" backendout="1">loccittracker</bcf:option>
     <bcf:option datatype="string">uniquelist</bcf:option>
     <bcf:option datatype="string">uniquename</bcf:option>
-    <bcf:option datatype="string" backendout="1">mergedate</bcf:option>
     <bcf:option datatype="boolean" backendout="1">familyinits</bcf:option>
     <bcf:option datatype="boolean" backendout="1">giveninits</bcf:option>
     <bcf:option datatype="boolean" backendout="1">prefixinits</bcf:option>
@@ -816,6 +814,7 @@
     <bcf:option datatype="boolean" backendout="1">doi</bcf:option>
     <bcf:option datatype="boolean" backendout="1">eprint</bcf:option>
     <bcf:option datatype="boolean" backendout="1">related</bcf:option>
+    <bcf:option datatype="boolean" backendout="1">subentry</bcf:option>
     <bcf:option datatype="boolean" backendout="1">bibtexcaseprotection</bcf:option>
     <bcf:option datatype="integer" backendin="maxcitenames,maxbibnames,maxsortnames">maxnames</bcf:option>
     <bcf:option datatype="integer" backendin="mincitenames,minbibnames,minsortnames">minnames</bcf:option>
@@ -2374,60 +2373,64 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">references.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1" intorder="1">orfanoudakis2022deep</bcf:citekey>
+    <bcf:citekey order="1" intorder="1">Tavakoli2019</bcf:citekey>
     <bcf:citekey order="2" intorder="1">orfanoudakis2022deep</bcf:citekey>
-    <bcf:citekey order="2" intorder="2">salvatti2020electric</bcf:citekey>
-    <bcf:citekey order="3" intorder="1">alfaverh2022optima</bcf:citekey>
-    <bcf:citekey order="4" intorder="1">evertsson2024investigating</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">alfaverh2022optima</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">orfanoudakis2022deep</bcf:citekey>
-    <bcf:citekey order="6" intorder="2">minchala2025systematic</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">alhmoud2024review</bcf:citekey>
-    <bcf:citekey order="8" intorder="1">orfanoudakis2022deep</bcf:citekey>
-    <bcf:citekey order="8" intorder="2">shibl2023electric</bcf:citekey>
-    <bcf:citekey order="9" intorder="1">european_commission_2021_fit_for_55</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">evertsson2024investigating</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">alfaverh2022optima</bcf:citekey>
-    <bcf:citekey order="11" intorder="2">sadeghi2021deep</bcf:citekey>
-    <bcf:citekey order="12" intorder="1">orfanoudakis2022deep</bcf:citekey>
-    <bcf:citekey order="13" intorder="1">khan2024review</bcf:citekey>
-    <bcf:citekey order="13" intorder="2">zou2021deep</bcf:citekey>
-    <bcf:citekey order="14" intorder="1">wan2022dynamic</bcf:citekey>
-    <bcf:citekey order="15" intorder="1">ng1999policy</bcf:citekey>
-    <bcf:citekey order="16" intorder="1">wan2022dynamic</bcf:citekey>
-    <bcf:citekey order="17" intorder="1">lillicrap2015continuous</bcf:citekey>
-    <bcf:citekey order="18" intorder="1">orfanoudakis2022deep</bcf:citekey>
-    <bcf:citekey order="18" intorder="2">alfaverh2022optima</bcf:citekey>
-    <bcf:citekey order="19" intorder="1">fujimoto2018addressing</bcf:citekey>
-    <bcf:citekey order="20" intorder="1">liu2023optimal</bcf:citekey>
-    <bcf:citekey order="20" intorder="2">wang2022multi</bcf:citekey>
-    <bcf:citekey order="21" intorder="1">haarnoja2018soft</bcf:citekey>
-    <bcf:citekey order="22" intorder="1">logeshwaran2022comparative</bcf:citekey>
-    <bcf:citekey order="23" intorder="1">kuznetsov2020controlling</bcf:citekey>
-    <bcf:citekey order="24" intorder="1">schaul2015prioritized</bcf:citekey>
-    <bcf:citekey order="25" intorder="1">mnih2016asynchronous</bcf:citekey>
-    <bcf:citekey order="26" intorder="1">schulman2015trust</bcf:citekey>
-    <bcf:citekey order="27" intorder="1">schulman2017proximal</bcf:citekey>
-    <bcf:citekey order="28" intorder="1">mania2018simple</bcf:citekey>
-    <bcf:citekey order="29" intorder="1">minchala2025systematic</bcf:citekey>
-    <bcf:citekey order="30" intorder="1">alsabbagh2022reinforcement</bcf:citekey>
-    <bcf:citekey order="31" intorder="1">faggio2023design</bcf:citekey>
-    <bcf:citekey order="32" intorder="1">schwenk2022computationally</bcf:citekey>
-    <bcf:citekey order="33" intorder="1">kumar2024integration</bcf:citekey>
-    <bcf:citekey order="34" intorder="1">birkl2017degradation</bcf:citekey>
-    <bcf:citekey order="35" intorder="1">vetter2005ageing</bcf:citekey>
-    <bcf:citekey order="36" intorder="1">birkl2017degradation</bcf:citekey>
-    <bcf:citekey order="37" intorder="1">plett2015battery</bcf:citekey>
-    <bcf:citekey order="38" intorder="1">plett2015battery</bcf:citekey>
-    <bcf:citekey order="39" intorder="1">blomgren2017development</bcf:citekey>
-    <bcf:citekey order="39" intorder="2">wang2012thermal</bcf:citekey>
-    <bcf:citekey order="40" intorder="1">orfanoudakis2024ev2gym</bcf:citekey>
-    <bcf:citekey order="41" intorder="1">brockman2016openai</bcf:citekey>
-    <bcf:citekey order="42" intorder="1">orfanoudakis2024ev2gym</bcf:citekey>
-    <bcf:citekey order="43" intorder="1">orfanoudakis2024ev2gym</bcf:citekey>
+    <bcf:citekey order="3" intorder="1">orfanoudakis2022deep</bcf:citekey>
+    <bcf:citekey order="3" intorder="2">salvatti2020electric</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">alfaverh2022optima</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">evertsson2024investigating</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">alfaverh2022optima</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">orfanoudakis2022deep</bcf:citekey>
+    <bcf:citekey order="7" intorder="2">minchala2025systematic</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">alhmoud2024review</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">orfanoudakis2022deep</bcf:citekey>
+    <bcf:citekey order="9" intorder="2">shibl2023electric</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">european_commission_2021_fit_for_55</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">evertsson2024investigating</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">alfaverh2022optima</bcf:citekey>
+    <bcf:citekey order="12" intorder="2">sadeghi2021deep</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">orfanoudakis2022deep</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">khan2024review</bcf:citekey>
+    <bcf:citekey order="14" intorder="2">zou2021deep</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">ibrahim2024comprehensive</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">ng1999policy</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">wan2022dynamic</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">lillicrap2015continuous</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">orfanoudakis2022deep</bcf:citekey>
+    <bcf:citekey order="19" intorder="2">alfaverh2022optima</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">fujimoto2018addressing</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">liu2023optimal</bcf:citekey>
+    <bcf:citekey order="21" intorder="2">wang2022multi</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">haarnoja2019soft</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">logeshwaran2022comparative</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">kuznetsov2020controlling</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">schaul2015prioritized</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">mnih2016asynchronous</bcf:citekey>
+    <bcf:citekey order="27" intorder="1">schulman2020trust</bcf:citekey>
+    <bcf:citekey order="28" intorder="1">schulman2017proximal</bcf:citekey>
+    <bcf:citekey order="29" intorder="1">mania2018simple</bcf:citekey>
+    <bcf:citekey order="30" intorder="1">Richalet1978ModelPH</bcf:citekey>
+    <bcf:citekey order="31" intorder="1">Cutler1980</bcf:citekey>
+    <bcf:citekey order="32" intorder="1">mayne2000constrained</bcf:citekey>
+    <bcf:citekey order="33" intorder="1">minchala2025systematic</bcf:citekey>
+    <bcf:citekey order="34" intorder="1">alsabbagh2022reinforcement</bcf:citekey>
+    <bcf:citekey order="35" intorder="1">faggio2023design</bcf:citekey>
+    <bcf:citekey order="36" intorder="1">schwenk2022computationally</bcf:citekey>
+    <bcf:citekey order="37" intorder="1">kumar2024integration</bcf:citekey>
+    <bcf:citekey order="38" intorder="1">birkl2017degradation</bcf:citekey>
+    <bcf:citekey order="39" intorder="1">vetter2022ageing</bcf:citekey>
+    <bcf:citekey order="40" intorder="1">birkl2017degradation</bcf:citekey>
+    <bcf:citekey order="41" intorder="1">plett2015battery</bcf:citekey>
+    <bcf:citekey order="42" intorder="1">plett2015battery</bcf:citekey>
+    <bcf:citekey order="43" intorder="1">blomgren2017development</bcf:citekey>
+    <bcf:citekey order="43" intorder="2">wang2012thermal</bcf:citekey>
+    <bcf:citekey order="44" intorder="1">orfanoudakis2024ev2gym</bcf:citekey>
+    <bcf:citekey order="45" intorder="1">brockman2016openai</bcf:citekey>
+    <bcf:citekey order="46" intorder="1">orfanoudakis2024ev2gym</bcf:citekey>
+    <bcf:citekey order="47" intorder="1">orfanoudakis2024ev2gym</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
-  <bcf:sortingtemplate name="nyt">
+  <bcf:sortingtemplate name="nty">
     <bcf:sort order="1">
       <bcf:sortitem order="1">presort</bcf:sortitem>
     </bcf:sort>
@@ -2443,12 +2446,12 @@
       <bcf:sortitem order="6">title</bcf:sortitem>
     </bcf:sort>
     <bcf:sort order="4">
-      <bcf:sortitem order="1">sortyear</bcf:sortitem>
-      <bcf:sortitem order="2">year</bcf:sortitem>
-    </bcf:sort>
-    <bcf:sort order="5">
       <bcf:sortitem order="1">sorttitle</bcf:sortitem>
       <bcf:sortitem order="2">title</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="5">
+      <bcf:sortitem order="1">sortyear</bcf:sortitem>
+      <bcf:sortitem order="2">year</bcf:sortitem>
     </bcf:sort>
     <bcf:sort order="6">
       <bcf:sortitem order="1">volume</bcf:sortitem>
@@ -2457,9 +2460,9 @@
   </bcf:sortingtemplate>
   <!-- DATALISTS -->
   <bcf:datalist section="0"
-                name="nyt/global//global/global/global"
+                name="nty/global//global/global/global"
                 type="entry"
-                sortingtemplatename="nyt"
+                sortingtemplatename="nty"
                 sortingnamekeytemplatename="global"
                 labelprefix=""
                 uniquenametemplatename="global"
