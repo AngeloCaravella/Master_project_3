@@ -1,23 +1,17 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
 [1] Config.pm:331> INFO - Logfile is 'main.blg'
-[445] biber-MSWIN64:342> INFO - === 
-[639] Biber.pm:421> INFO - Reading 'main.bcf'
-[927] Biber.pm:1002> INFO - Found 41 citekeys in bib section 0
-[960] Biber.pm:4487> INFO - Processing section 0
-[1014] Biber.pm:4678> INFO - Looking for bibtex file 'references.bib' for section 0
-[1214] bibtex.pm:1713> INFO - LaTeX decoding ...
-[1339] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
-[2012] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[2013] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[2013] Biber.pm:4307> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[2014] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
-[2097] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[2145] bbl.pm:779> INFO - Output to main.bbl
-[2146] Biber.pm:132> WARN - BibTeX subsystem: C:\Users\angel\AppData\Local\Temp\biber_tmp_RsFY\33e59b5ca9ec342068223d604c3f8d55_10756.utf8, line 437, warning: 55 characters of junk seen at toplevel
-[2147] Biber.pm:132> WARN - I didn't find a database entry for 'haarnoja2019soft' (section 0)
-[2148] Biber.pm:132> WARN - I didn't find a database entry for 'schulman2020trust' (section 0)
-[2148] Biber.pm:132> WARN - I didn't find a database entry for 'vetter2022ageing' (section 0)
-[2148] Biber.pm:132> WARN - I didn't find a database entry for 'plett2015battery' (section 0)
-[2148] Biber.pm:132> WARN - I didn't find a database entry for 'blomgren2017development' (section 0)
-[2149] Biber.pm:132> WARN - I didn't find a database entry for 'wang2012thermal' (section 0)
-[2149] Biber.pm:134> INFO - WARNINGS: 7
+[127] biber-MSWIN64:342> INFO - === 
+[177] Biber.pm:421> INFO - Reading 'main.bcf'
+[291] Biber.pm:1002> INFO - Found 47 citekeys in bib section 0
+[310] Biber.pm:4487> INFO - Processing section 0
+[322] Biber.pm:4678> INFO - Looking for bibtex file 'references.bib' for section 0
+[422] bibtex.pm:1713> INFO - LaTeX decoding ...
+[491] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[755] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[755] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[756] Biber.pm:4307> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[756] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[794] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[820] bbl.pm:779> INFO - Output to main.bbl
+[820] Biber.pm:132> WARN - I didn't find a database entry for 'plett2015battery' (section 0)
+[821] Biber.pm:134> INFO - WARNINGS: 1

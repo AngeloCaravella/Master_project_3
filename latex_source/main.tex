@@ -7,9 +7,14 @@
 \usepackage[T1]{fontenc}       
 \usepackage[english]{babel}    
 \usepackage{booktabs}
+\usepackage{tabularx} % Required for the tabularx environment
+\usepackage{ragged2e} % For better text alignment in X columns
+
 \usepackage[backend=biber,style=numeric]{biblatex} 
 \DeclareUnicodeCharacter{0308}{\"}  
 \usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{forest}
 % ---------------------------------------------------
 % BIBLIOGRAPHY
 % ---------------------------------------------------
@@ -31,7 +36,7 @@
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}} 
 \usepackage{hyperref}   
 \usepackage{xcolor}     
-\usepackage{tikz}
+\usepackage{float}
 \usepackage{pgfplots}
 
 % ---------------------------------------------------

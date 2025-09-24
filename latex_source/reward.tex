@@ -1,21 +1,33 @@
 \section{Reward Engineering: Shaping Agent Behavior}
 \label{sec:reward_shaping}
 
-The reward function is arguably the most critical component in a Reinforcement Learning system. It is the sole mechanism through which a designer can communicate the desired behavior to the agent. A poorly designed reward can lead to unintended and suboptimal behaviors, even if the agent successfully maximizes it. The entire field of reward engineering has become a cornerstone of modern RL, as it is fundamental to applying these algorithms effectively in complex, real-world applications \footcite{ibrahim2024comprehensive}. The V2G problem, with its multiple competing objectives—maximizing profit, ensuring user satisfaction, preserving battery health, and maintaining grid stability—makes reward design particularly challenging. This work explores several sophisticated techniques to guide the learning process effectively.
-
+The reward function constitutes perhaps the most crucial element in any Reinforcement Learning system, serving as the primary mechanism through which designers communicate desired behaviors to learning agents. Poor reward design can result in unintended and suboptimal behaviors, even when agents successfully maximise their assigned objectives. The field of reward engineering has emerged as a fundamental aspect of modern RL, proving essential for effective algorithm application in complex, real-world scenarios \footcite{ibrahim2024comprehensive}. The V2G challenge, characterised by multiple competing objectives—profit maximisation, user satisfaction assurance, battery health preservation, and grid stability maintenance—presents particularly demanding reward design requirements. This work investigates several sophisticated techniques for effective learning guidance.
 \subsection{Potential-Based Reward Shaping (PBRS)}
-Potential-Based Reward Shaping (PBRS) is perhaps the most theoretically sound method for reward augmentation \footcite{ng1999policy}. It involves adding a shaping term, $F(s, s')$, to the environment's intrinsic reward, $R(s, a, s')$. The new, shaped reward $R'$ is thus defined as:
+
+Potential-Based Reward Shaping (PBRS) represents one of the most theoretically robust methods for reward augmentation \footcite{ng1999policy}. The approach involves supplementing the environment's intrinsic reward, $R(s, a, s')$, with a shaping term, $F(s, s')$. The resulting shaped reward $R'$ is defined as:
+
 \[
 R'(s, a, s') = R(s, a, s') + F(s, s')
 \]
-The shaping term itself is defined as the difference between a potential function, $\Phi$, evaluated at the new state and the old state:
+
+The shaping term itself derives from the difference between a potential function, $\Phi$, evaluated at successive states:
+
 \[
 F(s, s') = \gamma \Phi(s') - \Phi(s)
 \]
-where $\gamma$ is the discount factor. The key theoretical guarantee of PBRS is \textbf{policy invariance}: adding a potential-based shaping reward does not change the optimal policy of the underlying MDP. While the agent learns the same optimal behavior, the shaping term can provide dense, intermediate rewards that significantly accelerate the learning process by guiding the agent's exploration.
+\noindent
+where $\gamma$ represents the discount factor. 
+\noindent
+A key property of PBRS, as highlighted by Ng et al. \footcite{ng1999policy}, is \textbf{policy invariance}: adding a potential-based shaping reward does not change the optimal policy of the underlying MDP. In their paper, Ng et al. explicitly state that ""\textbf{for any MDP and any potential function $\Phi$, the optimal policy for the shaped reward function $R'$ is identical to the optimal policy for the original reward $R$}"". This ensures that while the agent may experience denser feedback and faster learning, the long-term optimal behavior remains exactly the same.
+\\
+\noindent
+By providing intermediate guidance through the shaping term, PBRS effectively accelerates learning without compromising the correctness of the learned policy.
+
 
 \subsection{Dynamic and Adaptive Rewards}
-Unlike PBRS, which provides a static reward bonus, a dynamic or adaptive reward function can evolve during training. This approach is particularly useful for complex problems where the relative importance of different objectives may change as the agent becomes more competent. For example, an agent could initially be rewarded simply for keeping an EV charged, but as training progresses, the reward function could adapt to introduce penalties for grid overloads or incentives for V2G services \footcite{wan2022dynamic}. This allows the agent to master different facets of the problem sequentially.
+
+In contrast to PBRS, which provides static reward bonuses, dynamic or adaptive reward functions can evolve throughout the training process. This approach proves particularly valuable for complex problems where the relative importance of different objectives may shift as agent competency develops. For instance, an agent might initially receive rewards simply for maintaining EV charge levels, but as training progresses, the reward function could adapt to incorporate penalties for grid overloads or incentives for V2G service provision \footcite{wan2022dynamic}. This enables agents to master different problem aspects sequentially rather than simultaneously.
 
 \subsection{Curriculum Learning}
-While technically a training paradigm rather than a reward modification technique, Curriculum Learning (CL) is highly relevant to reward engineering. CL involves training the agent on a sequence of tasks that gradually increase in difficulty. In the V2G context, an agent might first be trained in a simple scenario with only a few EVs and stable prices. Once it masters this, it is moved to a more complex environment with more EVs, volatile prices, and hard constraints. This structured learning process prevents the agent from being overwhelmed by the full complexity of the problem from the start and can lead to more robust and generalizable policies.
+
+While technically representing a training paradigm rather than a direct reward modification technique, Curriculum Learning (CL) maintains high relevance to reward engineering practices. CL involves training agents on task sequences that progressively increase in difficulty. Within the V2G context, agents might initially train in simplified scenarios featuring few EVs and stable pricing conditions. Upon mastering these fundamentals, they advance to more complex environments incorporating larger EV fleets, volatile pricing, and hard operational constraints. This structured learning approach prevents agents from becoming overwhelmed by full problem complexity from the outset, potentially leading to more robust and generalisable policies.
