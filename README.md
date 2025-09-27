@@ -1,5 +1,7 @@
 # EV2Gym Simulation Orchestrator
 
+![V2G Logo](v2g.png)
+
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=flat-square&logo=python)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.x-red?style=flat-square&logo=streamlit)
 
