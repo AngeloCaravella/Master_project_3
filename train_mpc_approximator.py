@@ -33,7 +33,7 @@ MAX_CS = 25
 
 print(f"Trovati {len(AVAILABLE_SCENARIOS)} scenari. Il numero massimo di stazioni di ricarica è: {MAX_CS}")
 
-NUM_SAMPLES = 200  # Impostare a 5000+ per il modello finale
+NUM_SAMPLES = 100  # Impostare a 5000+ per il modello finale
 CONTROL_HORIZON = 5
 MODEL_SAVE_PATH = 'ev2gym/baselines/mpc_approximator.joblib'
 
@@ -70,33 +70,44 @@ if __name__ == "__main__":
     print("\n--- Avvio generazione dataset multi-scenario per MPC Esplicito Approssimato ---")
     
     X_data, y_data = [], []
-
-    for _ in tqdm(range(NUM_SAMPLES), desc="Campionamento Stati Multi-Scenario"):
-        env = None
-        try:
-            selected_config = random.choice(AVAILABLE_SCENARIOS)
-            env = EV2Gym(config_file=selected_config, generate_rnd_game=True)
-            mpc_oracle = OnlineMPC_Solver(env, control_horizon=CONTROL_HORIZON)
-            
-            if env.simulation_length <= CONTROL_HORIZON + 1:
-                continue
-            random_step = np.random.randint(0, env.simulation_length - CONTROL_HORIZON - 1)
-            env.current_step = random_step
-            
-            state_vector = build_state_vector(env, MAX_CS, CONTROL_HORIZON)
-            action_normalized = mpc_oracle.get_action(env)
-            
-            optimal_powers = np.zeros(MAX_CS)
-            for i in range(env.cs):
-                max_power = env.charging_stations[i].get_max_power()
-                optimal_powers[i] = action_normalized[i] * max_power
+    with tqdm(total=NUM_SAMPLES, desc="Campionamento Stati Multi-Scenario") as pbar:
+        while len(X_data) < NUM_SAMPLES:
+            env = None
+            try:
+                selected_config = random.choice(AVAILABLE_SCENARIOS)
+                env = EV2Gym(config_file=selected_config, generate_rnd_game=True)
                 
-            X_data.append(state_vector)
-            y_data.append(optimal_powers)
+                if env.simulation_length <= CONTROL_HORIZON + 1:
+                    continue
 
-        finally:
-            if env:
-                env.close()
+                random_step = np.random.randint(0, env.simulation_length - CONTROL_HORIZON - 1)
+                
+                # --- MODIFICA CHIAVE: Avanza l'ambiente fino allo step casuale ---
+                env.reset() # Resetta l'ambiente all'inizio
+                for _ in range(random_step):
+                    # Esegui uno step con un'azione nulla per avanzare
+                    env.step(np.zeros(env.cs))
+
+                # Ora l'ambiente è allo step corretto, controlliamo gli EV
+                if not any(ev is not None for cs in env.charging_stations for ev in cs.evs_connected):
+                    continue
+
+                mpc_oracle = OnlineMPC_Solver(env, control_horizon=CONTROL_HORIZON)
+                state_vector = build_state_vector(env, MAX_CS, CONTROL_HORIZON)
+                action_normalized = mpc_oracle.get_action(env)
+                
+                if np.any(action_normalized):
+                    optimal_powers = np.zeros(MAX_CS)
+                    for i in range(env.cs):
+                        max_power = env.charging_stations[i].get_max_power()
+                        optimal_powers[i] = action_normalized[i] * max_power
+                        
+                    X_data.append(state_vector)
+                    y_data.append(optimal_powers)
+                    pbar.update(1)
+            finally:
+                if env:
+                    env.close()
 
     if not X_data:
         raise ValueError("Nessun dato di addestramento generato. Controlla i file di configurazione.")

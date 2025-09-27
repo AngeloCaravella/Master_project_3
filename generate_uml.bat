@@ -1,0 +1,1 @@
+pyreverse -o png -p Project_Master .\Compare.py .\Fit_battery.py .\run_experiments.py .\train_mpc_approximator.py .\ev2gym

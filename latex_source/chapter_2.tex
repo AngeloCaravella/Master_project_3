@@ -521,8 +521,80 @@ u_{\min} \leq\ &u_{t+k|t} \leq u_{\max}
 At each time step $t$, this complete problem is solved, but only the first action of the optimal sequence, $u_{t|t}^*$, is applied to the system. The process then repeats at the next time step, $t+1$, using new system state measurements. This feedback mechanism, known as a \textit{receding horizon} strategy, makes MPC robust to disturbances and model mismatch \cite{camacho2013model}.
 
 
+\section{Improvement of the Standard Fixed-Horizon MPC Formulation}
+
+Model Predictive Control (MPC) addresses the control of a discrete-time nonlinear system, as described in \cite{krener2016adaptive}:
+\begin{equation}
+    x^{+} = f(x, u)
+    \label{eq:system}
+\end{equation}
+where $x \in \mathbb{R}^n$ is the state and $u \in \mathbb{R}^m$ is the control input. The objective is to solve a finite-horizon optimal control problem at each time step. For a \textbf{fixed prediction horizon} $N$, the problem is formulated as finding a control sequence $u_N = (u(0), \dots, u(N-1))$ that minimizes a cost function, defined in eq. (11) of the paper as:
+\begin{equation}
+    V_N(x) = \sum_{k=0}^{N-1} l(x(k), u(k)) + V_f(x(N))
+    \label{eq:cost}
+\end{equation}
+This minimization is subject to system dynamics, state and input constraints, and the crucial terminal constraint $x(N) \in \mathcal{X}_f$. Here, $\mathcal{X}_f$ is a terminal set where stability is guaranteed, and $V_f(x)$ is a terminal cost that acts as a control Lyapunov function on $\mathcal{X}_f$ \cite{krener2016adaptive}.
+
+\subsection{Limitation of the Fixed-Horizon Approach}
+The primary drawback of this standard formulation is the static nature of the horizon $N$. The choice of $N$ represents a difficult compromise. As Krener points out on page 2, "One would expect when the current state $x$ is far from the operating point, a relatively long horizon $N$ is needed... but as the state approaches the operating point shorter and shorter horizons can be used" \cite{krener2016adaptive}. A fixed horizon long enough for the worst-case scenario is computationally wasteful for the majority of the operational time, as it increases the dimensionality of the optimization problem ($m \times N$) solved online.
+
+\section{Improving the Formulation with Adaptive Horizon MPC (AHMPC)}
+
+The core innovation of Adaptive Horizon Model Predictive Control (AHMPC) is to make the horizon length state-dependent, adapting it online to be as short as possible while maintaining stability.
+
+\subsection{The Ideal (but Impractical) AHMPC Scheme}
+The paper first introduces an "ideal" version of AHMPC. This scheme relies on a function $N(x)$, defined as the minimum integer $N$ for which a feasible control sequence exists that drives the state $x$ into the terminal set $\mathcal{X}_f$ (see Assumption 4 in \cite{krener2016adaptive}). The resulting optimal cost and control law are then state-dependent through this horizon:
+\begin{align}
+    V(x) &= V_{N(x)}(x) \label{eq:ideal_cost} \\
+    \kappa(x) &= \kappa_{N(x)}(x) \label{eq:ideal_control}
+\end{align}
+As shown in Section II of the paper, this formulation leads to a valid Lyapunov function, confirming its stabilizing properties. However, this scheme is impractical because "in general, it is impossible to compute the function $N(x)$" \cite{krener2016adaptive}.
+
+\subsection{The Practical AHMPC Algorithm}
+Section III of the paper presents a practical algorithm that circumvents the need to know $N(x)$ or even the terminal set $\mathcal{X}_f$ explicitly. The key idea is to use the terminal controller $\kappa_f(x)$ and terminal cost $V_f(x)$ to \textit{verify online} if the chosen horizon is sufficient.
+\\
+\noindent
+At a given state $x$ and with a current horizon guess $N$, the algorithm is as follows:
+\begin{enumerate}
+    \item \textbf{Solve and Extend:} Solve the N-horizon optimal control problem to get the trajectory $x^0(\cdot)$. Then, extend this trajectory for $L$ additional steps using the terminal feedback law:
+    \begin{equation}
+        x^0(k+1) = f(x^0(k), \kappa_f(x^0(k))), \quad \text{for } k = N, \dots, N+L-1
+    \end{equation}
+    
+    \item \textbf{Verify Stability Conditions:} Check if the Lyapunov conditions, given as equations (18) and (19) in \cite{krener2016adaptive}, hold along this extended part of the trajectory:
+    \begin{align}
+        V_f(x^0(k)) &\ge \alpha(|x^0(k)|) \\
+        V_f(x^0(k)) - V_f(x^0(k+1)) &\ge \alpha(|x^0(k)|)
+    \end{align}
+    for $k = N, \dots, N+L-1$. Failure to satisfy these conditions implies that the terminal state $x^0(N)$ is likely not in a region of stability.
+    
+    \item \textbf{Adapt the Horizon:} The adaptation logic is described on page 5 of the paper:
+    \begin{itemize}
+        \item \textbf{If conditions hold:} The horizon $N$ is considered sufficient. The control $u^0(0)$ is applied. At the next state $x^+$, the controller attempts a shorter horizon, typically $N-1$.
+        \item \textbf{If conditions fail:} The horizon $N$ is too short. The controller "increase[s] N by 1 and... solve[s] the optimal control problem over the new horizon" from the same state $x$ \cite{krener2016adaptive}. This is repeated until a sufficient horizon is found.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Advantages of the AHMPC Formulation}
+This practical scheme offers significant advantages, as highlighted in the paper's conclusion:
+\begin{itemize}
+    \item \textbf{Computational Efficiency:} The primary advantage is that "the AHMPC horizon length decreases as the process is stabilized thereby lessening the on-line computational burden" \cite{krener2016adaptive}.
+    \item \textbf{No Explicit Terminal Set:} The algorithm cleverly "proceeds without knowing the minimum horizon length function $N(x)$ and without knowing the domain of Lyapunov stability of the terminal cost $V_f(x)$" \cite{krener2016adaptive}. This removes a major hurdle in traditional MPC design.
+\end{itemize}
+
+\section{Further Enhancements via Learning-Based Approaches}
+
+While the practical AHMPC algorithm provides a significant advantage, it still relies on an iterative, trial-and-error process of increasing $N$ when the current horizon is insufficient. This can introduce computational delays.
+\\
+\noindent
+Modern data-driven techniques, such as Deep Reinforcement Learning (DRL), offer a path to mitigate this. DRL has proven effective for learning complex control policies for challenging problems, such as managing Electric Vehicle charging in volatile markets \cite{orfanoudakis2022deep}. A hybrid approach could be envisioned where a DRL agent is trained offline to approximate the ideal horizon function $N(x)$. This learned function would provide a highly accurate initial guess for the horizon at each step, potentially eliminating the need for online iterative adjustments and combining the computational speed of a learned policy with the rigorous stability and constraint-handling framework of AHMPC.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%
-\subsection{Explicit MPC: Offline Pre-computation}
+\section{Explicit MPC: Offline Pre-computation}
 
 For systems with fast dynamics or limited online computational capacity, \textbf{Explicit MPC} offers an alternative approach. The key idea is to move the computational effort entirely offline. As detailed extensively in \cite{borrelli2017predictive}, this is achieved by treating the current state $x_t$ not as a fixed value, but as a vector of parameters. The constrained optimization problem is then solved offline for all possible initial states within a given range using \textbf{multi-parametric programming}.
 
@@ -538,22 +610,30 @@ u^*(x_t) = \mathbf{F}_i x_t + \mathbf{g}_i \quad \text{if } x_t \in \mathcal{X}_
 \end{equation}
 \noindent
 The state space is partitioned into a set of convex polyhedral regions $\mathcal{X}_i$, with a unique affine control law defined for each region. Online operation is thereby reduced from solving a QP to a simple function evaluation: first, a fast lookup operation identifies which region $\mathcal{X}_i$ the current state $x_t$ occupies, and second, the corresponding simple affine control law is applied. This trades a very high offline computational burden and significant memory requirements for extremely fast and deterministic online execution \cite{bemporad2013explicit, borrelli2017predictive}.
+\subsection{Deep Learning for an Efficient Explicit MPC Representation}
 
-\subsection{Deep Learning for Efficient PWA Representation}
+While implicit MPC provides an optimal control action, its reliance on solving a numerical optimization problem at each sampling time makes it unsuitable for systems with fast dynamics. An alternative is Explicit MPC, where the control law---a Piecewise Affine (PWA) function of the state---is pre-computed offline. However, this approach suffers from a significant drawback: the number of polyhedral regions, and thus the memory required to store the corresponding affine laws, can grow exponentially with the prediction horizon and the number of constraints \cite{karg2018efficient}. This "curse of dimensionality" severely limits its practical application, especially in memory-constrained embedded systems.
 
-However, this approach suffers from a significant drawback. The number of polyhedral regions, and thus the memory required to store the corresponding affine laws, grows exponentially with the prediction horizon and the number of system constraints \cite{karg2020efficient}. This "curse of dimensionality" severely limits the practical application of traditional Explicit MPC to systems with a small number of states and simple constraints, particularly in memory-constrained embedded applications \cite{karg2020efficient}.
-\\
-\noindent
-To address this limitation, the work in \cite{karg2020efficient} proposes a novel approach for the efficient representation of these PWA control laws using deep learning. The authors demonstrate that a deep neural network utilizing Rectified Linear Unit (ReLU) activation functions is not merely an approximator but can, in fact, \textbf{exactly represent} the PWA function that defines the explicit MPC feedback law. This is based on the key theoretical insight that any PWA function can be decomposed and constructed using simpler elements that have a direct neural network equivalent.
-\\
-\noindent
-The foundation of this exact representation lies in two main results. First, any scalar PWA function $K_i(x_t)$ (representing the $i$-th component of the control vector) can be expressed as the difference of two convex PWA functions \cite{karg2020efficient}:
+To address this challenge, the work in \cite{karg2018efficient} proposes a novel approach that leverages deep learning to create a highly efficient representation of the explicit MPC law. The methodology bridges the gap between the implicit and explicit approaches by using the former to train the latter.
+
+\subsubsection{Training via Implicit MPC Data Generation}
+The core idea is to train a deep neural network to act as the explicit controller. This requires a comprehensive dataset of optimal state-action pairs, which is generated in a crucial offline phase. As detailed in \cite{karg2018efficient}, this is achieved by repeatedly using the \textbf{implicit MPC solver}:
+\begin{enumerate}
+    \item A large number of state points ($x_{tr,i}$) are sampled from the relevant operating region of the system.
+    \item For each state point, the full MPC optimization problem (a Quadratic Program, or QP) is solved to find the corresponding optimal control input ($u^*_{tr,i}$). This is precisely the task an implicit MPC controller performs online.
+    \item The resulting pairs $(x_{tr,i}, u^*_{tr,i})$ form a large dataset that effectively maps states to their optimal control actions.
+\end{enumerate}
+This dataset is then used to train a deep neural network via supervised learning, minimizing the error between the network's output and the optimal control actions. In essence, the computationally intensive implicit solver is used offline to "teach" a fast and compact neural network how to behave optimally.
+
+\subsubsection{Exact PWA Representation with Deep ReLU Networks}
+The power of this method stems from the theoretical insight that a deep neural network with Rectified Linear Unit (ReLU) activation functions is not merely an approximator but can, in fact, \textbf{exactly represent} the PWA function that defines the explicit MPC feedback law \cite{karg2018efficient}.
+
+The foundation of this exact representation lies in two main results. First, any scalar PWA function $K_i(x_t)$ (representing the $i$-th component of the control vector) can be expressed as the difference of two convex PWA functions:
 \begin{equation}
     K_i(x_t) = \gamma_i(x_t) - \eta_i(x_t)
 \end{equation}
-Second, any convex PWA function, which can be described as the pointwise maximum of a set of affine functions, can be exactly represented by a deep ReLU network. Specifically, a convex function composed of $N$ affine regions can be perfectly modeled by a network with width $n_x + 1$ (where $n_x$ is the dimension of the state space) and depth $N$ \cite{karg2020efficient}.
-\\
-\noindent
+Second, any convex PWA function, which can be described as the pointwise maximum of a set of affine functions, can be exactly represented by a deep ReLU network. Specifically, a convex function composed of $N$ affine regions can be perfectly modeled by a network with width $n_x + 1$ (where $n_x$ is the state dimension) and depth $N$ \cite{karg2018efficient}.
+
 Combining these findings, the complete multi-output MPC control law $K(x_t)$ can be exactly represented by a vector of $n_u$ pairs of deep neural networks, where each pair models the $\gamma_i$ and $\eta_i$ components for a single control output:
 \begin{equation}
     K(x_t) = 
@@ -564,13 +644,11 @@ Combining these findings, the complete multi-output MPC control law $K(x_t)$ can
     \end{bmatrix}
 \end{equation}
 where $\mathcal{N}$ denotes a deep ReLU network with its corresponding set of parameters $\theta$.
-\\
-\noindent
-The particular advantage of using \textit{deep} neural networks lies in their representational efficiency. While the number of parameters (and thus, the memory footprint) of a deep network grows linearly with the number of layers, the number of linear regions it can represent can grow exponentially with its depth \cite{karg2020efficient}. This provides an inverse relationship to the problem of traditional Explicit MPC, allowing a deep network to capture an exponentially large number of control regions with only a modest, linearly growing memory cost.
-\\
-\noindent
-Consequently, this deep learning-based representation transforms the explicit MPC law into a highly compact form. It overcomes the primary obstacle of prohibitive memory requirements, enabling the deployment of complex predictive controllers on embedded systems where storage capacity is a critical constraint \cite{karg2020efficient}.
-%%%%%%%
+
+The particular advantage of using \textit{deep} neural networks lies in their representational efficiency. While the number of parameters (and thus, the memory footprint) of a deep network grows linearly with its depth, the number of linear regions it can represent can grow exponentially \cite{karg2018efficient}. This provides an inverse relationship to the problem of traditional Explicit MPC, allowing a deep network to capture an exponentially large number of control regions with only a modest, linearly growing memory cost. Consequently, this deep learning-based representation transforms the explicit MPC law into a highly compact and fast-to-evaluate form, overcoming the primary obstacle of prohibitive memory requirements and enabling the deployment of complex predictive controllers on embedded systems.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A Comparative Perspective on Control Methodologies}
 
 While DRL represents the cutting edge, contextualizing it within the broader control strategy landscape remains crucial for academic rigor. The choice between learning-based, model-free approaches and optimization-based, model-based approaches represents fundamental philosophical and practical trade-offs.

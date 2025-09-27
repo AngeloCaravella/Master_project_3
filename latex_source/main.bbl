@@ -577,42 +577,6 @@
       \verb https://arxiv.org/abs/2408.10215
       \endverb
     \endentry
-    \entry{karg2020efficient}{article}{}{}
-      \name{author}{2}{}{%
-        {{hash=2033af40680cb51e075485e0f64b1772}{%
-           family={Karg},
-           familyi={K\bibinitperiod},
-           given={Benjamin},
-           giveni={B\bibinitperiod}}}%
-        {{hash=14d57392f0fda695a4a1f6fb6143073b}{%
-           family={Lucia},
-           familyi={L\bibinitperiod},
-           given={Sergio},
-           giveni={S\bibinitperiod}}}%
-      }
-      \strng{namehash}{2ae6dd7a24a56fc346029962808e8bea}
-      \strng{fullhash}{2ae6dd7a24a56fc346029962808e8bea}
-      \strng{fullhashraw}{2ae6dd7a24a56fc346029962808e8bea}
-      \strng{bibnamehash}{2ae6dd7a24a56fc346029962808e8bea}
-      \strng{authorbibnamehash}{2ae6dd7a24a56fc346029962808e8bea}
-      \strng{authornamehash}{2ae6dd7a24a56fc346029962808e8bea}
-      \strng{authorfullhash}{2ae6dd7a24a56fc346029962808e8bea}
-      \strng{authorfullhashraw}{2ae6dd7a24a56fc346029962808e8bea}
-      \field{sortinit}{K}
-      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{IEEE Transactions on Cybernetics}
-      \field{number}{9}
-      \field{title}{Efficient representation and approximation of model predictive control laws via deep learning}
-      \field{volume}{50}
-      \field{year}{2020}
-      \field{pages}{3866\bibrangedash 3878}
-      \range{pages}{13}
-      \verb{doi}
-      \verb 10.1109/TCYB.2020.2999556
-      \endverb
-    \endentry
     \entry{khan2024review}{article}{}{}
       \name{author}{7}{}{%
         {{hash=aa2cee8b9669674af4bab7857a9a00c5}{%
@@ -675,6 +639,35 @@
       \range{pages}{1}
       \verb{doi}
       \verb 10.3390/en17061320
+      \endverb
+    \endentry
+    \entry{krener2016adaptive}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=eb3d263298873769c93e30cc117295cb}{%
+           family={Krener},
+           familyi={K\bibinitperiod},
+           given={Arthur\bibnamedelima J},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \strng{namehash}{eb3d263298873769c93e30cc117295cb}
+      \strng{fullhash}{eb3d263298873769c93e30cc117295cb}
+      \strng{fullhashraw}{eb3d263298873769c93e30cc117295cb}
+      \strng{bibnamehash}{eb3d263298873769c93e30cc117295cb}
+      \strng{authorbibnamehash}{eb3d263298873769c93e30cc117295cb}
+      \strng{authornamehash}{eb3d263298873769c93e30cc117295cb}
+      \strng{authorfullhash}{eb3d263298873769c93e30cc117295cb}
+      \strng{authorfullhashraw}{eb3d263298873769c93e30cc117295cb}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{math.OC}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{arXiv preprint arXiv:1602.08619}
+      \field{title}{Adaptive Horizon Model Predictive Control}
+      \field{year}{2016}
+      \verb{eprint}
+      \verb 1602.08619
       \endverb
     \endentry
     \entry{kumar2024integration}{article}{}{}
@@ -1693,45 +1686,6 @@
       \verb 10.1016/j.egyr.2023.07.039
       \endverb
     \endentry
-    \entry{Sutton2018}{book}{}{}
-      \name{author}{2}{}{%
-        {{hash=eb920e5277d3d5fd0903f3cd41e11871}{%
-           family={Sutton},
-           familyi={S\bibinitperiod},
-           given={Richard\bibnamedelima S.},
-           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
-        {{hash=32a0a208f8bcf56a13b0a8e618aa806a}{%
-           family={Barto},
-           familyi={B\bibinitperiod},
-           given={Andrew\bibnamedelima G.},
-           giveni={A\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {The MIT Press}%
-      }
-      \strng{namehash}{c6212f1a1407d96a3d9f4fefbb07eade}
-      \strng{fullhash}{c6212f1a1407d96a3d9f4fefbb07eade}
-      \strng{fullhashraw}{c6212f1a1407d96a3d9f4fefbb07eade}
-      \strng{bibnamehash}{c6212f1a1407d96a3d9f4fefbb07eade}
-      \strng{authorbibnamehash}{c6212f1a1407d96a3d9f4fefbb07eade}
-      \strng{authornamehash}{c6212f1a1407d96a3d9f4fefbb07eade}
-      \strng{authorfullhash}{c6212f1a1407d96a3d9f4fefbb07eade}
-      \strng{authorfullhashraw}{c6212f1a1407d96a3d9f4fefbb07eade}
-      \field{sortinit}{S}
-      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{edition}{Second}
-      \field{note}{In progress}
-      \field{title}{Reinforcement Learning: An Introduction}
-      \field{year}{2018}
-      \verb{urlraw}
-      \verb http://incompleteideas.net/book/the-book-2nd.html
-      \endverb
-      \verb{url}
-      \verb http://incompleteideas.net/book/the-book-2nd.html
-      \endverb
-    \endentry
     \entry{Tavakoli2019}{article}{}{}
       \name{author}{6}{}{%
         {{hash=6b380063739f94b218a058dd3ab32a8a}{%
@@ -2044,6 +1998,8 @@
       \endverb
     \endentry
   \enddatalist
+  \missing{Sutton2018}
+  \missing{karg2018efficient}
   \missing{plett2015battery}
 \endrefsection
 \endinput

@@ -381,7 +381,7 @@ def load_ev_profiles(env) -> List[EV]:
     else:
         return env.replay.EVs
 
-def load_electricity_prices(env) -> Tuple[np.ndarray, np.ndarray]:
+def load_electricity_prices(env, price_data_file: str = None) -> Tuple[np.ndarray, np.ndarray]:
     '''Loads the electricity prices of the simulation
     If load_from_replay_path is None, then the electricity prices are created randomly
 
@@ -394,12 +394,27 @@ def load_electricity_prices(env) -> Tuple[np.ndarray, np.ndarray]:
 
     if env.price_data is None:
         # else load historical prices
-        file_path = pkg_resources.resource_filename(
-            'ev2gym', 'data/Netherlands_day-ahead-2015-2024.csv')
+        if price_data_file:
+            file_path = price_data_file
+        else:
+            file_path = pkg_resources.resource_filename(
+                'ev2gym', 'data/Netherlands_day-ahead-2015-2024.csv')
+        
         env.price_data = pd.read_csv(file_path, sep=',', header=0)
         drop_columns = ['Country', 'Datetime (Local)']        
 
-        env.price_data.drop(drop_columns, inplace=True, axis=1)
+        env.price_data = pd.read_csv(file_path, sep=',', header=0)
+
+        # Determine price column and columns to drop based on file name
+        if "Netherlands_day-ahead-2015-2024.csv" in file_path:
+            price_col = 'Price (EUR/MWhe)'
+            drop_columns = ['Country', 'Datetime (Local)']
+            # Drop only if columns exist
+            env.price_data.drop(columns=[col for col in drop_columns if col in env.price_data.columns], inplace=True)
+        else:
+            # If it's not the known price file, raise an error
+            raise ValueError(f"Selected file '{os.path.basename(file_path)}' is not a recognized price data file format for automatic processing. Please select 'Netherlands_day-ahead-2015-2024.csv' or modify loaders.py to handle this format.")
+
         env.price_data['year'] = pd.DatetimeIndex(env.price_data['Datetime (UTC)']).year
         env.price_data['month'] = pd.DatetimeIndex(env.price_data['Datetime (UTC)']).month
         env.price_data['day'] = pd.DatetimeIndex(env.price_data['Datetime (UTC)']).day
@@ -422,9 +437,9 @@ def load_electricity_prices(env) -> Tuple[np.ndarray, np.ndarray]:
         # find the corresponding price
         try:
             charge_prices[:, i] = -data.loc[(data['year'] == year) & (data['month'] == month) & (data['day'] == day) & (data['hour'] == hour),
-                                            'Price (EUR/MWhe)'].iloc[0]/1000  # €/kWh
+                                            price_col].iloc[0]/1000  # €/kWh
             discharge_prices[:, i] = data.loc[(data['year'] == year) & (data['month'] == month) & (data['day'] == day) & (data['hour'] == hour),
-                                              'Price (EUR/MWhe)'].iloc[0]/1000  # €/kWh
+                                              price_col].iloc[0]/1000  # €/kWh
         except:
             print(
                 'Error: no price found for the given date and hour. Using 2022 prices instead.')
@@ -434,9 +449,9 @@ def load_electricity_prices(env) -> Tuple[np.ndarray, np.ndarray]:
                 day -= 1
             print("Debug:", year, month, day, hour)
             charge_prices[:, i] = -data.loc[(data['year'] == year) & (data['month'] == month) & (data['day'] == day) & (data['hour'] == hour),
-                                            'Price (EUR/MWhe)'].iloc[0]/1000  # €/kWh
+                                            price_col].iloc[0]/1000  # €/kWh
             discharge_prices[:, i] = data.loc[(data['year'] == year) & (data['month'] == month) & (data['day'] == day) & (data['hour'] == hour),
-                                              'Price (EUR/MWhe)'].iloc[0]/1000  # €/kWh
+                                              price_col].iloc[0]/1000  # €/kWh
 
         # step to next
         sim_temp_date = sim_temp_date + \

@@ -15,6 +15,7 @@ import random
 import subprocess
 from collections import defaultdict
 from glob import glob
+from typing import List, Dict, Any, Tuple, Callable, Optional
 
 # --- Importazioni dalla libreria custom ev2gym ---
 from ev2gym.models.ev2gym_env import EV2Gym
@@ -177,7 +178,7 @@ def plot_degradation_details(stats_collection, save_path, scenario_name, algorit
 # =====================================================================================
 # --- FUNZIONE DI BENCHMARK UNIFICATA ---
 # =====================================================================================
-def run_benchmark(config_files, reward_func, algorithms_to_run, num_simulations, model_dir, is_multi_scenario):
+def run_benchmark(config_files, reward_func, algorithms_to_run, num_simulations, model_dir, is_multi_scenario, price_data_file=None):
     all_scenario_stats = {}
     overall_save_path = f'./results/benchmark_{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}/'
     os.makedirs(overall_save_path, exist_ok=True)
@@ -197,14 +198,14 @@ def run_benchmark(config_files, reward_func, algorithms_to_run, num_simulations,
         all_sim_stats = []
         for sim_num in range(num_simulations):
             print(f"\n--- Simulazione {sim_num + 1}/{num_simulations} ---")
-            env_replay = EV2Gym(config_file=config_file, generate_rnd_game=True, save_replay=True)
+            env_replay = EV2Gym(config_file=config_file, generate_rnd_game=True, save_replay=True, price_data_file=price_data_file)
             replay_path = f"replay/replay_{env_replay.sim_name}.pkl"
             while not env_replay.step(np.zeros(env_replay.action_space.shape[0]))[2]: pass
             env_replay.close()
 
             eval_env_id = f'eval-env-{scenario_name}-{sim_num}'
             if eval_env_id in registry: del registry[eval_env_id]
-            gym.register(id=eval_env_id, entry_point='ev2gym.models.ev2gym_env:EV2Gym', kwargs={'config_file': config_file, 'generate_rnd_game': False, 'load_from_replay_path': replay_path, 'reward_function': reward_func, 'state_function': V2G_profit_max_loads})
+            gym.register(id=eval_env_id, entry_point='ev2gym.models.ev2gym_env:EV2Gym', kwargs={'config_file': config_file, 'generate_rnd_game': False, 'load_from_replay_path': replay_path, 'reward_function': reward_func, 'state_function': V2G_profit_max_loads, 'price_data_file': price_data_file})
 
             final_stats_collection = {}
             for name, (algorithm_class, rl_class, kwargs) in algorithms_to_run.items():
@@ -254,37 +255,26 @@ def run_benchmark(config_files, reward_func, algorithms_to_run, num_simulations,
 # =====================================================================================
 # --- BLOCCO PRINCIPALE ---
 # =====================================================================================
-if __name__ == "__main__":
-    if input("Vuoi eseguire 'Fit_battery.py' per calibrare il modello di degradazione? (s/n, default n): ").lower() == 's':
-        print("--- Esecuzione di Fit_battery.py ---")
-        try:
-            subprocess.run(["python", "Fit_battery.py"], check=True)
-            print("--- Fit_battery.py completato. ---")
-        except (subprocess.CalledProcessError, FileNotFoundError) as e:
-            print(f"ERRORE: {e}. Lo script procederà con i parametri esistenti.")
-
-    plot_mode = input("\nScegli modalità grafici:\n1. Tesi (SAC, DDPG+PER, TQC + Baselines)\n2. Completa (Tutti gli algoritmi)\nScelta (default 1): ") or '1'
-    is_thesis_mode = plot_mode == '1'
-
-    # --- MODIFICA CHIAVE: Calcola MAX_CS prima di definire gli algoritmi ---
-    config_path_for_cs = "ev2gym/example_config_files/"
-    all_scenarios_for_cs = glob(os.path.join(config_path_for_cs, "*.yaml"))
-    MAX_CS = 0
+def calculate_max_cs(config_path: str) -> int:
+    """Calcola il numero massimo di stazioni di ricarica tra tutti gli scenari."""
+    all_scenarios_for_cs = glob(os.path.join(config_path, "*.yaml"))
+    max_cs = 0
     if not all_scenarios_for_cs:
-        print(f"ATTENZIONE: Nessun file di scenario trovato in {config_path_for_cs}, MAX_CS impostato a 10 di default.")
-        MAX_CS = 10 # Un valore di fallback
+        print(f"ATTENZIONE: Nessun file di scenario trovato in {config_path}, MAX_CS impostato a 10 di default.")
+        return 10  # Un valore di fallback
     else:
         for scenario_file in all_scenarios_for_cs:
             with open(scenario_file, 'r') as f:
                 config = yaml.safe_load(f)
                 if 'number_of_charging_stations' in config:
-                    MAX_CS = max(MAX_CS, config['number_of_charging_stations'])
-    if MAX_CS == 0:
+                    max_cs = max(max_cs, config['number_of_charging_stations'])
+    if max_cs == 0:
         raise ValueError("Impossibile determinare il numero massimo di stazioni di ricarica. Controlla i file di configurazione.")
-    print(f"\nRilevato un massimo di {MAX_CS} stazioni di ricarica tra tutti gli scenari.")
-    # --- FINE MODIFICA ---
+    return max_cs
 
-    # --- DEFINIZIONE ALGORITMI ---
+
+def get_algorithms(max_cs: int, is_thesis_mode: bool) -> Dict[str, Tuple[Any, Any, Dict]]:
+    """Definisce e restituisce gli algoritmi disponibili per l'esecuzione."""
     ALL_ALGORITHMS = {
         "AFAP": (ChargeAsFastAsPossible, None, {}), "ALAP": (ChargeAsLateAsPossible, None, {}), "RR": (RoundRobin, None, {}),
         "Online_MPC": (OnlineMPC_Solver, None, {'control_horizon': 5}),
@@ -293,24 +283,29 @@ if __name__ == "__main__":
         }),
         "Approx_Explicit_MPC": (ApproximateExplicitMPC, None, {
             'control_horizon': 5,
-            'max_cs': MAX_CS  # <-- Passa il valore calcolato
+            'max_cs': max_cs  # <-- Passa il valore calcolato
         }),
         "SAC": (None, SAC, {}), "PPO": (None, PPO, {}), "A2C": (None, A2C, {}), "TD3": (None, TD3, {}), "DDPG": (None, DDPG, {}),
         "DDPG+PER": (None, CustomDDPG, {'replay_buffer_class': PrioritizedReplayBuffer}),
         "TQC": (None, TQC, {}), "TRPO": (None, TRPO, {}), "ARS": (None, ARS, {})
     }
     THESIS_ALGORITHMS = {k: v for k, v in ALL_ALGORITHMS.items() if k in ["AFAP", "ALAP", "RR", "Online_MPC", "Online_MPC_Adaptive", "Approx_Explicit_MPC", "SAC", "DDPG+PER", "TQC"]}
-    algorithms_to_run = THESIS_ALGORITHMS if is_thesis_mode else ALL_ALGORITHMS
-    rl_models_to_run = {k: v for k, v in algorithms_to_run.items() if v[1] is not None}
+    return THESIS_ALGORITHMS if is_thesis_mode else ALL_ALGORITHMS
 
-    config_path = "ev2gym/example_config_files/"
+
+def get_scenarios_to_test(config_path: str) -> List[str]:
+    """Ottiene la lista degli scenari disponibili e chiede all'utente quali testare."""
     available_scenarios = sorted(glob(os.path.join(config_path, "*.yaml")))
     print("\nScenari disponibili:")
     for i, s in enumerate(available_scenarios): print(f"{i+1}. {os.path.basename(s)}")
     choices = input(f"Seleziona scenari (es. '1 3', 'tutti') (default: tutti): ").lower() or 'tutti'
     scenarios_to_test = available_scenarios if 'tutti' in choices else [available_scenarios[int(i)-1] for i in choices.split()]
     print(f"Scenari selezionati: {[os.path.basename(s) for s in scenarios_to_test]}")
+    return scenarios_to_test
 
+
+def get_selected_reward_function() -> Callable:
+    """Ottiene la lista delle funzioni di reward disponibili e chiede all'utente quale selezionare."""
     available_rewards = [(name, func) for name, func in inspect.getmembers(reward_module, inspect.isfunction) if inspect.getmodule(func) == reward_module]
     print("\nScegli la funzione di reward:")
     for i, (name, func) in enumerate(available_rewards):
@@ -318,31 +313,151 @@ if __name__ == "__main__":
         print(f"{i + 1}. {name} - {short_doc}")
     reward_choice = int(input(f"Scelta (default 3): ") or 3)
     selected_reward_func = available_rewards[reward_choice - 1][1]
+    return selected_reward_func
+
+
+def get_selected_price_file() -> Optional[str]:
+    """Ottiene la lista dei file CSV dei prezzi disponibili e chiede all'utente quale selezionare."""
+    price_data_dir = os.path.join(os.path.dirname(__file__), 'ev2gym', 'data')
+    available_price_files = sorted([f for f in os.listdir(price_data_dir) if f.endswith('.csv')])
+
+    print("\nSeleziona il file CSV per i prezzi dell'energia:")
+    for i, f in enumerate(available_price_files):
+        print(f"{i+1}. {f}")
+    price_choice_input = input(f"Scelta (default: Netherlands_day-ahead-2015-2024.csv): ")
+    
+    selected_price_file_abs_path = None
+    default_price_file_name = "Netherlands_day-ahead-2015-2024.csv"
+
+    if price_choice_input.isdigit() and 1 <= int(price_choice_input) <= len(available_price_files):
+        chosen_file_name = available_price_files[int(price_choice_input) - 1]
+        selected_price_file_abs_path = os.path.join(price_data_dir, chosen_file_name)
+        print(f"File prezzi selezionato: {chosen_file_name}")
+    elif price_choice_input == '' or price_choice_input.lower() == default_price_file_name.lower():
+        if default_price_file_name in available_price_files:
+            selected_price_file_abs_path = os.path.join(price_data_dir, default_price_file_name)
+            print(f"File prezzi di default: {default_price_file_name}")
+        else:
+            print(f"ATTENZIONE: File di prezzo di default '{default_price_file_name}' non trovato. Verrà usato il default interno di loaders.py.")
+    else:
+        print(f"Scelta non valida. Verrà usato il default interno di loaders.py.")
+    
+    return selected_price_file_abs_path
+
+
+def train_rl_models_if_requested(scenarios_to_test: List[str], selected_reward_func: Callable, algorithms_to_run: Dict, is_multi_scenario: bool, model_dir: str, selected_price_file_abs_path: Optional[str], steps_for_training: int) -> None:
+    """Addestra i modelli RL se richiesto."""
+    rl_models_to_run = {k: v for k, v in algorithms_to_run.items() if v[1] is not None}
+    mode_str = "Multi-Scenario" if is_multi_scenario else "Single-Domain"
+
+    print(f"--- Addestramento modelli RL in modalità {mode_str} ---")
+    scenario_name_for_path = 'multi_scenario' if is_multi_scenario else os.path.basename(scenarios_to_test[0]).replace(".yaml", "")
+    
+    train_env_id = f'ev-train-{scenario_name_for_path}'
+    if is_multi_scenario:
+        train_env = DummyVecEnv([lambda: MultiScenarioEnv(scenarios_to_test, selected_reward_func, V2G_profit_max_loads)])
+    else:
+        if train_env_id in registry: del registry[train_env_id]
+        gym.register(id=train_env_id, entry_point='ev2gym.models.ev2gym_env:EV2Gym', kwargs={'config_file': scenarios_to_test[0], 'generate_rnd_game': True, 'reward_function': selected_reward_func, 'state_function': V2G_profit_max_loads, 'price_data_file': selected_price_file_abs_path})
+        train_env = gym.make(train_env_id)
+
+    for name, (_, rl_class, kwargs) in rl_models_to_run.items():
+        print(f"--- Addestramento {name} in modalità {mode_str} ---")
+        model = rl_class("MlpPolicy", train_env, verbose=0, device=("cuda" if torch.cuda.is_available() else "cpu"), **kwargs)
+        model.learn(total_timesteps=steps_for_training, callback=ProgressCallback(total_timesteps=steps_for_training))
+        model.save(os.path.join(model_dir, f'{name.lower().replace("+", "_")}_model.zip'))
+    train_env.close()
+
+
+def run_fit_battery_if_requested() -> None:
+    """Chiede all'utente se eseguire Fit_battery.py e, in caso affermativo, lo esegue."""
+    if input("Vuoi eseguire 'Fit_battery.py' per calibrare il modello di degradazione? (s/n, default n): ").lower() == 's':
+        print("--- Esecuzione di Fit_battery.py ---")
+        try:
+            subprocess.run(["python", "Fit_battery.py"], check=True)
+            print("--- Fit_battery.py completato. ---")
+        except (subprocess.CalledProcessError, FileNotFoundError) as e:
+            print(f"ERRORE: {e}. Lo script procederà con i parametri esistenti.")
+
+
+import argparse
+from typing import List, Dict, Any, Tuple, Callable, Optional
+
+# ... (altre importazioni)
+
+def main(args):
+    if args.run_fit_battery:
+        print("--- Esecuzione di Fit_battery.py ---")
+        try:
+            subprocess.run(["python", "Fit_battery.py"], check=True)
+            print("--- Fit_battery.py completato. ---")
+        except (subprocess.CalledProcessError, FileNotFoundError) as e:
+            print(f"ERRORE: {e}. Lo script procederà con i parametri esistenti.")
+
+    is_thesis_mode = (args.plot_mode == 'thesis')
+
+    config_path_for_cs = "ev2gym/example_config_files/"
+    MAX_CS = calculate_max_cs(config_path_for_cs)
+    print(f"\nRilevato un massimo di {MAX_CS} stazioni di ricarica tra tutti gli scenari.")
+
+    algorithms_to_run = get_algorithms(MAX_CS, is_thesis_mode)
+
+    config_path = "ev2gym/example_config_files/"
+    # scenarios_to_test = get_scenarios_to_test(config_path) # Sostituito da args.scenarios
+    available_scenarios_full_paths = sorted(glob(os.path.join(config_path, "*.yaml")))
+    if 'all' in args.scenarios:
+        scenarios_to_test = available_scenarios_full_paths
+    else:
+        scenarios_to_test = [s for s in available_scenarios_full_paths if os.path.basename(s).replace(".yaml", "") in args.scenarios]
+    print(f"Scenari selezionati: {[os.path.basename(s) for s in scenarios_to_test]}")
+
+    # selected_reward_func = get_selected_reward_function() # Sostituito da args.reward_func
+    available_rewards = [(name, func) for name, func in inspect.getmembers(reward_module, inspect.isfunction) if inspect.getmodule(func) == reward_module]
+    selected_reward_func = next((func for name, func in available_rewards if name == args.reward_func), None)
+    if selected_reward_func is None:
+        raise ValueError(f"Funzione di reward '{args.reward_func}' non trovata.")
+    print(f"Funzione di reward selezionata: {args.reward_func}")
 
     is_multi_scenario = len(scenarios_to_test) > 1
-    mode_str = "Multi-Scenario" if is_multi_scenario else "Single-Domain"
     scenario_name_for_path = 'multi_scenario' if is_multi_scenario else os.path.basename(scenarios_to_test[0]).replace(".yaml", "")
     model_dir = f'./saved_models/{scenario_name_for_path}/'
     os.makedirs(model_dir, exist_ok=True)
 
-    if input(f"\nVuoi addestrare i modelli RL in modalità {mode_str}? (s/n, default n): ").lower() == 's':
-        steps_for_training = int(input("Per quanti passi? (default 100000): ") or 100000)
-        train_env_id = f'ev-train-{scenario_name_for_path}'
-        if is_multi_scenario:
-            train_env = DummyVecEnv([lambda: MultiScenarioEnv(scenarios_to_test, selected_reward_func, V2G_profit_max_loads)])
-        else:
-            if train_env_id in registry: del registry[train_env_id]
-            gym.register(id=train_env_id, entry_point='ev2gym.models.ev2gym_env:EV2Gym', kwargs={'config_file': scenarios_to_test[0], 'generate_rnd_game': True, 'reward_function': selected_reward_func, 'state_function': V2G_profit_max_loads})
-            train_env = gym.make(train_env_id)
+    # selected_price_file_abs_path = get_selected_price_file() # Sostituito da args.price_file
+    selected_price_file_abs_path = args.price_file
+    if selected_price_file_abs_path == "default":
+        price_data_dir = os.path.join(os.path.dirname(__file__), 'ev2gym', 'data')
+        default_price_file_name = "Netherlands_day-ahead-2015-2024.csv"
+        selected_price_file_abs_path = os.path.join(price_data_dir, default_price_file_name)
 
-        for name, (_, rl_class, kwargs) in rl_models_to_run.items():
-            print(f"--- Addestramento {name} in modalità {mode_str} ---")
-            model = rl_class("MlpPolicy", train_env, verbose=0, device=("cuda" if torch.cuda.is_available() else "cpu"), **kwargs)
-            model.learn(total_timesteps=steps_for_training, callback=ProgressCallback(total_timesteps=steps_for_training))
-            model.save(os.path.join(model_dir, f'{name.lower().replace("+", "_")}_model.zip'))
-        train_env.close()
+    if args.train_rl_models:
+        train_rl_models_if_requested(
+            scenarios_to_test=scenarios_to_test,
+            selected_reward_func=selected_reward_func,
+            algorithms_to_run=algorithms_to_run,
+            is_multi_scenario=is_multi_scenario,
+            model_dir=model_dir,
+            selected_price_file_abs_path=selected_price_file_abs_path,
+            steps_for_training=args.steps_for_training
+        )
 
-    num_sims = int(input("\nQuante simulazioni di valutazione per scenario? (default 1): ") or 1)
-    run_benchmark(scenarios_to_test, selected_reward_func, algorithms_to_run, num_sims, model_dir, is_multi_scenario)
+    num_sims = args.num_sims
+
+    run_benchmark(scenarios_to_test, selected_reward_func, algorithms_to_run, num_sims, model_dir, is_multi_scenario, selected_price_file_abs_path)
 
     print("\n--- ESECUZIONE COMPLETATA ---")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Esegui esperimenti di simulazione EV2Gym.")
+    parser.add_argument('--run_fit_battery', action='store_true', help="Esegui Fit_battery.py per calibrare il modello di degradazione.")
+    parser.add_argument('--plot_mode', type=str, default='thesis', choices=['thesis', 'complete'], help="Modalità grafici: 'thesis' (default) o 'complete'.")
+    parser.add_argument('--scenarios', nargs='+', default=['all'], help="Lista di nomi di scenari da testare (es. 'BusinessPST PublicPST') o 'all' (default).")
+    parser.add_argument('--reward_func', type=str, default='SquaredTrackingErrorReward', help="Nome della funzione di reward da usare (default: SquaredTrackingErrorReward).")
+    parser.add_argument('--price_file', type=str, default='default', help="Percorso assoluto del file CSV per i prezzi dell'energia o 'default'.")
+    parser.add_argument('--train_rl_models', action='store_true', help="Addestra i modelli RL.")
+    parser.add_argument('--steps_for_training', type=int, default=100000, help="Numero di passi per l'addestramento dei modelli RL.")
+    parser.add_argument('--num_sims', type=int, default=1, help="Numero di simulazioni di valutazione per scenario.")
+
+    args = parser.parse_args()
+    main(args)

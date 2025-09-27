@@ -71,7 +71,7 @@ popt, pcov = curve_fit(
     maxfev=20000
 )
 print("Fitting completato.")
-print("\nParametri stimati (ε0, ε1, ε2, ζ0, ζ1, Qacc):")
+print("\nParametri stimati (eps0, eps1, eps2, zeta0, zeta1, Qacc):")
 print(popt)
 
 # ---- Visualizzazione dei Risultati ----

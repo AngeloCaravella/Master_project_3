@@ -47,6 +47,7 @@ class EV2Gym(gym.Env):
                  extra_sim_name=None,
                  verbose=False,
                  render_mode=None,
+                 price_data_file=None,
                  ):
 
         super(EV2Gym, self).__init__()
@@ -224,7 +225,7 @@ class EV2Gym(gym.Env):
         # Load Electricity prices for every charging station
         self.price_data = None
         self.charge_prices, self.discharge_prices = load_electricity_prices(
-            self)
+            self, price_data_file=price_data_file)
 
         # Load power setpoint of simulation
         self.power_setpoints = load_power_setpoints(self)
