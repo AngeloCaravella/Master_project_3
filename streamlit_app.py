@@ -49,10 +49,10 @@ st.markdown("Configura ed esegui le simulazioni per il progetto EV2Gym.")
 if 'run_fit_battery_checked' not in st.session_state:
     st.session_state.run_fit_battery_checked = False
 
-# --- Configurazione Percorsi --- 
+# --- Configurazione Percorsi ---
 config_path = os.path.join(project_root, "ev2gym", "example_config_files")
 
-# --- Esegui Fit_battery.py --- 
+# --- Esegui Fit_battery.py ---
 st.session_state.run_fit_battery_checked = st.sidebar.checkbox("Esegui Fit_battery.py per calibrare il modello di degradazione?")
 
 # --- Selezione Modalità Grafici ---
@@ -68,6 +68,9 @@ is_thesis_mode = (plot_mode_choice == '1')
 # --- Calcolo MAX_CS ---
 MAX_CS = calculate_max_cs(config_path)
 st.sidebar.info(f"Rilevato un massimo di {MAX_CS} stazioni di ricarica tra tutti gli scenari.")
+
+st.sidebar.markdown("--- ")
+st.sidebar.markdown("Sviluppato da: **Angelo Caravella**")
 
 # --- Selezione Algoritmi ---
 algorithms_to_run = get_algorithms(MAX_CS, is_thesis_mode)
@@ -163,7 +166,7 @@ if st.button("Esegui Simulazione"):
     full_output = []
     process = None
     try:
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1)
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1, encoding='utf-8')
         
         with st.spinner("Esecuzione simulazione..."):
             for line in process.stdout:
@@ -182,6 +185,70 @@ if st.button("Esegui Simulazione"):
     finally:
         if process and process.poll() is None: # Se il processo è ancora in esecuzione
             process.terminate()
-        output_container.code("".join(full_output))
+        # CORREZIONE: Usa 'full_output' che contiene l'output catturato
+        st.expander("Output Console Completo").code("".join(full_output))
 
 st.markdown("--- \nPer avviare l'applicazione Streamlit, salva questo file come `streamlit_app.py` e esegui `streamlit run streamlit_app.py` nel terminale.")
+
+
+# =============================================================================
+# --- Visualizzatore Risultati ---
+# =============================================================================
+st.subheader("Visualizzatore Risultati")
+
+results_base_path = os.path.join(project_root, "results")
+
+if not os.path.exists(results_base_path):
+    st.warning(f"La cartella risultati '{results_base_path}' non esiste ancora.")
+else:
+    # Ottieni tutte le sottocartelle (che rappresentano i benchmark)
+    benchmark_folders = [f.name for f in os.scandir(results_base_path) if f.is_dir()]
+    benchmark_folders.sort(reverse=True) # Ordina dal più recente
+
+    if not benchmark_folders:
+        st.info("Nessuna cartella di benchmark trovata nella directory risultati.")
+    else:
+        selected_benchmark_folder = st.selectbox(
+            "Seleziona una cartella di benchmark:",
+            options=benchmark_folders
+        )
+
+        if selected_benchmark_folder:
+            selected_folder_path = os.path.join(results_base_path, selected_benchmark_folder)
+            
+            # Ottieni le sottocartelle all'interno della cartella di benchmark selezionata
+            sub_folders = sorted([f.name for f in os.scandir(selected_folder_path) if f.is_dir()])
+            
+            # CORREZIONE: Rimosso il livello di indentazione extra
+            # Aggiungi un'opzione per visualizzare tutte le immagini ricorsivamente
+            sub_folder_options = ["Tutte le sottocartelle"] + sub_folders
+            
+            selected_sub_folder = st.selectbox(
+                "Seleziona una sottocartella (o tutte):",
+                options=sub_folder_options
+            )
+
+            # Determina il percorso finale per la ricerca delle immagini
+            if selected_sub_folder == "Tutte le sottocartelle":
+                search_path = selected_folder_path
+                display_caption_base = selected_folder_path
+            else:
+                search_path = os.path.join(selected_folder_path, selected_sub_folder)
+                display_caption_base = search_path
+
+            # Filtra per estensioni immagine e ordina
+            image_extensions = ('.png', '.jpg', '.jpeg', '.gif', '.bmp')
+            all_image_paths = []
+            for root, _, files in os.walk(search_path):
+                for file in files:
+                    if file.lower().endswith(image_extensions):
+                        all_image_paths.append(os.path.join(root, file))
+            all_image_paths.sort()
+
+            if not all_image_paths:
+                st.info(f"Nessuna immagine trovata (anche nelle sottocartelle) in '{selected_sub_folder}'.")
+            else:
+                for img_path in all_image_paths:
+                    # Ottieni il percorso relativo per la caption
+                    relative_path = os.path.relpath(img_path, display_caption_base)
+                    st.image(img_path, caption=relative_path, use_column_width=True)
