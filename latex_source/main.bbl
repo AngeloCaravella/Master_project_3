@@ -577,6 +577,42 @@
       \verb https://arxiv.org/abs/2408.10215
       \endverb
     \endentry
+    \entry{karg2020efficient}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=2033af40680cb51e075485e0f64b1772}{%
+           family={Karg},
+           familyi={K\bibinitperiod},
+           given={Benjamin},
+           giveni={B\bibinitperiod}}}%
+        {{hash=14d57392f0fda695a4a1f6fb6143073b}{%
+           family={Lucia},
+           familyi={L\bibinitperiod},
+           given={Sergio},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{2ae6dd7a24a56fc346029962808e8bea}
+      \strng{fullhash}{2ae6dd7a24a56fc346029962808e8bea}
+      \strng{fullhashraw}{2ae6dd7a24a56fc346029962808e8bea}
+      \strng{bibnamehash}{2ae6dd7a24a56fc346029962808e8bea}
+      \strng{authorbibnamehash}{2ae6dd7a24a56fc346029962808e8bea}
+      \strng{authornamehash}{2ae6dd7a24a56fc346029962808e8bea}
+      \strng{authorfullhash}{2ae6dd7a24a56fc346029962808e8bea}
+      \strng{authorfullhashraw}{2ae6dd7a24a56fc346029962808e8bea}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Cybernetics}
+      \field{number}{9}
+      \field{title}{Efficient representation and approximation of model predictive control laws via deep learning}
+      \field{volume}{50}
+      \field{year}{2020}
+      \field{pages}{3866\bibrangedash 3878}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1109/TCYB.2020.2999556
+      \endverb
+    \endentry
     \entry{khan2024review}{article}{}{}
       \name{author}{7}{}{%
         {{hash=aa2cee8b9669674af4bab7857a9a00c5}{%
@@ -1283,36 +1319,6 @@
       \verb 10.1109/TCST.2013.2295737
       \endverb
     \endentry
-    \entry{Qiu2023}{article}{}{}
-      \name{author}{1}{}{%
-        {{hash=f6521f8cf41ecbf347492cf0f7e21ba0}{%
-           family={Qiu},
-           familyi={Q\bibinitperiod},
-           given={D.},
-           giveni={D\bibinitperiod}}}%
-      }
-      \strng{namehash}{f6521f8cf41ecbf347492cf0f7e21ba0}
-      \strng{fullhash}{f6521f8cf41ecbf347492cf0f7e21ba0}
-      \strng{fullhashraw}{f6521f8cf41ecbf347492cf0f7e21ba0}
-      \strng{bibnamehash}{f6521f8cf41ecbf347492cf0f7e21ba0}
-      \strng{authorbibnamehash}{f6521f8cf41ecbf347492cf0f7e21ba0}
-      \strng{authornamehash}{f6521f8cf41ecbf347492cf0f7e21ba0}
-      \strng{authorfullhash}{f6521f8cf41ecbf347492cf0f7e21ba0}
-      \strng{authorfullhashraw}{f6521f8cf41ecbf347492cf0f7e21ba0}
-      \field{sortinit}{Q}
-      \field{sortinithash}{ce69a400a872ddd02ee7fdb3b38c6abd}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Renewable and Sustainable Energy Reviews}
-      \field{title}{Reinforcement learning for electric vehicle applications in energy management: A review}
-      \field{volume}{163}
-      \field{year}{2023}
-      \field{pages}{112443}
-      \range{pages}{1}
-      \verb{doi}
-      \verb 10.1016/j.rser.2022.112443
-      \endverb
-    \endentry
     \entry{Richalet1978ModelPH}{article}{}{}
       \name{author}{4}{}{%
         {{hash=ced7b88ac5886cfb35a9b38f2ee52ed3}{%
@@ -1966,57 +1972,6 @@
       \verb 10.1016/j.jpowsour.2010.11.010
       \endverb
     \endentry
-    \entry{Xie2025}{article}{}{}
-      \name{author}{1}{}{%
-        {{hash=ae0426ede5160de73b69701588443a78}{%
-           family={Xie},
-           familyi={X\bibinitperiod},
-           given={H.},
-           giveni={H\bibinitperiod}}}%
-      }
-      \strng{namehash}{ae0426ede5160de73b69701588443a78}
-      \strng{fullhash}{ae0426ede5160de73b69701588443a78}
-      \strng{fullhashraw}{ae0426ede5160de73b69701588443a78}
-      \strng{bibnamehash}{ae0426ede5160de73b69701588443a78}
-      \strng{authorbibnamehash}{ae0426ede5160de73b69701588443a78}
-      \strng{authornamehash}{ae0426ede5160de73b69701588443a78}
-      \strng{authorfullhash}{ae0426ede5160de73b69701588443a78}
-      \strng{authorfullhashraw}{ae0426ede5160de73b69701588443a78}
-      \field{sortinit}{X}
-      \field{sortinithash}{1965c258adceecf23ce3d67b05113442}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{ScienceDirect}
-      \field{title}{Reinforcement learning for vehicle-to-grid: A review}
-      \field{year}{2025}
-      \verb{doi}
-      \verb 10.1016/j.sciad.2025.100008
-      \endverb
-    \endentry
-    \entry{Zhang2023}{article}{}{}
-      \name{author}{1}{}{%
-        {{hash=1f26f664835ac6c347db22001b657f1a}{%
-           family={Zhang},
-           familyi={Z\bibinitperiod},
-           given={Y.},
-           giveni={Y\bibinitperiod}}}%
-      }
-      \strng{namehash}{1f26f664835ac6c347db22001b657f1a}
-      \strng{fullhash}{1f26f664835ac6c347db22001b657f1a}
-      \strng{fullhashraw}{1f26f664835ac6c347db22001b657f1a}
-      \strng{bibnamehash}{1f26f664835ac6c347db22001b657f1a}
-      \strng{authorbibnamehash}{1f26f664835ac6c347db22001b657f1a}
-      \strng{authornamehash}{1f26f664835ac6c347db22001b657f1a}
-      \strng{authorfullhash}{1f26f664835ac6c347db22001b657f1a}
-      \strng{authorfullhashraw}{1f26f664835ac6c347db22001b657f1a}
-      \field{sortinit}{Z}
-      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{arXiv preprint arXiv:2210.07013}
-      \field{title}{Transfer deep reinforcement learning-based large-scale V2G continuous charging coordination with renewable energy sources}
-      \field{year}{2023}
-    \endentry
     \entry{zou2021deep}{article}{}{}
       \name{author}{1}{}{%
         {{hash=28f5c4551cdb221857861be843110256}{%
@@ -2050,6 +2005,7 @@
       \endverb
     \endentry
   \enddatalist
+  \missing{Sutton2018}
   \missing{plett2015battery}
 \endrefsection
 \endinput

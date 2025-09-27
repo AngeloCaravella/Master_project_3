@@ -11,26 +11,15 @@ class OnlineMPC_Solver:
     Questa classe implementa una formulazione implicita (iterativa) del problema
     di ottimizzazione, che viene costruito e risolto tramite un solver MILP (PuLP)
     ad ogni chiamata di `get_action`.
-    Supporta un orizzonte adattivo basato su Lyapunov.
     """
-    def __init__(self, env, control_horizon=5, costo_degrado_kwh=0.02,
-                 prezzo_ricarica_utente_kwh=0.5, mpc_desired_soc_factor=0.95,
-                 use_adaptive_horizon=False, h_min=2, h_max=5, lyapunov_alpha=0.1, **kwargs):
-        
+    def __init__(self, env, control_horizon=10, costo_degrado_kwh=0.02,
+                 prezzo_ricarica_utente_kwh=0.5, mpc_desired_soc_factor=0.95, **kwargs):
+        # Rimosso il print per pulire l'output durante l'addestramento
         self.env = env
+        self.H = control_horizon
         self.costo_degrado_kwh = costo_degrado_kwh
         self.prezzo_ricarica_utente_kwh = prezzo_ricarica_utente_kwh
         self.mpc_desired_soc_factor = mpc_desired_soc_factor
-
-        self.use_adaptive_horizon = use_adaptive_horizon
-        if self.use_adaptive_horizon:
-            self.h_min = h_min
-            self.h_max = h_max
-            self.lyapunov_alpha = lyapunov_alpha
-            self.current_H = self.h_max
-            print(f"MPC Adattivo attivato. H_min={h_min}, H_max={h_max}, current_H={self.current_H}")
-        else:
-            self.H = control_horizon
 
     def get_action(self, env):
         current_step = env.current_step
@@ -39,12 +28,7 @@ class OnlineMPC_Solver:
         timescale_h = env.timescale / 60.0
         transformer_limit = env.config['transformer']['max_power']
 
-        # --- Logica Orizzonte Adattivo ---
-        if self.use_adaptive_horizon:
-            horizon = min(self.current_H, sim_length - current_step)
-        else:
-            horizon = min(self.H, sim_length - current_step)
-        
+        horizon = min(self.H, sim_length - current_step)
         if horizon <= 0: return np.zeros(num_cs)
 
         E_initial, active_evs = np.zeros(num_cs), {}
@@ -106,30 +90,6 @@ class OnlineMPC_Solver:
         prob.solve(pulp.PULP_CBC_CMD(msg=0))
 
         if pulp.LpStatus[prob.status] == 'Optimal':
-            # --- Logica Lyapunov per Orizzonte Adattivo ---
-            if self.use_adaptive_horizon and active_evs:
-                V_current = sum((E_initial[i] - data['ev'].desired_capacity)**2 for i, data in active_evs.items())
-                
-                E_next = {}
-                for i, data in active_evs.items():
-                    p_ch_t0 = pulp.value(P_ch[i, 0]) or 0
-                    p_dis_t0 = pulp.value(P_dis[i, 0]) or 0
-                    E_next[i] = E_initial[i] + (p_ch_t0 * data['eta_ch'] - p_dis_t0 / data['eta_dis']) * timescale_h
-                
-                V_next = sum((E_next[i] - data['ev'].desired_capacity)**2 for i, data in active_evs.items())
-
-                # Condizione di stabilità di Lyapunov
-                if V_next <= V_current - self.lyapunov_alpha * V_current:
-                    new_H = max(self.h_min, self.current_H - 1)
-                    if new_H != self.current_H:
-                        self.current_H = new_H
-                        # print(f"Step {current_step}: Stabilità OK. Orizzonte accorciato a {self.current_H}")
-                else:
-                    new_H = min(self.h_max, self.current_H + 1)
-                    if new_H != self.current_H:
-                        self.current_H = new_H
-                        # print(f"Step {current_step}: Stabilità non garantita. Orizzonte esteso a {self.current_H}")
-
             action = np.zeros(num_cs)
             for i in range(num_cs):
                 charge = pulp.value(P_ch[i, 0])
@@ -139,9 +99,6 @@ class OnlineMPC_Solver:
                 if max_power > 0: action[i] = net_power / max_power
             return np.clip(action, -1, 1)
         else:
-            # Se l'ottimizzazione fallisce, estendi l'orizzonte per il prossimo step
-            if self.use_adaptive_horizon:
-                self.current_H = min(self.h_max, self.current_H + 1)
             return np.zeros(num_cs)
 
 class ApproximateExplicitMPC:

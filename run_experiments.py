@@ -1,3 +1,5 @@
+# --- START OF FILE run_experiments.py ---
+
 import os
 import yaml
 import numpy as np
@@ -17,7 +19,7 @@ from glob import glob
 # --- Importazioni dalla libreria custom ev2gym ---
 from ev2gym.models.ev2gym_env import EV2Gym
 from ev2gym.baselines.heuristics import ChargeAsFastAsPossible, ChargeAsLateAsPossible, RoundRobin
-from ev2gym.baselines.pulp_mpc import eMPC_V2G_PuLP
+from ev2gym.baselines.pulp_mpc import OnlineMPC_Solver, ApproximateExplicitMPC
 from ev2gym.rl_agent.custom_algorithms import CustomDDPG
 from ev2gym.utilities.per_buffer import PrioritizedReplayBuffer
 from ev2gym.rl_agent import reward as reward_module
@@ -115,7 +117,8 @@ class ProgressCallback(BaseCallback):
 # =====================================================================================
 def get_color_map_and_legend(algorithms_to_plot):
     full_algo_categories = {
-        "AFAP": "heuristic", "ALAP": "heuristic", "RR": "heuristic", "MPC_PuLP": "mpc",
+        "AFAP": "heuristic", "ALAP": "heuristic", "RR": "heuristic",
+        "Online_MPC": "mpc", "Approx_Explicit_MPC": "mpc", "Online_MPC_Adaptive": "mpc",
         "PPO": "on-policy", "A2C": "on-policy", "TRPO": "on-policy", "ARS": "on-policy",
         "SAC": "off-policy", "TD3": "off-policy", "DDPG": "off-policy", "DDPG+PER": "off-policy", "TQC": "off-policy"
     }
@@ -252,7 +255,6 @@ def run_benchmark(config_files, reward_func, algorithms_to_run, num_simulations,
 # --- BLOCCO PRINCIPALE ---
 # =====================================================================================
 if __name__ == "__main__":
-    # --- 1. OPZIONE CALIBRAZIONE MODELLO DEGRADAZIONE ---
     if input("Vuoi eseguire 'Fit_battery.py' per calibrare il modello di degradazione? (s/n, default n): ").lower() == 's':
         print("--- Esecuzione di Fit_battery.py ---")
         try:
@@ -261,23 +263,46 @@ if __name__ == "__main__":
         except (subprocess.CalledProcessError, FileNotFoundError) as e:
             print(f"ERRORE: {e}. Lo script procederà con i parametri esistenti.")
 
-    # --- 2. SCELTA MODALITÀ PLOT ---
     plot_mode = input("\nScegli modalità grafici:\n1. Tesi (SAC, DDPG+PER, TQC + Baselines)\n2. Completa (Tutti gli algoritmi)\nScelta (default 1): ") or '1'
     is_thesis_mode = plot_mode == '1'
 
-    # --- 3. DEFINIZIONE ALGORITMI ---
+    # --- MODIFICA CHIAVE: Calcola MAX_CS prima di definire gli algoritmi ---
+    config_path_for_cs = "ev2gym/example_config_files/"
+    all_scenarios_for_cs = glob(os.path.join(config_path_for_cs, "*.yaml"))
+    MAX_CS = 0
+    if not all_scenarios_for_cs:
+        print(f"ATTENZIONE: Nessun file di scenario trovato in {config_path_for_cs}, MAX_CS impostato a 10 di default.")
+        MAX_CS = 10 # Un valore di fallback
+    else:
+        for scenario_file in all_scenarios_for_cs:
+            with open(scenario_file, 'r') as f:
+                config = yaml.safe_load(f)
+                if 'number_of_charging_stations' in config:
+                    MAX_CS = max(MAX_CS, config['number_of_charging_stations'])
+    if MAX_CS == 0:
+        raise ValueError("Impossibile determinare il numero massimo di stazioni di ricarica. Controlla i file di configurazione.")
+    print(f"\nRilevato un massimo di {MAX_CS} stazioni di ricarica tra tutti gli scenari.")
+    # --- FINE MODIFICA ---
+
+    # --- DEFINIZIONE ALGORITMI ---
     ALL_ALGORITHMS = {
         "AFAP": (ChargeAsFastAsPossible, None, {}), "ALAP": (ChargeAsLateAsPossible, None, {}), "RR": (RoundRobin, None, {}),
-        "MPC_PuLP": (eMPC_V2G_PuLP, None, {'control_horizon': 5}),
+        "Online_MPC": (OnlineMPC_Solver, None, {'control_horizon': 5}),
+        "Online_MPC_Adaptive": (OnlineMPC_Solver, None, {
+            'use_adaptive_horizon': True, 'h_min': 2, 'h_max': 5, 'lyapunov_alpha': 0.1
+        }),
+        "Approx_Explicit_MPC": (ApproximateExplicitMPC, None, {
+            'control_horizon': 5,
+            'max_cs': MAX_CS  # <-- Passa il valore calcolato
+        }),
         "SAC": (None, SAC, {}), "PPO": (None, PPO, {}), "A2C": (None, A2C, {}), "TD3": (None, TD3, {}), "DDPG": (None, DDPG, {}),
         "DDPG+PER": (None, CustomDDPG, {'replay_buffer_class': PrioritizedReplayBuffer}),
         "TQC": (None, TQC, {}), "TRPO": (None, TRPO, {}), "ARS": (None, ARS, {})
     }
-    THESIS_ALGORITHMS = {k: v for k, v in ALL_ALGORITHMS.items() if k in ["AFAP", "ALAP", "RR", "MPC_PuLP", "SAC", "DDPG+PER", "TQC"]}
+    THESIS_ALGORITHMS = {k: v for k, v in ALL_ALGORITHMS.items() if k in ["AFAP", "ALAP", "RR", "Online_MPC", "Online_MPC_Adaptive", "Approx_Explicit_MPC", "SAC", "DDPG+PER", "TQC"]}
     algorithms_to_run = THESIS_ALGORITHMS if is_thesis_mode else ALL_ALGORITHMS
     rl_models_to_run = {k: v for k, v in algorithms_to_run.items() if v[1] is not None}
 
-    # --- 4. SCELTA SCENARI ---
     config_path = "ev2gym/example_config_files/"
     available_scenarios = sorted(glob(os.path.join(config_path, "*.yaml")))
     print("\nScenari disponibili:")
@@ -286,23 +311,21 @@ if __name__ == "__main__":
     scenarios_to_test = available_scenarios if 'tutti' in choices else [available_scenarios[int(i)-1] for i in choices.split()]
     print(f"Scenari selezionati: {[os.path.basename(s) for s in scenarios_to_test]}")
 
-    # --- 5. SCELTA REWARD ---
     available_rewards = [(name, func) for name, func in inspect.getmembers(reward_module, inspect.isfunction) if inspect.getmodule(func) == reward_module]
     print("\nScegli la funzione di reward:")
     for i, (name, func) in enumerate(available_rewards):
         doc = inspect.getdoc(func); short_doc = (doc.strip().split('\n')[0] if doc else "Nessuna descrizione.")
         print(f"{i + 1}. {name} - {short_doc}")
-    reward_choice = int(input(f"Scelta (default 1): ") or 1)
+    reward_choice = int(input(f"Scelta (default 3): ") or 3)
     selected_reward_func = available_rewards[reward_choice - 1][1]
 
-    # --- 6. ADDESTRAMENTO ---
     is_multi_scenario = len(scenarios_to_test) > 1
     mode_str = "Multi-Scenario" if is_multi_scenario else "Single-Domain"
     scenario_name_for_path = 'multi_scenario' if is_multi_scenario else os.path.basename(scenarios_to_test[0]).replace(".yaml", "")
     model_dir = f'./saved_models/{scenario_name_for_path}/'
     os.makedirs(model_dir, exist_ok=True)
 
-    if input(f"\nVuoi addestrare i modelli in modalità {mode_str}? (s/n, default n): ").lower() == 's':
+    if input(f"\nVuoi addestrare i modelli RL in modalità {mode_str}? (s/n, default n): ").lower() == 's':
         steps_for_training = int(input("Per quanti passi? (default 100000): ") or 100000)
         train_env_id = f'ev-train-{scenario_name_for_path}'
         if is_multi_scenario:
@@ -319,7 +342,6 @@ if __name__ == "__main__":
             model.save(os.path.join(model_dir, f'{name.lower().replace("+", "_")}_model.zip'))
         train_env.close()
 
-    # --- 7. ESECUZIONE BENCHMARK ---
     num_sims = int(input("\nQuante simulazioni di valutazione per scenario? (default 1): ") or 1)
     run_benchmark(scenarios_to_test, selected_reward_func, algorithms_to_run, num_sims, model_dir, is_multi_scenario)
 

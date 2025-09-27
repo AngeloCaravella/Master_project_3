@@ -1,38 +1,65 @@
 \chapter{State of the Art in Optimal V2G Management}
+\vspace*{2cm} % spazio verticale prima della citazione
+
+\begin{center}
+  \begin{minipage}{0.85\textwidth}
+    \begin{displayquote}
+      \large\itshape
+      ``The green transition is the most ambitious industrial transformation ever. 
+      The region of the world that develops clean technologies first will come out on top — 
+      and I want it to be Europe.''
+    \end{displayquote}
+  \end{minipage}
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{flushright}
+  --- \textsc{Ursula von der Leyen}
+\end{flushright}
 
 \section{The V2G Imperative: A Foundation of Europe's Green Transition}
 
-Europe finds itself at the confluence of two unprecedented transformations: the wholesale electrification of transport and a fundamental restructuring of energy systems. These are not merely aspirational goals but constitute binding legal obligations enshrined in the \textbf{European Green Deal} and its comprehensive \textbf{"Fit for 55"} legislative framework \footcite{european_commission_2021_fit_for_55}. The policy architecture demands a 55\% reduction in net greenhouse gas emissions by 2030, necessitating the rapid elimination of internal combustion engines alongside a dramatic expansion of renewable energy capacity, as outlined in the revised \textbf{Renewable Energy Directive }(RED III). Electric Vehicles (EVs) occupy a central position in this transition, simultaneously driving decarbonisation efforts while presenting complex challenges for grid stability and management.
+
+Europe finds itself at the confluence of two unprecedented and deeply interlinked transformations that are reshaping the continent’s technological, economic, and societal landscape: on one hand, the large-scale electrification of the transport sector, which involves a radical shift from internal combustion engines to battery electric and hydrogen-powered vehicles, and on the other hand, a comprehensive restructuring of energy systems, encompassing the integration of renewable generation, the modernization of grids, and the deployment of advanced storage and demand-side management solutions.
+\noindent
+\\
+These transformations are not merely aspirational targets but constitute binding legal obligations established under the \textbf{European Green Deal}, which sets the overarching climate and sustainability strategy for the European Union, and the detailed \textbf{"Fit for 55"} legislative package, which translates these ambitions into enforceable measures aimed at reducing greenhouse gas emissions by 55\% by 2030 across multiple sectors \footcite{european_commission_2021_fit_for_55}.
+ The policy architecture demands a 55\% reduction in net greenhouse gas emissions by 2030, necessitating the rapid elimination of internal combustion engines alongside a dramatic expansion of renewable energy capacity, as outlined in the revised \textbf{Renewable Energy Directive }(RED III). Electric Vehicles (EVs) occupy a central position in this transition, simultaneously driving decarbonisation efforts while presenting complex challenges for grid stability and management.
 \noindent
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{red.jpg}
+    \includegraphics[width=1\linewidth]{red.png}
     \caption{RED 3}
     \label{fig:placeholder}
 \end{figure}
 \noindent
-The initial response to mass EV adoption was characterised by considerable concern within the power sector. The prospect of millions of new electric vehicles was perceived primarily through the lens of risk—vast, temporally correlated loads threatening to overwhelm local distribution networks during peak evening hours. This perspective has undergone a fundamental reassessment. EVs are now recognised not as burdens to be managed, but as essential infrastructure for achieving Europe's energy transition objectives. This conceptual shift finds its most concrete expression in \textbf{Vehicle-to-Grid (V2G)} technology, which fundamentally reimagines the role of electric vehicles within the energy system.
+The initial response to mass EV adoption was characterised by considerable concern within the power sector. The prospect of millions of new electric vehicles was perceived primarily through the lens of risk—vast, temporally correlated loads threatening to overwhelm local distribution networks during peak evening hours. This perspective has undergone a fundamental reassessment. EVs are now recognised not as burdens to be managed, but as essential infrastructure for achieving Europe's energy transition objectives. 
+\\
+This conceptual shift finds its most concrete expression in \textbf{Vehicle-to-Grid (V2G)} technology, which fundamentally reimagines the role of electric vehicles within the energy system.
 \noindent
 V2G technology transforms what were previously passive, unidirectional energy consumers into active, distributed, and smart grid resources. The underlying opportunity is both elegant and substantial: private vehicles spend approximately 96\% of their operational lifetime parked and connected \footcite{evertsson2024investigating}, representing an enormous, geographically distributed, and currently underutilised repository of mobile energy storage capacity.
 \noindent
 The transformative potential of V2G becomes apparent when individual vehicles are coordinated through centrally managed aggregation. While a single EV's contribution remains modest, a carefully orchestrated fleet can function as a unified entity—a \textbf{Virtual Power Plant (VPP)}. These software-defined power plants aggregate the collective capacity of numerous distributed energy resources, delivering grid services at scales and reliability levels comparable to conventional generation facilities. The rapid response characteristics of contemporary battery inverters, operating at millisecond timescales, enable these aggregated fleets to provide a comprehensive range of critical grid services. This capability extends beyond mere utility; it represents a prerequisite for maintaining stability in grids increasingly dependent on the variable and non-dispatchable output of wind and solar generation, thereby enabling the technical and economic viability of the EU's ambitious renewable energy targets \footcite{Tavakoli2019}.
 \noindent
 The grid services enabled by V2G technology form the technical foundation for the smart, resilient, and decarbonised electricity system required for Europe's energy future:
-
-\begin{itemize}
-    \item \textbf{Frequency Regulation:} Grid stability fundamentally depends on maintaining precise equilibrium between electricity supply and demand, manifested as stable grid frequency (50 Hz across European networks). Frequency deviations signal supply-demand imbalances that, if uncorrected, can trigger cascading failures across interconnected systems. V2G fleets, leveraging their rapid response capabilities, can participate directly in ancillary service markets including Frequency Containment Reserve (FCR) and automatic Frequency Restoration Reserve (aFRR). These systems can inject or absorb power within seconds of frequency deviations, providing immediate counteraction to imbalances and preventing system-wide failures or blackouts \footcite{alfaverh2022optima, white2011vehicle}.
-    
-    \item \textbf{Demand Response and Peak Shaving:} Through intelligent temporal shifting of charging activities to off-peak periods—when energy is abundant and inexpensive—combined with strategic discharging during peak demand when energy becomes scarce and costly, V2G systems can effectively flatten daily load profiles. This approach directly addresses the "duck curve" phenomenon associated with high solar photovoltaic penetration. Such load profile management reduces dependence on expensive and carbon-intensive "peaker" plants, typically gas or diesel turbine facilities, while potentially deferring or eliminating requirements for costly transmission and distribution infrastructure upgrades \footcite{orfanoudakis2022deep, sadeghi2021deep}.
+\\
+    \noindent
+ \textbf{Frequency Regulation:} Grid stability fundamentally depends on maintaining precise equilibrium between electricity supply and demand, manifested as stable grid frequency (50 Hz across European networks). Frequency deviations signal supply-demand imbalances that, if uncorrected, can trigger cascading failures across interconnected systems. V2G fleets, leveraging their rapid response capabilities, can participate directly in ancillary service markets including Frequency Containment Reserve (FCR) and automatic Frequency Restoration Reserve (aFRR). These systems can inject or absorb power within seconds of frequency deviations, providing immediate counteraction to imbalances and preventing system-wide failures or blackouts \footcite{alfaverh2022optima, white2011vehicle}.
+   \\
+    \noindent 
+\textbf{Demand Response and Peak Shaving:} Through intelligent temporal shifting of charging activities to off-peak periods—when energy is abundant and inexpensive—combined with strategic discharging during peak demand when energy becomes scarce and costly, V2G systems can effectively flatten daily load profiles. This approach directly addresses the "duck curve" phenomenon associated with high solar photovoltaic penetration. Such load profile management reduces dependence on expensive and carbon-intensive "peaker" plants, typically gas or diesel turbine facilities, while potentially deferring or eliminating requirements for costly transmission and distribution infrastructure upgrades \footcite{orfanoudakis2022deep, sadeghi2021deep}.
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.75\linewidth]{duck.png}
-        \caption{Duck curve}
+        \includegraphics[width=1\linewidth]{duck.png}
+        \caption{Duck curve- "La Duck Curve e la scomposizione della stagionalità dei
+ consumi elettrici. Aspetti teorici e modelli statistici"-Bisetto Francesca}
         \label{fig:placeholder}
     \end{figure}
-    
-    \item \textbf{Renewable Energy Integration:} The most strategically significant contribution of V2G lies in addressing renewable energy intermittency challenges. V2G fleets function as large-scale energy buffers, absorbing excess solar and wind generation during periods of high production and low demand that would otherwise require curtailment. This stored renewable energy can subsequently be released during periods of low generation, such as evening hours or periods of limited wind availability. This mechanism directly increases the utilisation efficiency of renewable energy resources, supporting the integration objectives outlined in RED III while enhancing overall energy system efficiency \footcite{khan2024review, zou2021deep}.
-\end{itemize}
+    \noindent
+  \textbf{Renewable Energy Integration:} The most strategically significant contribution of V2G lies in addressing renewable energy intermittency challenges. V2G fleets function as large-scale energy buffers, absorbing excess solar and wind generation during periods of high production and low demand that would otherwise require curtailment. This stored renewable energy can subsequently be released during periods of low generation, such as evening hours or periods of limited wind availability. This mechanism directly increases the utilisation efficiency of renewable energy resources, supporting the integration objectives outlined in RED III while enhancing overall energy system efficiency \footcite{khan2024review, zou2021deep}.
+
 \noindent
 This vision is being actively incorporated into European legal frameworks and technical standards. The transformative \textbf{Alternative Fuels Infrastructure Regulation (AFIR, EU 2023/1804)} now requires that new public charging infrastructure incorporate smart charging capabilities and, critically, bidirectional power flow capacity. The technical implementation of these requirements is supported by standards such as \textbf{ISO 15118-20}, which provides detailed specifications for "Vehicle-to-Grid Communication Interface" (V2GCI) protocols, enabling secure, interoperable bidirectional power transfer. With mandatory implementation scheduled for 2027, the necessary technological and regulatory infrastructure is being systematically established. This regulatory push is supported by significant pilot initiatives including the \textbf{'SCALE'} and \textbf{'V2G Balearic Islands'} projects, which are conducting comprehensive testing of the technology's technical performance and economic viability under real-world operating conditions.
 
@@ -60,58 +87,72 @@ The fundamental challenge addressed by this thesis extends beyond simply enablin
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Optimizer's Trilemma: Navigating a Stochastic World}
+\begin{center}
+  \begin{minipage}{0.85\textwidth}
+    \begin{displayquote}
+      \large\itshape
+      ``Uncertainty quantification provides a systematic way to assess the credibility of computational predictions.''
+    \end{displayquote}
+  \end{minipage}
+\end{center}
 
+\vspace{0.5cm}
+
+\begin{flushright}
+  --- \textsc{Omar Ghattas \& Karen Willcox}, \textit{Uncertainty Quantification in Computational Science and Engineering} (2016)
+\end{flushright}
+\noindent
 While the potential of V2G technology is substantial, the management of distributed vehicular assets presents a complex control challenge. Economic viability drives aggregator decisions, yet a narrow focus on profitability alone proves insufficient for sustainable operations. Effective V2G management requires balancing three competing objectives that frequently conflict with one another. This challenge can be framed as the "V2G Optimizer's Trilemma": the concurrent pursuit of \textbf{economic profitability}, preservation of \textbf{battery longevity}, and maintenance of \textbf{user convenience}.
 \noindent
 Rather than representing a straightforward, static trade-off, this constitutes a dynamic, multi-objective optimisation challenge characterised by \textbf{stochasticity} and \textbf{uncertainty} arising from multiple, interconnected sources \footcite{wang2022multi}:
+\\
+    \noindent
+    \textbf{Market Volatility:} Wholesale electricity prices exhibit significant variability driven by unpredictable supply variations (such as sudden reductions in wind generation capacity) and demand fluctuations (including heat-driven increases in cooling demand). Effective control systems must respond to these price signals dynamically and in real-time.
+ \\
+    \noindent   
+\textbf{Renewable Intermittency:} Co-located solar and wind generation exhibit inherently variable output patterns with limited predictability. Controllers must coordinate EV fleet operations to capture available generation during surplus periods without compromising other operational objectives.
+    \\
+    \noindent
+  \textbf{Human Behaviour:} Perhaps the most challenging uncertainty source involves EV owner patterns. Arrival times, departure schedules, and required state of charge (SoC) at departure lack deterministic characteristics. Emergency departures or unexpected schedule changes represent hard, non-negotiable constraints that intelligent systems must accommodate to preserve user trust and satisfaction.
 
-\begin{itemize}
-    \item \textbf{Market Volatility:} Wholesale electricity prices exhibit significant variability driven by unpredictable supply variations (such as sudden reductions in wind generation capacity) and demand fluctuations (including heat-driven increases in cooling demand). Effective control systems must respond to these price signals dynamically and in real-time.
-    
-    \item \textbf{Renewable Intermittency:} Co-located solar and wind generation exhibit inherently variable output patterns with limited predictability. Controllers must coordinate EV fleet operations to capture available generation during surplus periods without compromising other operational objectives.
-    
-    \item \textbf{Human Behaviour:} Perhaps the most challenging uncertainty source involves EV owner patterns. Arrival times, departure schedules, and required state of charge (SoC) at departure lack deterministic characteristics. Emergency departures or unexpected schedule changes represent hard, non-negotiable constraints that intelligent systems must accommodate to preserve user trust and satisfaction.
-\end{itemize}
 \noindent
 This dynamic, uncertain, and multifaceted operational environment renders static, rule-based control approaches (such as "charge when price falls below threshold X, discharge when exceeding threshold Y") inadequate and brittle. More sophisticated and adaptive methodologies are required—approaches capable of learning from operational experience and making optimal decisions under conditions of significant uncertainty. Reinforcement Learning excels in precisely this domain, providing a framework for developing control policies that demonstrate robustness, adaptability, and scalability.
 
-\section{The Economics of V2G: Navigating a Spectrum of Value Streams}
-\label{sec:v2g_economics}
 
-The economic viability of Vehicle-to-Grid services constitutes the fundamental driver for investment and widespread adoption. This viability depends on aggregators' ability to capture value across diverse electricity markets. While energy arbitrage represents the most intuitive revenue stream, a comprehensive analysis reveals a broader and potentially more lucrative economic landscape.
 
-\subsection{Beyond Arbitrage: A Spectrum of Value Streams}
 
-V2G-enabled fleets can participate across multiple markets simultaneously, enabling revenue stream stacking. The primary categories include:
-
-\begin{itemize}
-    \item \textbf{Energy Markets (Arbitrage):} This strategy involves purchasing energy during low-price periods (typically overnight) and selling during high-price periods (such as evening peaks). Profitability correlates directly with \textbf{Day-Ahead} and \textbf{Intraday} market price volatility. Despite conceptual simplicity, this market presents challenges due to retail-wholesale price spreads.
-    
-    \item \textbf{Ancillary Services Markets:} These markets procure services essential for maintaining grid stability and security. V2G technology demonstrates exceptional suitability for these applications due to rapid response capabilities. Key products include:
-        \begin{itemize}
-            \item \textbf{Frequency Response:} As previously discussed, this involves rapid power injection or absorption for frequency stabilisation. Compensation typically combines availability payments (capacity-based in €/MW/h) with activation payments (energy-based). This often provides more reliable revenue streams than pure arbitrage operations.
-            \item \textbf{Voltage Support:} Involves injecting or absorbing reactive power to maintain local voltage levels within acceptable operational ranges.
-        \end{itemize}
-        
-    \item \textbf{Capacity Markets:} These markets compensate participants for committing to power generation or load reduction availability during system stress periods. EV Virtual Power Plants can bid aggregated capacity into these markets, securing steady, long-term revenue streams based on availability commitments, regardless of actual activation frequency.
-\end{itemize}
-\noindent
-Truly optimal V2G strategies must therefore co-optimise across these diverse markets, significantly increasing control problem complexity.
-
+%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Sources for Energy Price Data}
 
 Access to reliable, real-time, and historical market data remains crucial for both control agent training in simulation environments and real-world deployment. Key public sources for European market data include:
+\\
+\noindent
+ \textbf{ENTSO-E Transparency Platform:} The European Network of Transmission System Operators for Electricity maintains a mandatory, open-access platform serving as a comprehensive repository of pan-European electricity market data. This includes harmonised day-ahead prices, load forecasts, and generation data, serving as the primary source for academic research through both web portal access and free RESTful API services.
+    \\
+\noindent
+    \textbf{National Transmission System Operators (TSOs):} Many national TSOs (including Terna in Italy, National Grid in the UK, and RTE in France) publish detailed market data covering real-time frequency and imbalance prices for their respective jurisdictions.
+    \\
+\noindent
+     \textbf{Power Exchanges:} Exchanges such as \textbf{EPEX SPOT} and \textbf{Nord Pool} constitute actual trading venues. While they represent direct price data sources, comprehensive real-time access typically requires commercial subscription services.
 
-\begin{itemize}
-    \item \textbf{ENTSO-E Transparency Platform:} The European Network of Transmission System Operators for Electricity maintains a mandatory, open-access platform serving as a comprehensive repository of pan-European electricity market data. This includes harmonised day-ahead prices, load forecasts, and generation data, serving as the primary source for academic research through both web portal access and free RESTful API services.
-    
-    \item \textbf{National Transmission System Operators (TSOs):} Many national TSOs (including Terna in Italy, National Grid in the UK, and RTE in France) publish detailed market data covering real-time frequency and imbalance prices for their respective jurisdictions.
-    
-    \item \textbf{Power Exchanges:} Exchanges such as \textbf{EPEX SPOT} and \textbf{Nord Pool} constitute actual trading venues. While they represent direct price data sources, comprehensive real-time access typically requires commercial subscription services.
-\end{itemize}
 
 \subsection{Buying vs. Selling: The Critical Retail-Wholesale Spread}
+\begin{center}
+  \begin{minipage}{0.85\textwidth}
+    \begin{displayquote}
+      \large\itshape
+      ``Price spreads, or marketing margins, are the difference between prices at different stages of the supply chain. 
+      The wholesale-to-retail spread is the difference between the wholesale price and the retail price.''
+    \end{displayquote}
+  \end{minipage}
+\end{center}
 
+\vspace{0.5cm}
+
+\begin{flushright}
+  --- \textsc{Sebastien Pouliot \& Lee L. Schulz}, \textit{Measuring Price Spreads in Red Meat} (2016)
+\end{flushright}
+\noindent
 A critical yet frequently overlooked aspect of V2G economics involves the distinction between EV owner charging costs and aggregator grid sales revenue.
 
 \begin{itemize}
@@ -140,6 +181,25 @@ Before examining control algorithms, establishing clear, high-fidelity models of
 
 \subsection{The Grid-Interactive EV as a Controllable Asset}
 
+\begin{center}
+  \begin{minipage}{0.85\textwidth}
+    \begin{displayquote}
+      \large\itshape
+      "Electric car sales continue to break records globally, particularly in China and other emerging economies."\\[1em]
+
+    \end{displayquote} 
+    
+  \end{minipage} 
+\end{center}
+
+\begin{flushright}
+  \textsc{\textbf{International Energy Agency (IEA)}
+\footnote{\href{https://www.iea.org/reports/global-ev-outlook-2025/executive-summary}{Global EV Outlook 2025 - Executive Summary}}}
+\end{flushright}
+
+
+
+\noindent
 From a power grid perspective, electric vehicles represent sophisticated mobile energy storage devices. For V2G applications, EVs can be characterised through several key state variables and parameters:
 \\
 \noindent
@@ -158,80 +218,133 @@ Combined with vehicle availability patterns—arrival and departure times plus u
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%\section{A New Paradigm for Control: Reinforcement Learning}
 
-\section{A New Paradigm for Control: Reinforcement Learning}
+\section{A New Paradigm for Control: Reinforcement Learning - Based on the work of Sutton \& Barto}
 
-To address the complexities of uncertainty, multi-objective trade-offs, and dynamic systems, this work employs Reinforcement Learning (RL), a machine learning paradigm focused on learning optimal sequential decision-making policies through trial and error. Unlike traditional optimal control methods that require explicit and perfect models of the environment, RL learns control policies directly from interactions, offering robustness to uncertainty and unmodeled dynamics \cite{Xie2025, Qiu2023, Zhang2023}.
 
-\subsection{The Language of Learning: Markov Decision Processes (MDPs)}
 
-The mathematical foundation of RL is based on the \textbf{Markov Decision Process (MDP)}, a formal framework for modeling decision-making in stochastic environments. An MDP is defined by the tuple $(S, A, p, R, \gamma)$, where, in the V2G context:
+\begin{center}
+    \begin{minipage}{0.85\textwidth}
+        \large\itshape
+        ``Reinforcement learning is learning what to do---how to map situations to actions---so as to maximize a numerical reward signal.''
+    \end{minipage}
+\end{center}
 
-\begin{itemize}
-    \item $S$: The \textbf{state space}. A comprehensive snapshot of the world at any given moment, including the state of charge (SoC) of all connected electric vehicles (EVs), current electricity prices, time of day, and other relevant variables.
-    
-    \item $A$: The \textbf{action space}. The set of all possible agent decisions. In V2G applications, this typically represents a continuous space indicating charging or discharging power for each EV.
-    
-    \item $p(s', r | s, a)$: The \textbf{transition dynamics model}. This function defines the probability of transitioning to new state $s'$ and receiving reward $r$, given current state $s$ and action $a$. In model-free RL, this function remains unknown to the agent.
-    
-    \item $R$: The \textbf{reward function}. A scalar feedback signal indicating action quality. This represents the most critical design element, implicitly defining agent objectives.
-    
-    \item $\gamma$: The \textbf{discount factor} ($0 \le \gamma < 1$). This value determines the present value of future rewards, balancing immediate gratification against long-term gains.
-\end{itemize}
+\vspace{0.5cm}
+
+\begin{flushright}
+--- Richard S. Sutton \& Andrew G. Barto, \textit{Reinforcement Learning: An Introduction} (2018) \cite{Sutton2018}
+\end{flushright}
+
 \noindent
-This framework relies on the \textbf{Markov Property}, assuming future independence from the past given the present. This enables agents to make decisions based solely on current states, without requiring complete historical information of previous states and actions \cite{Qiu2023}.
-\noindent
-\\
-The \textbf{Markov property} is \textbf{causal}, in the sense that the future state depends \emph{only} on the current state and not on past states:
+To address the complexities of uncertainty, multi-objective trade-offs, and dynamic systems, this work employs Reinforcement Learning (RL), a machine learning paradigm that learns optimal sequential decision-making policies through trial-and-error interaction with an environment. Unlike traditional optimal control methods, which depend on an explicit and accurate model of the environment's dynamics, RL agents learn directly from the outcomes of their actions. This model-free approach provides significant robustness in the face of uncertainty and unmodeled dynamics.
 
-\begin{equation}
-P(S_{t+1} \mid S_t, S_{t-1}, \dots, S_0) = P(S_{t+1} \mid S_t)
-\end{equation}
+\section{The Reinforcement Learning Problem}
+The problem of reinforcement learning is formalized as the interaction between a learning \textbf{agent} and its \textbf{environment}. This interaction unfolds over a sequence of discrete time steps, $t = 0, 1, 2, \dots$.
 
-\begin{itemize}
-    \item \textbf{Causal:} The future state depends solely on the current state and action.  
-    \item \textbf{Non-causal:} This would imply that the future state could depend on “future” information or arbitrary past states, which is not allowed in Markov processes.
-\end{itemize}
-\noindent
-Thus, the Markov property encapsulates a \textbf{causal model of system evolution}, relying only on the present state without needing to store the entire history. This causality is fundamental in RL because it allows agents to make decisions based solely on the current state, greatly simplifying learning and computation.
+\subsection{The Agent-Environment Interface}
+At each time step $t$, the agent receives a representation of the environment's \textbf{state}, $S_t \in \mathcal{S}$, and on that basis selects an \textbf{action}, $A_t \in \mathcal{A}(S_t)$. One time step later, as a consequence of its action, the agent receives a numerical \textbf{reward}, $R_{t+1} \in \mathcal{R}$, and finds itself in a new state, $S_{t+1}$. This interaction loop forms the foundational framework of the RL problem.
 
-
-\subsection{The Bellman Equations}
-
-The agent's objective involves learning a \textbf{policy}, $\pi(a|s)$, representing a strategy for action selection to maximize expected discounted cumulative reward. To achieve this, it learns \textbf{value functions} estimating long-term value. The relationship between state values and successor state values is defined by the \textbf{Bellman equations}.
-\noindent
-The \textbf{Bellman expectation equation} for the state-value function $v_{\pi}(s)$ expresses state value under policy $\pi$ as the sum of immediate reward and discounted next state value:
-
-\begin{equation}
-v_{\pi}(s) = \mathbb{E}_{\pi} \left[ R_{t+1} + \gamma v_{\pi}(S_{t+1}) | S_t = s \right]
-\end{equation}
-\noindent
-The ultimate objective involves finding the \textbf{optimal policy}, $\pi_*$, with corresponding optimal value function, $v_*(s)$. The \textbf{Bellman optimality equation} states that optimal policy state value must equal the expected return for the best action from that state:
-
-\begin{equation}
-v_*(s) = \max_{a} \mathbb{E} \left[ R_{t+1} + \gamma v_*(S_{t+1}) | S_t = s, A_t = a \right]
-\end{equation}
-\noindent
-RL algorithms can be viewed as iterative methods for solving this equation and thereby discovering optimal policies \cite{Xie2025}.
-
-\subsection{Actor-Critic Architectures}
-\begin{figure}[H]
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=0.75\linewidth]{a2c.png}
-    \caption{Actor critic}
-    \label{fig:placeholder}
+    % Placeholder for a standard RL interaction diagram
+    \includegraphics[width=0.8\linewidth]{red.png}
+    \caption{The agent-environment interaction loop in reinforcement learning \cite{Sutton2018}.}
+    \label{fig:rl_loop}
 \end{figure}
-The \textbf{Actor-Critic} architecture provides a powerful and widely adopted method for solving RL problems, particularly in continuous action spaces. It employs two distinct neural networks:
+
+\subsection{Goals, Rewards, and Returns}
+The agent's objective is formalized by the \textbf{reward hypothesis}: that all goals and purposes can be framed as the maximization of the expected cumulative reward. The agent's goal is not to maximize the immediate reward, $R_{t+1}$, but the cumulative reward in the long run. This cumulative reward is known as the \textbf{return}, denoted $G_t$.
+
+For \textit{episodic tasks} that terminate, the return is the finite sum of future rewards. For \textit{continuing tasks} that do not terminate, the return is defined as the discounted sum of future rewards:
+\begin{equation}
+    G_t \doteq \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}
+\end{equation}
+where $\gamma \in [0, 1)$ is the \textbf{discount factor}. It determines the present value of future rewards, ensuring the infinite sum is finite and balancing immediate gratification against long-term gains. A value of $\gamma=0$ results in a myopic agent concerned only with maximizing immediate rewards.
+
+\section{The Language of Learning: Markov Decision Processes}
+The mathematical foundation of RL is the \textbf{Markov Decision Process (MDP)}, a formal framework for modeling decision-making in stochastic environments where outcomes are partly random and partly under the control of a decision maker.
+
+\subsection{The Markov Property}
+The future is independent of the past given the present. A state signal $S_t$ is said to have the \textbf{Markov Property} if the environment's response at time $t+1$ depends only on the state and action at time $t$. The probability of transitioning to state $s'$ and receiving reward $r$ is independent of all previous states and actions:
+\begin{equation}
+    p(s', r | s, a) \doteq \Pr\{S_{t+1}=s', R_{t+1}=r | S_t=s, A_t=a\}
+\end{equation}
+This property is fundamental as it allows decisions to be made based solely on the current state, without needing the complete history of interaction.
+
+\subsection{Policies and Value Functions}
+The agent's learning objective is to find a good \textbf{policy}, $\pi(a|s)$, which is a mapping from states to probabilities of selecting each possible action. The goodness of a policy is assessed by its \textbf{value functions}.
+\begin{itemize}
+    \item The \textbf{state-value function}, $v_\pi(s)$, is the expected return starting from state $s$ and following policy $\pi$ thereafter:
+    \begin{equation}
+        v_\pi(s) \doteq \mathbb{E}_\pi [G_t | S_t=s]
+    \end{equation}
+    \item The \textbf{action-value function}, $q_\pi(s, a)$, is the expected return starting from state $s$, taking action $a$, and thereafter following policy $\pi$:
+    \begin{equation}
+        q_\pi(s, a) \doteq \mathbb{E}_\pi [G_t | S_t=s, A_t=a]
+    \end{equation}
+\end{itemize}
+
+\section{The Bellman Equations}
+The Bellman equations provide a recursive decomposition that is foundational to solving MDPs. They express the value of a state in terms of the values of its successor states.
+
+\subsection{The Bellman Expectation Equation}
+For a given policy $\pi$, the state-value function must satisfy a self-consistency condition. The value of a state equals the expected immediate reward plus the discounted expected value of the next state:
+\begin{equation}
+    v_\pi(s) = \sum_a \pi(a|s) \sum_{s', r} p(s', r | s, a) [r + \gamma v_\pi(s')]
+\end{equation}
+This is the \textbf{Bellman expectation equation} for $v_\pi$. It forms the basis for policy evaluation algorithms.
+
+\subsection{The Bellman Optimality Equation}
+The ultimate goal is to find an \textbf{optimal policy}, $\pi_*$, which is a policy that achieves a higher or equal expected return than all other policies from all states. All optimal policies share the same optimal value functions, $v_*(s)$ and $q_*(s, a)$. The optimal value function for a state is the maximum expected return achievable from that state:
+\begin{equation}
+    v_*(s) = \max_a \mathbb{E}[R_{t+1} + \gamma v_*(S_{t+1}) | S_t=s, A_t=a] = \max_a \sum_{s', r} p(s', r | s, a) [r + \gamma v_*(s')]
+\end{equation}
+This is the \textbf{Bellman optimality equation}. Solving it means finding the optimal policy.
+
+\section{Solution Methods: A Unified Perspective}
+\subsection{Generalized Policy Iteration (GPI)}
+Most RL algorithms can be understood within the framework of \textbf{Generalized Policy Iteration (GPI)}, as described in Chapter 4 of \cite{Sutton2018}. GPI refers to the general idea of letting two interacting processes, policy evaluation and policy improvement, work towards a common optimal solution.
 
 \begin{itemize}
-    \item \textbf{The Critic}: Learns a value function (typically the action-value function, $q_{\pi}(s, a)$). Its role involves evaluating actor decisions, providing supervisory signals in the form of Temporal Difference (TD) errors.
-    
-    \item \textbf{The Actor}: Represents the policy, $\pi(a|s)$. It receives current state inputs and outputs actions. It utilizes critic feedback—TD error—to update parameters via policy gradients, improving strategies over time.
+    \item \textbf{Policy Evaluation}: Given a policy $\pi$, compute its value function $v_\pi$. This step aims to make the value function consistent with the current policy.
+    \item \textbf{Policy Improvement}: Given a value function $v$, improve the policy by making it greedy with respect to $v$. For a given state $s$, the new policy will select the action $a$ that maximizes $q_\pi(s, a)$.
 \end{itemize}
-\noindent
-This architecture suits V2G applications well because it can directly learn policies over continuous action spaces, enabling fine-grained power control. Agent behavior is shaped entirely by received reward signals. Designing these signals to align agent objectives with desired multi-faceted goals represents a critical discipline known as reward engineering \cite{Xie2025, Zhang2023}.
 
+These two processes compete in the short term (improving the policy makes the value function inaccurate) but cooperate in the long term to converge to the optimal policy and optimal value function. \textbf{Dynamic Programming (DP)} methods like policy iteration and value iteration are classic examples of GPI, assuming a perfect model of the environment.
 
+\section{Learning from Experience: MC and TD Methods}
+When a model of the environment is not available, we must learn from sampled experience. Chapters 5 and 6 of \cite{Sutton2018} introduce two primary model-free approaches.
 
+\subsection{Monte Carlo (MC) Methods}
+MC methods learn value functions by averaging the returns from sample episodes.
+\begin{itemize}
+    \item \textbf{Principle}: An update to $V(S_t)$ is made only at the end of an episode.
+    \item \textbf{Update Target}: The target for the update is the actual, complete return $G_t$.
+    \item \textbf{Update Rule} (Constant-$\alpha$): $V(S_t) \leftarrow V(S_t) + \alpha [G_t - V(S_t)]$
+    \item \textbf{Properties}: MC methods are unbiased but can have high variance and are only applicable to episodic tasks. They do not \textit{bootstrap}.
+\end{itemize}
+
+\subsection{Temporal-Difference (TD) Learning}
+TD learning is a central and novel idea in RL, combining ideas from both MC and DP.
+\begin{itemize}
+    \item \textbf{Principle}: TD methods update the value estimate for a state based on the observed reward and the estimated value of the successor state. They learn from incomplete episodes.
+    \item \textbf{Update Target}: The target is an estimate of the return, called the TD Target: $R_{t+1} + \gamma V(S_{t+1})$.
+    \item \textbf{Update Rule} (TD(0)): $V(S_t) \leftarrow V(S_t) + \alpha [R_{t+1} + \gamma V(S_{t+1}) - V(S_t)]$
+    \item \textbf{Properties}: TD methods \textit{bootstrap}—they update a guess from a guess. This introduces bias but often leads to lower variance and faster learning. They are naturally implemented in an online, fully incremental fashion.
+\end{itemize}
+
+\section{Actor-Critic Architectures}
+The \textbf{Actor-Critic} architecture provides a powerful and widely adopted method for solving RL problems, particularly in continuous action spaces. It explicitly represents both the policy and the value function using two distinct function approximators (e.g., neural networks).
+
+\begin{itemize}
+    \item \textbf{The Critic}: Learns a value function (e.g., $v_\pi(s)$ or $q_\pi(s, a)$). Its role is to evaluate the actor's decisions by computing the TD error:
+    \begin{equation}
+        \delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t)
+    \end{equation}
+    \item \textbf{The Actor}: Represents the policy, $\pi_\theta(a|s)$, parameterized by $\theta$. It receives the current state as input and outputs an action. It uses the TD error from the critic as a learning signal to update its parameters via policy gradient methods, improving its strategy over time.
+\end{itemize}
+
+This separation of concerns allows for direct policy optimization in continuous or large action spaces while leveraging the stable learning dynamics of TD-based value estimation.
 % ===================================================================
 % REWARD SHAPING SECTION
 % ===================================================================
@@ -330,44 +443,134 @@ As a counterpoint to dominant gradient-based methods, ARS represents a gradient-
 
 \section{The Model-Based Benchmark: Model Predictive Control (MPC)}
 
-While DRL offers powerful model-free approaches, academic rigor requires benchmarking against its most robust model-based counterpart: \textbf{Model Predictive Control (MPC)}. MPC originated in the 1970s within the process control industry, with pioneering contributions by Richalet et al. \footcite{Richalet1978ModelPH} and Cutler and Ramaker \footcite{Cutler1980}. The theoretical foundations for stability and optimality were subsequently established rigorously by researchers including Mayne and Rawlings \footcite{mayne2000constraine}.
+While DRL offers powerful model-free approaches, model based techniques  requires benchmarking against its most robust model-based counterpart: \textbf{Model Predictive Control (MPC)}. MPC originated in the 1970s within the process control industry, with pioneering contributions by Richalet et al. \footcite{Richalet1978ModelPH} and Cutler and Ramaker \footcite{Cutler1980}. The theoretical foundations for stability and optimality were subsequently established rigorously by researchers including Mayne and Rawlings \footcite{mayne2000constraine}.
 \noindent
 At its core, MPC represents a proactive, forward-looking strategy that employs explicit mathematical system models to predict future evolution. At each control step, it solves finite-horizon optimal control problems to determine optimal control action sequences. Its primary strength, explaining widespread industrial adoption, lies in its inherent capability to proactively handle complex system dynamics and operational constraints \footcite{minchala2025systematic}.
+\section{Model Predictive Control Formulation}
+\textit{Section based on "Predictive Control for Linear and Hybrid Systems" by F. Borrelli, A. Bemporad, and M. Morari.}
 
+\subsection{The Finite Time Optimal Control Problem}
+
+At each time step $t$, given the current state measurement $x(t)$, a Model Predictive Control (MPC) law is defined by solving a constrained finite time optimal control problem. This is often referred to as Receding Horizon Control (RHC).
+\noindent
+Consider the discrete-time linear time-invariant system:
+\begin{equation}
+    x(k+1) = Ax(k) + Bu(k)
+\end{equation}
+The optimization problem solved at the current time $t$ is formulated as follows, using $x(t)$ as the initial state $x_0$:
+
+\begin{equation}
+    J_0^*(x(t)) = \min_{U_0} J_0(x(t), U_0)
+\end{equation}
+where the cost function $J_0$ for a quadratic objective is defined as:
+\begin{equation}
+    J_0(x(0), U_0) = x_N' P x_N + \sum_{k=0}^{N-1} (x_k'Qx_k + u_k'Ru_k)
+\end{equation}
+The minimization is subject to the following constraints for $k=0, \dots, N-1$:
+\begin{align}
+    \text{subj. to} \quad x_{k+1} &= Ax_k + Bu_k, \\
+    x_k &\in \mathcal{X}, \\
+    u_k &\in \mathcal{U}, \\
+    x_N &\in \mathcal{X}_f, \\
+    x_0 &= x(t).
+\end{align}
+Here, the variables are defined as:
+\begin{itemize}
+    \item $x_k \in \mathbb{R}^n$ denotes the state vector at time $k$ obtained by starting from the state $x_0 = x(t)$ and applying the input sequence $u_0, \dots, u_{k-1}$.
+    \item $U_0 = [u_0', \dots, u_{N-1}']' \in \mathbb{R}^{mN}$ is the decision vector containing all future inputs over the prediction horizon $N$.
+    \item $P, Q$ are positive semi-definite state penalty matrices, and $R$ is a positive definite input penalty matrix.
+    \item $\mathcal{X} \subseteq \mathbb{R}^n$ and $\mathcal{U} \subseteq \mathbb{R}^m$ are polyhedra representing state and input constraints, respectively.
+    \item $\mathcal{X}_f \subseteq \mathbb{R}^n$ is a terminal polyhedral region that the state $x_N$ is constrained to enter.
+\end{itemize}
+
+\subsection{The Receding Horizon Policy}
+
+The optimization problem yields an optimal sequence of control inputs $U_0^*(x(t)) = \{u_0^*, u_1^*, \dots, u_{N-1}^*\}$.
+In the receding horizon control strategy, only the first element of this sequence is applied to the system:
+\begin{equation}
+    u(t) = u_0^*(x(t))
+\end{equation}
+At the next time step, $t+1$, a new state measurement $x(t+1)$ is obtained. The entire optimization problem is then solved again over a shifted horizon $[t+1, t+1+N]$, using $x(t+1)$ as the new initial state. This process is repeated at each sampling instant.
+
+
+%%%%%%%%%%%%
 \subsection{Implicit MPC: Online Optimization}
 
-The most common formulation involves \textbf{Implicit MPC}, where constrained optimization problems are solved online at each control step. For linear systems with quadratic costs, this typically constitutes a Quadratic Programme (QP). The controller's objective involves finding future control input sequences $U = [u_{t|t}, ..., u_{t+N-1|t}]$ that minimize cost function $J$ over prediction horizon $N$.
-
+The most common formulation involves \textbf{Implicit MPC}, where constrained optimization problems are solved online at each control step. For linear systems with quadratic costs, this typically constitutes a Quadratic Program (QP). The controller's objective involves finding future control input sequences 
+\[
+U = [u_{t|t}, \dots, u_{t+N-1|t}]
+\] 
+that minimize a cost function $J$ over a prediction horizon $N$.
+\noindent
+A key insight from \cite{borrelli2017predictive} is that in this formulation, the control law is defined \textbf{implicitly} as the result of an optimization problem. There is no pre-computed algebraic function; the control action is discovered at each step through a numerical computation. This approach is powerful due to its directness but is fundamentally limited by the need to perform this computation online. The authors of \cite{borrelli2017predictive} highlight this on page xii, stating: 
+\begin{quote}
+“One limitation of MPC is that running the optimization algorithm on-line at each time step requires substantial time and computational resources.”
+\end{quote}
+\noindent
+The finite-horizon optimal control problem is formulated as:
 \begin{equation}
-\min_{U} J(x_t, U) = \sum_{k=0}^{N-1} (x_{t+k|t}^T Q x_{t+k|t} + u_{t+k|t}^T R u_{t+k|t}) + x_{t+N|t}^T P x_{t+N|t}
+\min_{U_t} J(x_t, U_t) = \sum_{k=0}^{N-1} \left( x_{t+k|t}^\top \mathbf{Q} x_{t+k|t} + u_{t+k|t}^\top \mathbf{R} u_{t+k|t} \right) + x_{t+N|t}^\top \mathbf{P} x_{t+N|t}
 \end{equation}
+where $x_{t+k|t}$ represents the predicted state at future step $k$ based on information at time $t$, and $\mathbf{Q}$, $\mathbf{R}$, and $\mathbf{P}$ are weighting matrices defining trade-offs between state deviation and control effort. This optimization is subject to system dynamics and operational constraints:
+\begin{align}
+x_{t+k+1|t} &= \mathbf{A} x_{t+k|t} + \mathbf{B} u_{t+k|t} \\
+x_{\min} \leq\ &x_{t+k|t} \leq x_{\max} \\
+u_{\min} \leq\ &u_{t+k|t} \leq u_{\max}
+\end{align}
 \noindent
-where $x_{t+k|t}$ represents predicted state at future step $k$ based on time $t$ information, and $Q$, $R$, and $P$ are weighting matrices defining trade-offs between state deviation and control effort. This optimization is subject to system dynamics models and operational constraints:
+At each time step $t$, this complete problem is solved, but only the first action of the optimal sequence, $u_{t|t}^*$, is applied to the system. The process then repeats at the next time step, $t+1$, using new system state measurements. This feedback mechanism, known as a \textit{receding horizon} strategy, makes MPC robust to disturbances and model mismatch \cite{camacho2013model}.
 
-\begin{gather}
-    x_{t+k+1|t} = A x_{t+k|t} + B u_{t+k|t} \\
-    x_{min} \le x_{t+k|t} \le x_{max} \\
-    u_{min} \le u_{t+k|t} \le u_{max}
-\end{gather}
-\noindent
-At each time step $t$, this complete problem is solved, but only the first action of the optimal sequence, $u_{t|t}^*$, is applied to the system. The process then repeats at the next time step, $t+1$, using new system state measurements. This feedback mechanism, known as a \textit{receding horizon} strategy, makes MPC robust to disturbances and model mismatch.
 
-\cite{camacho2013model} \cite{borrelli2017predictive}
-
+%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Explicit MPC: Offline Pre-computation}
 
-For systems with fast dynamics or limited online computational capacity, \textbf{Explicit MPC} offers an alternative approach. Here, constrained optimization problems are solved offline for all possible initial states within given ranges, using multi-parametric programming. The result is not an online algorithm, but a pre-computed, explicit control law, $\pi(x_t)$, which is a \textbf{piecewise affine function} of state vector $x_t$.
+For systems with fast dynamics or limited online computational capacity, \textbf{Explicit MPC} offers an alternative approach. The key idea is to move the computational effort entirely offline. As detailed extensively in \cite{borrelli2017predictive}, this is achieved by treating the current state $x_t$ not as a fixed value, but as a vector of parameters. The constrained optimization problem is then solved offline for all possible initial states within a given range using \textbf{multi-parametric programming}.
 
+\noindent
+The authors of \cite{borrelli2017predictive} frame this as the main contribution of their work (Preface, page xii): 
+\begin{quote}
+“we want to determine the [...] feedback control law $f(x)$ that generates the optimal $u_k = f(x(k))$ \textbf{explicitly} and not just \textbf{implicitly} as the result of an optimization problem.”
+\end{quote}
+\noindent
+The result is not an online algorithm, but a pre-computed, explicit control law, $K(x_t)$, which for linear systems is a \textbf{piecewise affine (PWA) function} of the state vector $x_t$:
 \begin{equation}
-u^*(x_t) = F_i x_t + g_i \quad \text{if } x_t \in \mathcal{X}_i
+u^*(x_t) = \mathbf{F}_i x_t + \mathbf{g}_i \quad \text{if } x_t \in \mathcal{X}_i
 \end{equation}
 \noindent
-The state space is partitioned into convex polyhedral region sets $\mathcal{X}_i$, with unique affine control laws defined for each region. Online operation then reduces to fast lookup operations to identify which region current state $x_t$ occupies and applying the corresponding simple control law. This trades very high offline computational burden and significant memory requirements for extremely fast online execution.
+The state space is partitioned into a set of convex polyhedral regions $\mathcal{X}_i$, with a unique affine control law defined for each region. Online operation is thereby reduced from solving a QP to a simple function evaluation: first, a fast lookup operation identifies which region $\mathcal{X}_i$ the current state $x_t$ occupies, and second, the corresponding simple affine control law is applied. This trades a very high offline computational burden and significant memory requirements for extremely fast and deterministic online execution \cite{bemporad2013explicit, borrelli2017predictive}.
 
-\cite{bemporad2013explicit} \cite{borrelli2017predictive}
+\subsection{Deep Learning for Efficient PWA Representation}
 
-
-
+However, this approach suffers from a significant drawback. The number of polyhedral regions, and thus the memory required to store the corresponding affine laws, grows exponentially with the prediction horizon and the number of system constraints \cite{karg2020efficient}. This "curse of dimensionality" severely limits the practical application of traditional Explicit MPC to systems with a small number of states and simple constraints, particularly in memory-constrained embedded applications \cite{karg2020efficient}.
+\\
+\noindent
+To address this limitation, the work in \cite{karg2020efficient} proposes a novel approach for the efficient representation of these PWA control laws using deep learning. The authors demonstrate that a deep neural network utilizing Rectified Linear Unit (ReLU) activation functions is not merely an approximator but can, in fact, \textbf{exactly represent} the PWA function that defines the explicit MPC feedback law. This is based on the key theoretical insight that any PWA function can be decomposed and constructed using simpler elements that have a direct neural network equivalent.
+\\
+\noindent
+The foundation of this exact representation lies in two main results. First, any scalar PWA function $K_i(x_t)$ (representing the $i$-th component of the control vector) can be expressed as the difference of two convex PWA functions \cite{karg2020efficient}:
+\begin{equation}
+    K_i(x_t) = \gamma_i(x_t) - \eta_i(x_t)
+\end{equation}
+Second, any convex PWA function, which can be described as the pointwise maximum of a set of affine functions, can be exactly represented by a deep ReLU network. Specifically, a convex function composed of $N$ affine regions can be perfectly modeled by a network with width $n_x + 1$ (where $n_x$ is the dimension of the state space) and depth $N$ \cite{karg2020efficient}.
+\\
+\noindent
+Combining these findings, the complete multi-output MPC control law $K(x_t)$ can be exactly represented by a vector of $n_u$ pairs of deep neural networks, where each pair models the $\gamma_i$ and $\eta_i$ components for a single control output:
+\begin{equation}
+    K(x_t) = 
+    \begin{bmatrix}
+        \mathcal{N}(x_t; \theta_{\gamma,1}) - \mathcal{N}(x_t; \theta_{\eta,1}) \\
+        \vdots \\
+        \mathcal{N}(x_t; \theta_{\gamma,n_u}) - \mathcal{N}(x_t; \theta_{\eta,n_u})
+    \end{bmatrix}
+\end{equation}
+where $\mathcal{N}$ denotes a deep ReLU network with its corresponding set of parameters $\theta$.
+\\
+\noindent
+The particular advantage of using \textit{deep} neural networks lies in their representational efficiency. While the number of parameters (and thus, the memory footprint) of a deep network grows linearly with the number of layers, the number of linear regions it can represent can grow exponentially with its depth \cite{karg2020efficient}. This provides an inverse relationship to the problem of traditional Explicit MPC, allowing a deep network to capture an exponentially large number of control regions with only a modest, linearly growing memory cost.
+\\
+\noindent
+Consequently, this deep learning-based representation transforms the explicit MPC law into a highly compact form. It overcomes the primary obstacle of prohibitive memory requirements, enabling the deployment of complex predictive controllers on embedded systems where storage capacity is a critical constraint \cite{karg2020efficient}.
+%%%%%%%
 \section{A Comparative Perspective on Control Methodologies}
 
 While DRL represents the cutting edge, contextualizing it within the broader control strategy landscape remains crucial for academic rigor. The choice between learning-based, model-free approaches and optimization-based, model-based approaches represents fundamental philosophical and practical trade-offs.
@@ -376,7 +579,7 @@ While DRL represents the cutting edge, contextualizing it within the broader con
 \centering
 \caption{Comparative Analysis: DRL vs. Model Predictive Control (MPC) for V2G}
 \label{tab:drl_vs_mpc}
-\resizebox{0.8\textwidth}{!}{
+\resizebox{0.5\textwidth}{!}{
 \begin{tabular}{|p{0.2\linewidth}|p{0.35\linewidth}|p{0.35\linewidth}|}
 \hline
 \textbf{Aspect} & \textbf{Deep Reinforcement Learning (DRL)} & \textbf{Model Predictive Control (MPC)} \\
@@ -406,27 +609,19 @@ Ultimately, DRL's singular advantage lies in its ability to learn and internaliz
 \section{A Primer on Lithium-Ion Battery Chemistries and Degradation}
 
 The effectiveness, safety, and economic viability of any V2G strategy remain fundamentally constrained by the physical and chemical characteristics of vehicle batteries. Battery chemistry selection dictates EV operational envelopes, influencing energy density, power capabilities, lifespan, and safety profiles. Clear understanding of these trade-offs proves essential for developing robust, realistic, and responsible control algorithms.
-
 \subsection{Fundamental Concepts and Degradation Mechanisms}
 
-Battery degradation represents a complex, irreversible process that reduces battery capacity to store and deliver energy. It manifests primarily as capacity reduction (energy fade) and internal resistance increases (power fade). The mechanisms are broadly categorized into two types: calendar aging and cyclic aging \footcite{birkl2017degradation}.
+Battery degradation is a complex and irreversible process that gradually reduces a cell’s ability to store and deliver energy. It manifests primarily as capacity loss (energy fade) and as an increase in internal resistance (power fade). These phenomena are usually attributed to two categories of mechanisms: \textit{calendar aging} and \textit{cyclic aging} \footcite{birkl2017degradation}.
+\noindent   
+\\
+\textbf{Calendar aging} occurs while the battery is at rest, regardless of whether it is fully charged or nearly empty. The main mechanism behind this process is the slow growth of the \textbf{Solid Electrolyte Interphase (SEI)} layer on the graphite anode. While a thin and stable SEI layer is necessary for battery operation, its continuous thickening consumes both active lithium and electrolyte, resulting in irreversible capacity loss. The rate of SEI growth is particularly sensitive to operating conditions. High temperatures accelerate chemical reaction rates, including parasitic ones, making storage in hot environments detrimental. Similarly, high states of charge (SoC) correspond to low anode potentials, which increase the reactivity of graphite with the electrolyte and foster faster SEI growth \footcite{vetter2005ageing}. For this reason, leaving electric vehicles stored for long periods at 100\% SoC is generally discouraged.
+\noindent   
+\\
+\textbf{Cyclic aging}, in contrast, results from the processes that take place during charging and discharging. This form of degradation is of particular importance for V2G applications, which inherently involve frequent cycling. Several mechanisms contribute to cyclic aging. The repeated intercalation and de-intercalation of lithium ions induce mechanical stress due to the expansion and contraction of electrode materials. Over time, this stress may generate micro-cracks in electrode particles, leading to a loss of electrical contact and a reduction of active material, effects that become more severe with larger \textbf{Depths of Discharge (DoD)}. Mechanical volume changes can also compromise the integrity of the SEI layer, causing cracks that expose fresh anode surface to the electrolyte and trigger renewed SEI growth. In addition, under demanding conditions—such as very high charging rates (high C-rates) or low temperatures—lithium ions may deposit as metallic lithium on the anode surface rather than intercalating properly. This phenomenon, known as lithium plating, is particularly harmful: it leads to rapid capacity loss and may produce dendritic structures capable of piercing the separator, thereby creating internal short circuits and serious safety hazards \footcite{birkl2017degradation}.
+\noindent   
+\\
+Both calendar and cyclic aging are unavoidable, the latter is especially critical for V2G systems. Since these applications require frequent and sometimes deep cycling, understanding and mitigating cyclic degradation is paramount to guarantee long-term system viability.
 
-\begin{itemize}
-    \item \textbf{Calendar Aging:} This refers to degradation occurring while batteries remain at rest, whether fully charged or empty. The primary, unavoidable mechanism involves slow, continuous growth of the \textbf{Solid Electrolyte Interphase (SEI)} layer on graphite anode surfaces. While thin, stable SEI layers are necessary for battery function, continued growth represents a parasitic reaction consuming active lithium ions and electrolyte, leading to irreversible capacity loss. SEI growth rates are strongly accelerated by two main factors:
-    \begin{itemize}
-        \item \textbf{High Temperature:} Higher temperatures increase all chemical reaction rates, including parasitic ones. Storing batteries in hot environments proves highly detrimental.
-        \item \textbf{High State of Charge (SoC):} High SoC corresponds to low electrochemical potential at the anode, making graphite more reactive with electrolyte, thus promoting faster SEI growth \footcite{vetter2005ageing}. This explains why leaving EVs stored at 100\% SoC for extended periods is discouraged.
-    \end{itemize}
-
-    \item \textbf{Cyclic Aging:} This refers to degradation occurring as a direct result of charging and discharging batteries. V2G operations directly contribute to this aging type. Key mechanisms include:
-    \begin{itemize}
-        \item \textbf{Mechanical Stress:} During charging and discharging, lithium ions intercalate and de-intercalate from electrode materials, causing expansion and contraction. This repeated mechanical stress can cause micro-cracks in electrode particles, leading to electrical contact loss and active material reduction, thereby causing capacity fade. This effect becomes more pronounced with larger \textbf{Depths of Discharge (DoD)}.
-        \item \textbf{SEI Layer Instability:} Volume changes from cycling can also crack protective SEI layers, exposing fresh anode material to electrolyte and triggering further, accelerated SEI growth.
-        \item \textbf{Lithium Plating:} This represents a particularly damaging mechanism occurring under stressful conditions, such as very high charging rates (high C-rates) or low temperatures. Instead of smoothly intercalating into graphite anodes, lithium ions deposit on anode surfaces as metallic lithium. This causes rapid and severe capacity loss and can form sharp, needle-like structures called dendrites, which pose severe safety risks as they can grow through separators and cause internal short circuits \footcite{birkl2017degradation}.
-    \end{itemize}
-\end{itemize}
-\noindent
-For V2G applications, which inherently involve frequent and potentially deep cycling, understanding and mitigating cyclic aging remains paramount for ensuring long-term technology viability.
 
 \subsection{Key Automotive Chemistries}
 
