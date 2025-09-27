@@ -57,21 +57,68 @@ where $k_{\text{dep}}$ is the predicted departure step of the EV within the hori
 \end{equation}
 
 
-\section{Conceptual Comparison: PuLP MPC vs. Gurobi Offline Optimizer}
+\section{Approximate Explicit MPC: A Machine Learning Approach}
+The online, implicit MPC formulation provides high-quality control decisions by solving an optimization problem at every time step. However, this approach has a significant drawback: its computational complexity. For scenarios with a large number of EVs or a long control horizon, solving a Mixed-Integer Linear Program (MILP) in real-time can be prohibitively slow, making it impractical for many real-world applications.
 
-While both the PuLP MPC and the Gurobi offline optimizer are used to solve the EV charging problem, they operate on fundamentally different principles and serve distinct purposes. This section provides a discursive comparison of their core concepts.
-\\
-\subsection{Core Philosophy: Controller vs. Judge}
-The most significant difference lies in their philosophy. The \textbf{PuLP MPC} is designed as a \textbf{controller}. It operates online, making decisions in real-time with incomplete information about the future (e.g., EV arrivals, price fluctuations beyond the prediction horizon). Its goal is to find a practical and robust strategy for the immediate future.
-\\
-Conversely, the \textbf{Gurobi formulation} acts as a \textbf{judge}. It is an offline tool that solves the problem over the entire simulation period with perfect hindsight (a-posteriori). Its purpose is not to control the system in real-time, but to establish a theoretical performance benchmark---the "perfect score"---against which the performance of a practical controller like the MPC can be measured.
+To overcome this limitation, this work implements an \textbf{Approximate Explicit Model Predictive Controller (A-MPC)}. This controller leverages machine learning to replace the computationally expensive online optimization with a fast, lightweight inference step.
 
-\subsection{Objective Function: Operational Profit vs. Energy Arbitrage}
-The objectives, while both related to profit, reflect their different roles. The PuLP MPC maximizes a detailed \textbf{Net Operational Profit}, incorporating a realistic business model that includes revenue from end-users and operational costs like battery degradation. This makes its decisions economically grounded from a business perspective.
-\\
-The Gurobi optimizer, on the other hand, typically maximizes profit from a simpler \textbf{energy arbitrage} model, focusing on the difference between buying and selling electricity. While it includes a penalty for not meeting user demand, it does not explicitly account for the same level of operational economic detail as the MPC.
+\subsection{Methodology: From Oracle to Apprentice}
+The core idea is to treat the slow but powerful online MPC as an "oracle" or expert teacher. An apprentice model, in this case a \texttt{RandomForestRegressor} from the \texttt{scikit-learn} library, is trained to mimic the oracle's behavior. The process is as follows:
+\begin{enumerate}
+    \item \textbf{Data Generation:} The online MPC is run across a diverse range of simulated scenarios. At each step, the state of the environment and the corresponding optimal action computed by the MPC are recorded. This creates a large dataset of state-action pairs, where the actions are considered to be the "ground truth" optimal decisions.
+    \item \textbf{State Vector Formulation:} The state $s_t$ fed to the machine learning model is a carefully crafted vector that summarizes all necessary information for making a control decision. It is a fixed-size vector composed of:
+    \begin{equation}
+        s_t = [ \mathbf{SoC}, \mathbf{T}^{\text{rem}}, \mathbf{C}^{\text{ch}}, \mathbf{C}^{\text{dis}} ]^T
+    \end{equation}
+    where:
+    \begin{itemize}
+        \item $\mathbf{SoC}$: A vector of the current State of Charge for all charging stations (padded to a maximum size).
+        \item $\mathbf{T}^{\text{rem}}$: A vector of the remaining time until departure for each connected EV.
+        \item $\mathbf{C}^{\text{ch}}$: A vector of predicted future charging prices over the horizon $H$.
+        \item $\mathbf{C}^{\text{dis}}$: A vector of predicted future discharging prices over the horizon $H$.
+    \end{itemize}
+    \item \textbf{Offline Training:} The \texttt{RandomForestRegressor} model, denoted $f_{\theta}$, is trained offline on this dataset to learn the mapping from a given state $s_t$ to the oracle's action $a_t$. The model's parameters $\theta$ are optimized to minimize the difference between its predicted action and the oracle's action.
+    \item \textbf{Online Inference:} Once trained, the A-MPC controller can be deployed. At each time step, it simply constructs the state vector $s_t$ and computes the action via a fast forward pass through the trained model:
+    \begin{equation}
+        a_t = f_{\theta}(s_t)
+    \end{equation}
+    This inference step is orders of magnitude faster than solving a MILP, enabling real-time control for large-scale systems.
+\end{enumerate}
 
-\subsection{Handling of User Satisfaction: Hard vs. Soft Constraints}
-This distinction is critical from an operational standpoint. The PuLP MPC treats user satisfaction as a \textbf{Hard Constraint}. The EV \textit{must} reach its desired energy level by its departure time. If the model determines this is impossible, the optimization problem becomes infeasible, signaling a failure to meet a mandatory service level agreement.
-\\
-The Gurobi formulation treats user satisfaction primarily as a \textbf{Soft Constraint} via a penalty term in its objective function. This allows the optimizer to make a trade-off: it can choose to not fully charge a vehicle if the economic benefit of doing so (e.g., selling a large amount of energy to the grid at a high price) outweighs the penalty for customer dissatisfaction. This is useful for theoretical analysis but less practical for guaranteeing service.
+\section{Lyapunov-based Adaptive Horizon MPC}
+While the A-MPC offers a significant speed-up, it is an approximation and may not always match the performance of the fully-fledged online MPC. A second enhancement developed in this work is the \textbf{Lyapunov-based Adaptive Horizon MPC}, which aims to reduce the computational burden of the online MPC while retaining its optimality and stability guarantees. This method represents an essential improvement, creating an intelligent trade-off between computational cost and control performance.
+
+\subsection{Core Concept: Dynamic Horizon Adjustment}
+The key insight is that a long prediction horizon is not always necessary. When the system is in a stable state and far from its operational constraints, a shorter horizon is sufficient for making good decisions. Conversely, when the system is in a complex or critical state (e.g., an EV is close to its departure time but has a low SoC), a longer horizon is needed for careful planning.
+
+This adaptive controller dynamically adjusts its prediction horizon $H_t$ at each step based on the stability of the system, which is formally assessed using a Lyapunov function.
+
+\subsection{Lyapunov Stability for V2G Control}
+A Lyapunov function $V(x)$ is a scalar function that can be thought of as a measure of the system's "energy" or deviation from a desired equilibrium state. For the V2G system, we define the state as the vector of energy levels of all connected EVs, $E = [E_1, E_2, \dots, E_N]^T$. The desired state is the vector of desired energy levels at departure, $E^{\text{des}}$. The Lyapunov function is defined as the sum of the squared errors from this desired state:
+\begin{equation}
+    V(E) = \sum_{i \in \text{EVs}} (E_i - E_i^{\text{des}})^2
+\end{equation}
+For the system to be stable, the value of this function must decrease at each step, ensuring the system is always progressing towards its goal. This is known as the Lyapunov decrease condition:
+\begin{equation}
+    V(E_{t+1}) \le V(E_t) - \alpha V(E_t)
+\end{equation}
+where $E_{t+1}$ is the state at the next time step resulting from the current control action, and $\alpha$ is a small positive constant that sets the minimum required rate of convergence.
+
+\subsection{Horizon Shortening and Extension}
+The adaptive MPC algorithm uses this stability condition to govern its horizon length. At each time step $t$:
+\begin{enumerate}
+    \item The MPC solves the optimization problem using its current horizon, $H_t$.
+    \item It calculates the predicted next state $E_{t+1}$ based on the computed optimal action.
+    \item It checks if the Lyapunov decrease condition is satisfied.
+    \begin{itemize}
+        \item \textbf{If Stable:} The condition holds. The controller is performing well. We can afford to reduce the computational load for the next step by shortening the horizon:
+        \begin{equation}
+            H_{t+1} = \max(H_{\min}, H_t - 1)
+        \end{equation}
+        \item \textbf{If Not Stable:} The condition is violated. The system requires more careful planning. The horizon for the next step is extended to provide a longer view into the future:
+        \begin{equation}
+            H_{t+1} = \min(H_{\max}, H_t + 1)
+        \end{equation}
+    \end{itemize}
+\end{enumerate}
+This intelligent adjustment makes the online MPC more efficient and practical, reducing computation time during stable periods while retaining the ability to perform deep planning when necessary.

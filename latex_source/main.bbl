@@ -1693,6 +1693,45 @@
       \verb 10.1016/j.egyr.2023.07.039
       \endverb
     \endentry
+    \entry{Sutton2018}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=eb920e5277d3d5fd0903f3cd41e11871}{%
+           family={Sutton},
+           familyi={S\bibinitperiod},
+           given={Richard\bibnamedelima S.},
+           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=32a0a208f8bcf56a13b0a8e618aa806a}{%
+           family={Barto},
+           familyi={B\bibinitperiod},
+           given={Andrew\bibnamedelima G.},
+           giveni={A\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {The MIT Press}%
+      }
+      \strng{namehash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{fullhash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{fullhashraw}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{bibnamehash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{authorbibnamehash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{authornamehash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{authorfullhash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{authorfullhashraw}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{Second}
+      \field{note}{In progress}
+      \field{title}{Reinforcement Learning: An Introduction}
+      \field{year}{2018}
+      \verb{urlraw}
+      \verb http://incompleteideas.net/book/the-book-2nd.html
+      \endverb
+      \verb{url}
+      \verb http://incompleteideas.net/book/the-book-2nd.html
+      \endverb
+    \endentry
     \entry{Tavakoli2019}{article}{}{}
       \name{author}{6}{}{%
         {{hash=6b380063739f94b218a058dd3ab32a8a}{%
@@ -2005,7 +2044,6 @@
       \endverb
     \endentry
   \enddatalist
-  \missing{Sutton2018}
   \missing{plett2015battery}
 \endrefsection
 \endinput

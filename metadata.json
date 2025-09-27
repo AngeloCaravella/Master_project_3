@@ -1,0 +1,5 @@
+{
+  "name": "EV Charging Experiment Interface",
+  "description": "A professional web interface for the `run_experiments.py` script. It allows users to configure and simulate EV charging station experiments for various algorithms and scenarios, using AI to generate and visualize the results.",
+  "requestFramePermissions": []
+}

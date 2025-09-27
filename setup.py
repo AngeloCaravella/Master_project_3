@@ -32,7 +32,6 @@ setup(
         'matplotlib',
         'pandas',
         'networkx',
-        'gurobipy',
     ]
 )
 

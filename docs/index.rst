@@ -15,7 +15,6 @@ Run the example code below to get started ...
 .. code-block:: Python
 
    from ev2gym.models.ev2gym_env import EV2Gym
-   from ev2gym.baselines.mpc.V2GProfitMax import V2GProfitMaxOracle
    from ev2gym.baselines.heuristics import ChargeAsFastAsPossible
 
    config_file = "ev2gym/example_config_files/V2GProfitPlusLoads.yaml"
@@ -25,8 +24,6 @@ Run the example code below to get started ...
                save_replay=True,
                save_plots=True)
    state, _ = env.reset()
-   agent = V2GProfitMaxOracle(env,verbose=True) # optimal solution
-   #        or 
    agent = ChargeAsFastAsPossible() # heuristic
    for t in range(env.simulation_length):
       actions = agent.get_action(env) # get action from the agent/ algorithm
@@ -87,11 +84,7 @@ To train an RL agent, using the [StableBaselines3](https://stable-baselines3.rea
    :caption: Baselines:
 
    autoapi/ev2gym/baselines/heuristics/index.rst
-   autoapi/ev2gym/baselines/gurobi_models/profit_max/index.rst
-   autoapi/ev2gym/baselines/gurobi_models/tracking_error/index.rst
    autoapi/ev2gym/baselines/mpc/mpc/index.rst
-   autoapi/ev2gym/baselines/mpc/eMPC/index.rst
-   autoapi/ev2gym/baselines/mpc/ocmf_mpc/index.rst
 
 
 .. toctree::

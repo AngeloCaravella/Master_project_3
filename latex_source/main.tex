@@ -1,126 +1,143 @@
-\documentclass[a4paper,12pt]{report}  
+\documentclass[a4paper,12pt]{report}
 \usepackage{verbatim}
 % ---------------------------------------------------
 % ENCODING & LANGUAGE
 % ---------------------------------------------------
-\usepackage[utf8]{inputenc}    
-\usepackage[T1]{fontenc}       
-\usepackage[english]{babel}    
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+% ---------------------------------------------------
+% FONT SELECTION (PALATINO)
+% ---------------------------------------------------
+% Using Palatino font for a more formal and classic look.
+% newpxtext provides the text font, newpxmath provides matching math fonts.
+\usepackage{newpxtext}
+\usepackage{newpxmath}
+% ---------------------------------------------------
+
 \usepackage{booktabs}
 \usepackage{tabularx} % Required for the tabularx environment
 \usepackage{ragged2e} % For better text alignment in X columns
 
-\usepackage[backend=biber,style=numeric]{biblatex} 
-\DeclareUnicodeCharacter{0308}{\"}  
+\usepackage[backend=biber,style=numeric]{biblatex}
+\DeclareUnicodeCharacter{0308}{\"}
 \usepackage{amsmath}
 \usepackage{tikz}
 \usepackage{forest}
 % ---------------------------------------------------
 % BIBLIOGRAPHY
 % ---------------------------------------------------
-\addbibresource{references.bib}  
+\addbibresource{references.bib}
 
 % ---------------------------------------------------
 % PAGE FORMAT
 % ---------------------------------------------------
-\usepackage{geometry} 
-\geometry{left=3cm, right=3cm, top=3cm, bottom=3cm}  
+\usepackage{geometry}
+\geometry{left=3cm, right=3cm, top=3cm, bottom=3cm}
 
 % ---------------------------------------------------
 % PACKAGES
 % ---------------------------------------------------
-\usepackage{graphicx}   
-\usepackage{longtable}  
-\usepackage{amssymb}    
-\usepackage{array}      
-\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}} 
-\usepackage{hyperref}   
-\usepackage{xcolor}     
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{amssymb}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\usepackage{hyperref}
+\usepackage{xcolor}
 \usepackage{float}
 \usepackage{pgfplots}
+\usepackage{csquotes}
 
 % ---------------------------------------------------
 % LISTINGS (for code)
 % ---------------------------------------------------
-\usepackage{listings}  
+\usepackage{listings}
 
-\definecolor{codegreen}{rgb}{0,0.6,0} 
-\definecolor{codegray}{rgb}{0.5,0.5,0.5} 
-\definecolor{codepurple}{rgb}{0.58,0,0.82} 
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}  
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
-\lstdefinestyle{mystyle}{     
-    backgroundcolor=\color{backcolour},     
-    commentstyle=\color{codegreen},     
-    keywordstyle=\color{magenta},     
-    numberstyle=\tiny\color{codegray},     
-    stringstyle=\color{codepurple},     
-    basicstyle=\ttfamily\footnotesize,     
-    breaklines=true,     
-    captionpos=b,     
-    keepspaces=true,     
-    numbers=left,     
-    numbersep=5pt,     
-    showspaces=false,     
-    showstringspaces=false,     
-    showtabs=false,     
-    tabsize=2 
-} 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
 
-\lstset{style=mystyle}  
+\lstset{style=mystyle}
 
 % ---------------------------------------------------
 % DOCUMENT
 % ---------------------------------------------------
-\begin{document}  
+\begin{document}
 
 % ---------------------------------------------------
-% TITLE PAGE
+% TITLE PAGE - REVISED WITH \vfill FOR BETTER SPACING
 % ---------------------------------------------------
 \begin{titlepage}
     \begin{center}
-    \large
         % --- UNIVERSITY NAME ---
+        \vspace*{1cm} % Small fixed space at the top
         \textsc{\LARGE University of Sannio}\\[1cm]
         \textsc{Department of Engineering}\\[0.8cm]
         \textsc{Master’s Degree in}\\[0.6cm]
-        \textbf{Electronics Engineering for Automation and Sensing}\\[1cm]
-        
-        % --- LOGO ---
-        \includegraphics[width=0.3\textwidth]{Logo.png}\\[1cm]
-        
+        \textbf{Electronics Engineering for Automation and Sensing}\\[1.5cm]
+        \includegraphics[width=0.3\textwidth]{Logo.png}
+
+        \vfill % Flexible space pushes the title down
+
         % --- TITLE ---
-        {\Huge
-             OPTIMAL ELECTRIC VEHICLE BATTERY MANAGEMENT FOR VEHICLE-TO-GRID: MODEL PREDICTIVE CONTROL AND REINFORCEMENT LEARNING APPROACHES    
-}\\[2cm]
-        
+        {\Huge \bfseries
+             OPTIMAL ELECTRIC VEHICLE BATTERY MANAGEMENT FOR VEHICLE-TO-GRID: MODEL PREDICTIVE CONTROL AND REINFORCEMENT LEARNING APPROACHES
+        }
+
+        \vfill % Flexible space pushes the supervisor/candidate info down
+
         % --- SUPERVISORS AND CANDIDATE ---
         \begin{minipage}{0.45\textwidth}
-    \raggedright
-    \textbf{Supervisor:}\\
-    Prof. Carmela Bernardo \\[0.8cm]
-    \textbf{Co-Supervisor:}\\
-    Dr. Antonio Pepiciello 
-\end{minipage}
-\hfill
-\begin{minipage}{0.45\textwidth}
-    \raggedleft
-    \textbf{Candidate:}\\
-    Angelo Caravella
-    \\
-     Student ID 389000016
-\end{minipage}
+            \large
+            \raggedright
+            \textbf{Supervisor:}\\
+            Prof. Carmela Bernardo \\[0.8cm]
+            \textbf{Co-Supervisor:}\\
+            Dr. Antonio Pepiciello
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.45\textwidth}
+            \large
+            \raggedleft
+            \textbf{Candidate:}\\
+            Angelo Caravella
+            \\
+             Student ID 389000016
+        \end{minipage}
 
-\vspace{0.5cm}
+        \vfill % Flexible space pushes the academic year to the bottom
+
         % --- ACADEMIC YEAR ---
-        \textsc{Academic Year 2024--2025}
+        {\large \textsc{Academic Year 2024--2025}}
+        \vspace*{1.5cm} % Small fixed space at the bottom
     \end{center}
 \end{titlepage}
 
 
 
 % ---------------------------------------------------
-% INDICE
+% TABLE OF CONTENTS
 % ---------------------------------------------------
 \tableofcontents
 \newpage

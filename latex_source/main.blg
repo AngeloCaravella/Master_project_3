@@ -1,18 +1,17 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
 [0] Config.pm:331> INFO - Logfile is 'main.blg'
-[130] biber-MSWIN64:342> INFO - === 
-[197] Biber.pm:421> INFO - Reading 'main.bcf'
-[325] Biber.pm:1002> INFO - Found 46 citekeys in bib section 0
-[337] Biber.pm:4487> INFO - Processing section 0
-[347] Biber.pm:4678> INFO - Looking for bibtex file 'references.bib' for section 0
-[449] bibtex.pm:1713> INFO - LaTeX decoding ...
-[518] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
-[791] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[792] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[792] Biber.pm:4307> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[792] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
-[834] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[864] bbl.pm:779> INFO - Output to main.bbl
-[865] Biber.pm:132> WARN - I didn't find a database entry for 'Sutton2018' (section 0)
-[865] Biber.pm:132> WARN - I didn't find a database entry for 'plett2015battery' (section 0)
-[865] Biber.pm:134> INFO - WARNINGS: 2
+[119] biber-MSWIN64:342> INFO - === 
+[176] Biber.pm:421> INFO - Reading 'main.bcf'
+[280] Biber.pm:1002> INFO - Found 46 citekeys in bib section 0
+[295] Biber.pm:4487> INFO - Processing section 0
+[306] Biber.pm:4678> INFO - Looking for bibtex file 'references.bib' for section 0
+[430] bibtex.pm:1713> INFO - LaTeX decoding ...
+[490] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[734] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[735] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[735] Biber.pm:4307> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[736] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[776] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[799] bbl.pm:779> INFO - Output to main.bbl
+[800] Biber.pm:132> WARN - I didn't find a database entry for 'plett2015battery' (section 0)
+[800] Biber.pm:134> INFO - WARNINGS: 1
